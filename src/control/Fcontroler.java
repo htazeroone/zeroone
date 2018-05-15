@@ -46,7 +46,7 @@ public class Fcontroler extends HttpServlet {
 					response.sendRedirect(data.getPath());
 				}
 				else {
-					request.getRequestDispatcher("/view/temp.jsp").
+					request.getRequestDispatcher("/temp.jsp").
 					forward(request, response);
 				}
 				
