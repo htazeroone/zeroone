@@ -100,6 +100,44 @@ public class DAO {
 		return null;
 
 	}
+	
+	//회원가입 시 동일 id 존재 여부 확인 (중복이라면 false 리턴)
+	public boolean pidChk(String pid) {
+		sql = "select * from member where pid = ?";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			rs = ptmt.executeQuery();
+			
+			if(rs.isBeforeFirst()) {
+				System.out.println("id가 중복된닷");
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+		
+	}
+	
+	//회원가입 시킨다
+	public void join(VO vo) {
+		sql = "insert into member (pid, pname, pw) values (?, ?, ?)";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, vo.getPid());
+			ptmt.setString(2, vo.getPname());
+			ptmt.setString(3, vo.getPw());
+			ptmt.executeUpdate();
+			
+			System.out.println("DB에 회원가입완료");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 public ArrayList<VO> qnlist(String kind,int start, int end){
 		
