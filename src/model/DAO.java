@@ -21,6 +21,7 @@ public class DAO {
 			Context init = new InitialContext();
 			DataSource ds = (DataSource)init.lookup("java:comp/env/oracleDB");
 			con = ds.getConnection();
+			
 			System.out.println(con);
 
 		} catch(Exception e) {
@@ -102,14 +103,17 @@ public ArrayList<VO> qnlist(String kind,int start, int end){
 		ArrayList<VO> arr = new ArrayList<>();
 		
 		try {
-			sql = "select * from (select rownum rnum, tt.* from (select * from info order by gid desc, seq) tt)" + 
-					"where rnum >= ? and rnum <= ? and kind = ?";
+
+			sql = "select * from (select rownum rnum, tt.* from (select * from info order by gid desc, seq) tt)"
+					+ " where rnum >= ? and rnum <= ? and kind = ? " ;
 			
 			ptmt = con.prepareStatement(sql);
 			
 			ptmt.setInt(1, start);
 			ptmt.setInt(2, end);
 			ptmt.setString(3, kind);
+			
+			rs = ptmt.executeQuery();
 			
 			while(rs.next()) {
 			
@@ -128,7 +132,10 @@ public ArrayList<VO> qnlist(String kind,int start, int end){
 				vo.setContent(rs.getString("content"));
 				vo.setUpfile(rs.getString("upfile"));
 				
+				System.out.println(vo.getKind());
 				arr.add(vo);
+				
+				return arr;
 			}
 			
 		} catch (Exception e) {

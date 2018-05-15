@@ -15,7 +15,7 @@ public class Qnalist implements Action{
 		
 		ActionData data = new ActionData();
 		
-		/*int page = 1;
+		int page = 1;
 		int limit = 3, pagelimit=4;
 		
 		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
@@ -42,19 +42,16 @@ public class Qnalist implements Action{
 			endpage=totalpage;
 		}
 			
-		request.setAttribute("data", dao.qnlist("notice", start, end));
+		request.setAttribute("data", dao.qnlist("qna", start, end));
 		request.setAttribute("main", "info/qnalist.jsp");
 		request.setAttribute("page", page);
 		request.setAttribute("start", start);
 		request.setAttribute("startpage", startpage);
 		request.setAttribute("endpage", endpage);
 		request.setAttribute("totalpage", totalpage);
-		*/
-
-		DAO dao = new DAO();
-		request.setAttribute("data", dao.qnlist("notice", 1, 3));
-		request.setAttribute("main", "info/qnalist.jsp");
+		
 		dao.close();
+		
 		return data;
 	}
 

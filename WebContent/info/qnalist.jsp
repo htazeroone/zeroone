@@ -13,14 +13,31 @@
 
 <c:choose>
 	<c:when test="${data==null }">
-	
+		<div>
 		게시물이 없습니다.
+		</div>
 	</c:when>
 
 
 	<c:otherwise>
-	
-		ㅁㅇㄻㄴㅇㄹㄴ
+		<c:forEach var="dd" items="${data }">
+		
+		<div style="position: static;background-color: yellow;">
+			${dd.kind }
+			${dd.id }
+			${dd.gid}
+			${dd.seq}
+			${dd.lev}
+			${dd.cnt}
+			${dd.rec}
+			${dd.reg_date}
+			${dd.pname}
+			${dd.title}
+			${dd.content}
+			${dd.upfile}
+			
+		</div>
+		</c:forEach>
 	</c:otherwise>
 </c:choose>
 
