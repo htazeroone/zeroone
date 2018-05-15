@@ -81,12 +81,15 @@ background-color: green;
 		<div id="smenu">
 			<jsp:include page="menu/${menu }"/>
 		</div>
-
-		<div id="smain">
-			<jsp:include page="${main }"/>
+		
+		<div id="smain1">
+			<jsp:include page="${main1 }"/>
+		</div>
+		
+		<div id="smain2">
+			<jsp:include page="${main2 }"/>
 		</div>
 	</c:when>
-
 	<c:otherwise>
 		<div id="main">
 			<jsp:include page="${main }"/>
