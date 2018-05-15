@@ -76,7 +76,8 @@ public class DAO {
 		return nextId;
 	}
 
-	public String loginReg(VO vo) {
+	//로그인 성공시 pname, pid 담은 VO 리턴
+	public VO loginReg(VO vo) {
 
 		sql = "select pname from member where pid=? and pw=?";
 		try {
@@ -86,15 +87,17 @@ public class DAO {
 			rs = ptmt.executeQuery();
 
 			if(rs.next()) {
-				System.out.println("login 성공");
-				return rs.getString(1);
+				VO res = new VO();
+				res.setId(vo.getId());
+				res.setPname(rs.getString("pname"));
+				System.out.println("loginReg() 성공");
+				return res;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return "";
+		return null;
 
 	}
 

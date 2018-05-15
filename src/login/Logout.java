@@ -13,10 +13,9 @@ public class Logout implements Action {
 		String msg = "로그아웃 성공!";
 		String url = "../main/Main";
 
-		System.out.println("pname:"+request.getAttribute("pname"));
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
-		request.setAttribute("pname", null);
+		request.setAttribute("logout", "logout");
 		request.setAttribute("main", "mypage/alert.jsp");
 		return new ActionData();
 	}

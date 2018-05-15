@@ -15,7 +15,7 @@ public class LoginReg implements Action {
 		System.out.println("LoginReg 진입");
 		String pid = request.getParameter("pid");
 		String pw = request.getParameter("pw");
-		String pname = "";
+		String pname = null;
 
 		String msg = "아이디와 비밀번호를 확인해주세요 ";
 		String url = "../login/LoginForm";
@@ -23,16 +23,18 @@ public class LoginReg implements Action {
 		VO vo = new VO();
 		vo.setPid(pid);
 		vo.setPw(pw);
-		pname = dao.loginReg(vo);
+		VO res = dao.loginReg(vo);
 
 		//loginReg결과, pname에  "" 또는 값이 넘어온다
-		if(!pname.equals("")) {
+		if(res!=null) {
 			 msg = "로그인성공";
 			 url = "../main/Main";
+			 pname = res.getPname();
 		}
 
 		dao.close();
 
+		request.setAttribute("pid", pid);
 		request.setAttribute("pname", pname);
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
