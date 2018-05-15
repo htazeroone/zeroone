@@ -20,7 +20,7 @@ background-color: yellow;
 }
 
 #smenu{
-width: 30%;
+width: 20%;
 height: 100%;
 margin-top : 8%;
 position: absolute;
@@ -28,13 +28,22 @@ background-color: blue;
 
 }
 
-#smain{
-width: 100%;
+#smain1{
+width: 40%;
 height: 100%;
-margin-left : 30%;
+margin-left : 20%;
 margin-top : 8%;
 position: absolute;
 background-color: green;
+}
+
+#smain2{
+width: 40%;
+height: 100%;
+margin-left : 60%;
+margin-top : 8%;
+position: absolute;
+background-color: red;
 }
 
 #bb{

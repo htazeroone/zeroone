@@ -10,7 +10,7 @@
 </td>
 
 <td>
-<a href="../quizbox/Java">퀴즈</a>
+<a href="../quizbox/QuizMain">퀴즈</a>
 </td>
 
 <td>
