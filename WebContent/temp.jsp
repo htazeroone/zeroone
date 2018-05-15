@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -40,7 +40,7 @@ background-color: green;
 #bb{
 
 margin-top: 10px;
- 
+
 }
 
 #main{
@@ -57,8 +57,22 @@ background-color: green;
 <body>
 
 <div id="top">
-<jsp:include page="inc/top.jsp"/>
-
+<!-- 로그인 성공 시 pname 값이 생기니까 top 메뉴를 바꿔준다 -->
+<c:choose>
+	<c:when test="${pname==null }">
+		<jsp:include page="inc/top.jsp"/>
+		<%
+		session.removeAttribute("pname");
+		%>
+	</c:when>
+	<c:otherwise>
+		<%
+		String pname = (String)request.getAttribute("pname");
+		session.setAttribute("pname", pname);
+		%>
+	<jsp:include page="inc/top_login.jsp"/>
+	</c:otherwise>
+</c:choose>
 </div>
 
 <div id = "bb">
@@ -67,12 +81,12 @@ background-color: green;
 		<div id="smenu">
 			<jsp:include page="menu/${menu }"/>
 		</div>
-		
+
 		<div id="smain">
 			<jsp:include page="${main }"/>
 		</div>
 	</c:when>
-	
+
 	<c:otherwise>
 		<div id="main">
 			<jsp:include page="${main }"/>

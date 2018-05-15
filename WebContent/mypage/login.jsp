@@ -20,7 +20,6 @@
 		<tr>
 			<td colspan="2" align="center">
 			<input type="submit" value="로그인" />
-			<a href="main.jsp">메인으로</a>
 			</td>
 		</tr>
 	</table>

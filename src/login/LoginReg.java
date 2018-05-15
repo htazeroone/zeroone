@@ -1,4 +1,4 @@
-package mypage;
+package login;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,12 +12,13 @@ public class LoginReg implements Action {
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("LoginReg 진입");
 		String pid = request.getParameter("pid");
 		String pw = request.getParameter("pw");
 		String pname = "";
 
 		String msg = "아이디와 비밀번호를 확인해주세요 ";
-		String url = "login.jsp";
+		String url = "../login/LoginForm";
 		DAO dao = new DAO();
 		VO vo = new VO();
 		vo.setPid(pid);
@@ -27,7 +28,7 @@ public class LoginReg implements Action {
 		//loginReg결과, pname에  "" 또는 값이 넘어온다
 		if(!pname.equals("")) {
 			 msg = "로그인성공";
-			 url = "index.html";
+			 url = "../main/Main";
 		}
 
 		dao.close();
@@ -35,7 +36,7 @@ public class LoginReg implements Action {
 		request.setAttribute("pname", pname);
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
-		request.setAttribute("main", "alert.jsp");
+		request.setAttribute("main", "mypage/alert.jsp");
 
 		return new ActionData();
 	}
