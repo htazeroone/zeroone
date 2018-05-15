@@ -5,9 +5,16 @@ import java.util.Date;
 public class VO {
 	
 	Integer chid, id, total, correction, cnt, save, ox, orid, gid, seq, lev, rec;
-	String question, answer, pname, title, content, head, pid, input, kind, pw;
+	String question, answer, pname, title, content, head, pid, input, kind, pw, upfile;
 	Date reg_date;
 	
+	
+	public String getUpfile() {
+		return upfile;
+	}
+	public void setUpfile(String upfile) {
+		this.upfile = upfile;
+	}
 	public Integer getChid() {
 		return chid;
 	}

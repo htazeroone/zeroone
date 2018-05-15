@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -96,6 +97,64 @@ public class DAO {
 
 	}
 
+public ArrayList<VO> qnlist(String kind,int start, int end){
+		
+		ArrayList<VO> arr = new ArrayList<>();
+		
+		try {
+			sql = "select * from (select rownum rnum, tt.* from (select * from info order by gid desc, seq) tt)" + 
+					"where rnum >= ? and rnum <= ? and kind = ?";
+			
+			ptmt = con.prepareStatement(sql);
+			
+			ptmt.setInt(1, start);
+			ptmt.setInt(2, end);
+			ptmt.setString(3, kind);
+			
+			while(rs.next()) {
+			
+				VO vo = new VO();
+				
+				vo.setKind(rs.getString("kind"));
+				vo.setId(rs.getInt("id"));
+				vo.setGid(rs.getInt("gid"));
+				vo.setSeq(rs.getInt("seq"));
+				vo.setLev(rs.getInt("lev"));
+				vo.setCnt(rs.getInt("cnt"));
+				vo.setRec(rs.getInt("rec"));
+				vo.setReg_date(rs.getDate("reg_date"));
+				vo.setPname(rs.getString("pname"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setUpfile(rs.getString("upfile"));
+				
+				arr.add(vo);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return null;
+		
+	}
+	
+	public int infototal() {
+		
+		try {
+			sql = "select count(*) from info";
+			ptmt = con.prepareStatement(sql);
+			rs = ptmt.executeQuery();
+			
+			rs.next();
+			
+			return rs.getInt(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return 0;
+	}
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}
