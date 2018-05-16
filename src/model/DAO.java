@@ -402,8 +402,6 @@ public class DAO {
 				vo.setContent(rs.getString("content"));
 				vo.setUpfile(rs.getString("upfile"));
 				
-				System.out.println(vo.getReg_date());
-				
 
 				arr.add(vo);
 
@@ -495,16 +493,6 @@ public class DAO {
 			
 			nextid=rs.getInt(1);
 			
-			System.out.println("======================");
-			System.out.println(vo.getKind());
-			System.out.println(nextid);
-			System.out.println(nextid);
-			System.out.println(vo.getPname());
-			System.out.println(vo.getTitle());
-			System.out.println(vo.getContent());
-			System.out.println(vo.getUpfile());
-			System.out.println("======================");
-			
 			sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content,upfile) "
 					+ "values(?,?,?,0,0,-1,0,sysdate,?,?,?,?)" ;
 
@@ -529,6 +517,7 @@ public class DAO {
 		
 		return nextid;
 	}
+	
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}

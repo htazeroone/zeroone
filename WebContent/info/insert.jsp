@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <style>
 
@@ -10,12 +11,12 @@
 	.td{
 		display: inline-block;
 		border: 3px solid purple; 
-		width: "100px";
+		width: 500px;
 	}
 
 </style>
 
-<form action="InsertReg" method="post">
+<form action="InsertReg" method="post" enctype="multipart/form-data">
 	<div class="table">
 	
 		<div class="tr">
