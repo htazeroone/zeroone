@@ -29,9 +29,9 @@
 		<a href="../mypage/OutForm">회원탈퇴</a><br>
 		<%
 	}else{
-		%>	
+		%>
 		<a href="../login/LoginForm">로그인</a>
-		<a href="../login/LoginForm">회원가입</a>
+		<a href="../login/JoinForm">회원가입</a>
 		<%
 	}
 %>
