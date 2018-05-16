@@ -20,7 +20,7 @@ background-color: yellow;
 }
 
 #smenu{
-width: 30%;
+width: 20%;
 height: 100%;
 margin-top : 8%;
 position: absolute;
@@ -28,13 +28,22 @@ background-color: blue;
 
 }
 
-#smain{
-width: 100%;
+#smain1{
+width: 40%;
 height: 100%;
-margin-left : 30%;
+margin-left : 20%;
 margin-top : 8%;
 position: absolute;
 background-color: green;
+}
+
+#smain2{
+width: 40%;
+height: 100%;
+margin-left : 60%;
+margin-top : 8%;
+position: absolute;
+background-color: skyblue;
 }
 
 #bb{
@@ -47,7 +56,7 @@ margin-top: 10px;
 width: 100%;
 height: 100%;
 
-margin-top : 10%;
+margin-top : 8%;
 position: absolute;
 background-color: green;
 }
@@ -91,8 +100,12 @@ background-color: green;
 			<jsp:include page="menu/${menu }"/>
 		</div>
 
-		<div id="smain">
-			<jsp:include page="${main }"/>
+		<div id="smain1">
+			<jsp:include page="${main1 }"/>
+		</div>
+		
+		<div id="smain2">
+			<jsp:include page="${main2 }"/>
 		</div>
 	</c:when>
 
