@@ -4,12 +4,23 @@ import java.util.Date;
 
 public class VO {
 	
-	Integer chid, id, total, correction, cnt, save, ox, orid, gid, seq, lev, rec;
-	String question, answer, pname, title, content, head, pid, input, kind, pw, upfile;
+	Integer chid, head, id, total, correction, cnt, save, ox, orid, gid, seq, lev, rec;
+	String question, answer, pname, title, content, pid, input, kind, pw, upfile;
 	Date reg_date;
 	
+
 	
+	public Integer getHead() {
+		
+		return head;
+	}
+	public void setHead(Integer head) {
+		this.head = head;
+	}
 	public String getUpfile() {
+		if(upfile == null || upfile.equals("")) {
+			upfile = "";
+		}
 		return upfile;
 	}
 	public void setUpfile(String upfile) {
@@ -117,12 +128,8 @@ public class VO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getHead() {
-		return head;
-	}
-	public void setHead(String head) {
-		this.head = head;
-	}
+
+	
 	public String getPid() {
 		return pid;
 	}

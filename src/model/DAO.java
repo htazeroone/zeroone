@@ -28,54 +28,225 @@ public class DAO {
 			e.printStackTrace();
 		}
 	}
-
-	public int getRnum(int id) {
+	
+	// id로 page를 잡아내기 위한 메소드
+	public int getRnum_Lecture(int id) {
 		int rnum = 0;
-
 		try {
-
-			sql = "select rownum rnum from lecture where id = ?";
+			sql = "select * from "
+					+ "(select rownum rnum, tt.* from "
+					+ "(select * from lecture order by id desc) tt) "
+					+ "where id = ?";
+			
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, id);
 			rs = ptmt.executeQuery();
 			rs.next();
-			rnum = rs.getInt(1);
-
+			rnum = rs.getInt("RNUM");
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
-		return rnum;
+		return rnum;	
 	}
+	
+	// list에서 총 페이지 수를 구하기 위해 필요한 totalCnt 메소드
+	public int totalCnt_Lecture() {
+		
+		try {
+			sql = "select count(*) from lecture";
+			ptmt = con.prepareStatement(sql);
+			rs=ptmt.executeQuery();
+			rs.next();
+			return rs.getInt(1);
+			
+		} catch(Exception e) {
+			e.printStackTrace(); 
+		}
+		return 0;
+	}
+	
+	// list를 빼내오기 위한 메소드
+	public ArrayList<VO> list_Lecture(int start, int end, int head) {
+		
+		ArrayList<VO> arr = new ArrayList<>();
+		
+		try {
+			// head의 도메인은  1~10. 각 숫자는 챕터를 나타냄
+			if(head != 0) {
+				sql = "select * from "
+						+ "(select rownum rnum, tt.* from "
+						+ "(select * from lecture where head = ? order by id desc) tt) "
+						+ "where rnum >= ? and rnum <= ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, head);
+				ptmt.setInt(2, start);
+				ptmt.setInt(3, end);
+				
+			} else {// head가 0일 때는 chapter 해당사항이 없는 경우, 즉 맨 접속했을 때
+				sql = "select * from "
+						+ "(select rownum rnum, tt.* from "
+						+ "(select * from lecture order by id desc) tt) "
+						+ "where rnum >= ? and rnum <= ?";
+				ptmt = con.prepareStatement(sql);
 
-	public int insert(VO vo) {
+				ptmt.setInt(1, start);
+				ptmt.setInt(2, end);
+			}
+			
+			rs = ptmt.executeQuery();
+			
+			while(rs.next()) {
+				VO vo = new VO();
+
+				vo.setId(rs.getInt("ID"));
+				vo.setCnt(rs.getInt("CNT"));
+				vo.setReg_date(rs.getTimestamp("REG_DATE"));
+				
+				vo.setPname(rs.getString("PNAME"));
+				vo.setHead(rs.getInt("HEAD"));
+				vo.setContent(rs.getString("CONTENT"));
+				vo.setTitle(rs.getString("TITLE"));
+				
+				arr.add(vo);
+			}		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
+	// DB에 글 삽입(sequence 대신 max(id) 활용)
+	public int insert_Lecture(VO vo) {
 		int nextId = 0;
-
+		
 		try {
 			sql = "select max(id)+1 from lecture";
 			ptmt = con.prepareStatement(sql);
 			rs = ptmt.executeQuery();
-
+			
 			rs.next();
 			nextId = rs.getInt(1);
-
+			
+			System.out.println("nextId: "+nextId);
+			
 			sql = "insert into lecture(id, cnt, reg_date, head, pname, title, content) "
 					+ "values(?, ?, sysdate, ?, ?, ?, ?)";
+			
+			ptmt = con.prepareStatement(sql);
+			
 			ptmt.setInt(1, nextId);
 			ptmt.setInt(2, -1);
-			ptmt.setString(3, "ch1");
+			
+			ptmt.setInt(3, vo.getHead());
 			ptmt.setString(4, vo.getPname());
 			ptmt.setString(5, vo.getTitle());
 			ptmt.setString(6, vo.getContent());
-
+			
 			ptmt.executeUpdate();
-
+			
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return nextId;
 	}
-
+	
+	//detail 볼 때  cnt 더해짐.
+	public void addCnt_Lecture(int id) {
+		try {
+			sql = "update lecture set cnt=cnt+1 where id=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, id);
+			ptmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	//detail을 얻어오는 메소드
+	public VO detail_Lecture(int id) {
+		try {
+			sql = "select * from lecture where id = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1,id);
+			rs = ptmt.executeQuery();
+			
+			if(rs.next()) {
+				VO vo = new VO();
+				vo.setId(rs.getInt("ID"));				
+				vo.setCnt(rs.getInt("CNT"));
+				vo.setReg_date(rs.getTimestamp("REG_DATE"));
+				vo.setHead(rs.getInt("HEAD"));
+				vo.setPname(rs.getString("PNAME"));
+				vo.setTitle(rs.getString("TITLE"));
+				vo.setContent(rs.getString("CONTENT"));
+				
+				return vo;
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	// 글을 '삭제'하거나 '수정'할 때 해당 아이디와 관련된 글이 있는지 확인함
+	// 관리자의 경우 pw 확인은 필요없음.
+	public boolean search_Lecture(VO vo) {
+		boolean chk = false;
+		try {
+			sql = "select * from lecture where id = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, vo.getId());
+			rs = ptmt.executeQuery();
+			
+			chk = rs.next();
+			
+		} catch(Exception e) {
+			
+		}
+		return chk;
+	}
+	
+	// lecture 테이블에서 글 삭제
+	public void delete(int id) {
+		
+		try {
+			
+			sql = "delete from lecture where id = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, id);
+			ptmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// lecture게시판에서 글 수정
+	public void modify_Lecture(VO vo) {
+		
+		try {
+			
+			sql = "update lecture set head=?, pname=?, title=?, content=? where id=?";
+			
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, vo.getHead());
+			ptmt.setString(2, vo.getPname());
+			ptmt.setString(3, vo.getTitle());
+			ptmt.setString(4, vo.getContent());
+			ptmt.setInt(5, vo.getId());
+			
+			ptmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//로그인 성공시 pname, pid 담은 VO 리턴
 	public VO loginReg(VO vo) {
 
