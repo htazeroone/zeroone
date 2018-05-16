@@ -8,7 +8,7 @@
 <table border="" width="100%" height="100%">
 <tr>
 <td>
-<a href="../info/About">이론</a>
+<a href="../lecture/Java">이론</a>
 </td>
 
 <td>
@@ -16,7 +16,9 @@
 </td>
 
 <td>
-<a href="../lecture/Java">인포</a>
+<a href="../info/Qnalist">QnA</a>
+<a href="../info/Notice">Notice</a>
+<a href="../info/About">About us</a>
 </td>
 
 <td>
