@@ -21,7 +21,7 @@ public class DAO {
 			Context init = new InitialContext();
 			DataSource ds = (DataSource)init.lookup("java:comp/env/oracleDB");
 			con = ds.getConnection();
-			
+
 			System.out.println(con);
 
 		} catch(Exception e) {
@@ -100,7 +100,7 @@ public class DAO {
 		return null;
 
 	}
-	
+
 	//회원가입 시 동일 id 존재 여부 확인 (중복이라면 false 리턴)
 	public boolean pidChk(String pid) {
 		sql = "select * from member where pid = ?";
@@ -108,7 +108,7 @@ public class DAO {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			rs = ptmt.executeQuery();
-			
+
 			if(rs.isBeforeFirst()) {
 				System.out.println("id가 중복된닷");
 				return false;
@@ -118,9 +118,9 @@ public class DAO {
 			e.printStackTrace();
 		}
 		return true;
-		
+
 	}
-	
+
 	//회원가입 시킨다
 	public void join(VO vo) {
 		sql = "insert into member (pid, pname, pw) values (?, ?, ?)";
@@ -130,7 +130,7 @@ public class DAO {
 			ptmt.setString(2, vo.getPname());
 			ptmt.setString(3, vo.getPw());
 			ptmt.executeUpdate();
-			
+
 			System.out.println("DB에 회원가입완료");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -139,27 +139,68 @@ public class DAO {
 
 	}
 
-public ArrayList<VO> qnlist(String kind,int start, int end){
-		
+
+	//비밀번호 변경시 -- 기존비밀번호를 정확히 입력했는지 확인
+	public boolean pwChk(VO vo) {
+		sql = "select * from member where pid=? and pw=?";
+		System.out.println("pwChk() pid:"+vo.getPid());
+		System.out.println("pwChk() pw:"+vo.getPw());
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, vo.getPid());
+			ptmt.setString(2, vo.getPw());
+			rs = ptmt.executeQuery();
+
+			if(rs.next()) {
+				System.out.println("기존 비밀번호를 정확히 입력함.");
+				return true;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	////비밀번호 변경시 -- 새 비밀번호로 업데이트
+	public void pwUpdate(VO vo) {
+		sql = "update member set pw = ? where pid=?";
+		System.out.println("pwUpdate() pid:"+vo.getPid());
+		System.out.println("pwUpdate() pw:"+vo.getPw());
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, vo.getPw());
+			ptmt.setString(2, vo.getPid());
+			ptmt.executeUpdate();
+			System.out.println("비밀번호 갱신완료");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<VO> qnlist(String kind,int start, int end){
+
 		ArrayList<VO> arr = new ArrayList<>();
-		
+
 		try {
 
 			sql = "select * from (select rownum rnum, tt.* from (select * from info order by gid desc, seq) tt)"
 					+ " where rnum >= ? and rnum <= ? and kind = ? " ;
-			
+
 			ptmt = con.prepareStatement(sql);
-			
+
 			ptmt.setInt(1, start);
 			ptmt.setInt(2, end);
 			ptmt.setString(3, kind);
-			
+
 			rs = ptmt.executeQuery();
-			
+
 			while(rs.next()) {
-			
+
 				VO vo = new VO();
-				
+
 				vo.setKind(rs.getString("kind"));
 				vo.setId(rs.getInt("id"));
 				vo.setGid(rs.getInt("gid"));
@@ -172,35 +213,35 @@ public ArrayList<VO> qnlist(String kind,int start, int end){
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
 				vo.setUpfile(rs.getString("upfile"));
-				
+
 				System.out.println(vo.getKind());
 				arr.add(vo);
-				
+
 				return arr;
 			}
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		return null;
-		
+
 	}
-	
+
 	public int infototal() {
-		
+
 		try {
 			sql = "select count(*) from info";
 			ptmt = con.prepareStatement(sql);
 			rs = ptmt.executeQuery();
-			
+
 			rs.next();
-			
+
 			return rs.getInt(1);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		return 0;
 	}
 	public void close() {
