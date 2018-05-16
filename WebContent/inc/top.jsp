@@ -8,7 +8,7 @@
 <table border="" width="100%" height="100%">
 <tr>
 <td>
-<a href="../lecture/Java">이론</a>
+<a href="../lecture/List">이론</a>
 </td>
 
 <td>
