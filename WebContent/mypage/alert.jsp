@@ -4,3 +4,9 @@
 	alert('${msg}');
 	location.href="${url}";
 </script>
+<%
+	if(request.getAttribute("out")!=null){
+		session.removeAttribute("pname");
+		session.removeAttribute("pid");
+	}
+%>

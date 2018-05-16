@@ -180,6 +180,21 @@ public class DAO {
 		}
 	}
 
+	//회원 탈퇴
+	public void deleteMember(VO vo) {
+		sql = "delete member where pw=? and pid=?";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, vo.getPw());
+			ptmt.setString(2, vo.getPid());
+			ptmt.executeUpdate();
+			System.out.println("deleteMember() 회원 탈퇴 완료");
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+	}
+
 	public ArrayList<VO> qnlist(String kind,int start, int end){
 
 		ArrayList<VO> arr = new ArrayList<>();
