@@ -522,7 +522,7 @@ public class DAO {
 	}
 
 
-	//kind별 게시물 토탈 개수
+	//ㅊ kind별 게시물 토탈 개수
 
 	public int infototal(String kind) {
 
@@ -543,7 +543,7 @@ public class DAO {
 			return 0;
 	}
 
-	//qna 디테일
+	//ㅊ qna 디테일
 
 	public VO qdetail(int id) {
 
@@ -582,7 +582,9 @@ public class DAO {
 
 		return null;
 	}
-public int qinsert(VO vo) {
+
+//ㅊ qna 인설트	
+	public int qinsert(VO vo) {
 
 		int nextid = 0;
 
@@ -627,6 +629,27 @@ public int qinsert(VO vo) {
 
 		return nextid;
 	}
+	
+	//ㅊ 수정
+		public void modify(VO vo) {
+			
+			try {
+				sql="update info set pname = ?,upfile = ? , title = ? , content = ? where id=?";
+				ptmt=con.prepareStatement(sql);
+				
+				ptmt.setString(1, vo.getPname());
+				ptmt.setString(2, vo.getUpfile());
+				ptmt.setString(3, vo.getTitle());
+				ptmt.setString(4, vo.getContent());
+				ptmt.setInt(5, vo.getId());
+				
+				ptmt.executeUpdate();
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+		}
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}

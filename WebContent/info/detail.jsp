@@ -43,6 +43,11 @@
 		<div class="td">${data.upfile }</div>
 	</div>
 
+	<div class="tr">
+		<div class="td">
+		<a href="Modify?id=${data.id }">수정</a>
+		</div>
+	</div>
 
 
 </div>
