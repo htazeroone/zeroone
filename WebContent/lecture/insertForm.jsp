@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-	String[] cps = {};
-%>
+<%@ taglib prefix="ct" tagdir="/WEB-INF/tags" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,17 +17,11 @@
 <table border="">
 	<tr>
 		<td>챕터</td>
-		<td><select name="head">
-				<option value="1" selected="selected">자바 시작하기</option>
-				<option value="2">변수와 타입</option>
-				<option value="3">연산자</option>
-				<option value="4">조건문과 반복문</option>
-				<option value="5">참조타입</option>
-				<option value="6">클래스</option>
-				<option value="7">상속</option>
-				<option value="8">인터페이스</option>
-				<option value="9">예외처리</option>
-				<option value="10">기본API클래스</option>
+		<td>
+			<select name="head">
+				<c:forEach var="i" begin="1" end="10">
+					<option value="${i }" selected="selected"><ct:parseTag>${i }</ct:parseTag></option>
+				</c:forEach>
 			</select>
 		</td>
 	</tr>
