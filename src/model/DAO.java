@@ -479,7 +479,56 @@ public class DAO {
 
 		return null;
 	}
+	
+	//ㅊ qna insert
+	
+	public int qinsert(VO vo) {
+		
+		int nextid = 0;
+		
+		try {
+			sql="select max(id)+1 from info";
+			ptmt=con.prepareStatement(sql);
+			rs = ptmt.executeQuery();
+			
+			rs.next();
+			
+			nextid=rs.getInt(1);
+			
+			System.out.println("======================");
+			System.out.println(vo.getKind());
+			System.out.println(nextid);
+			System.out.println(nextid);
+			System.out.println(vo.getPname());
+			System.out.println(vo.getTitle());
+			System.out.println(vo.getContent());
+			System.out.println(vo.getUpfile());
+			System.out.println("======================");
+			
+			sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content,upfile) "
+					+ "values(?,?,?,0,0,-1,0,sysdate,?,?,?,?)" ;
 
+			ptmt=con.prepareStatement(sql);
+			
+			ptmt.setString(1, vo.getKind());
+			ptmt.setInt(2, nextid);
+			ptmt.setInt(3, nextid);
+			ptmt.setString(4, vo.getPname());
+			ptmt.setString(5, vo.getTitle());
+			ptmt.setString(6, vo.getContent());
+			ptmt.setString(7, vo.getUpfile());
+	
+			
+			
+			ptmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return nextid;
+	}
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}

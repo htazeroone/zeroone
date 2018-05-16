@@ -10,7 +10,7 @@
 	.td{
 		display: inline-block;
 		border: 3px solid purple; 
-		width: 70px;
+		width: "100px";
 	}
 
 </style>
@@ -20,8 +20,12 @@
 	
 		<div class="tr">
 			<div class="td">kind</div>
-			<div class="td">${kind }</div>
+			<div class="td">${kind }
+			<input type="hidden" name="kind" value="${kind }">
+			
+			</div>
 		</div>
+		
 		<div class="tr">
 			<div class="td">이름</div>
 			<div class="td">
@@ -46,6 +50,11 @@
 			<input type="text" name="content">
 			</div>
 		</div>
-	
+		
+		<div class="tr">
+			<div class="td">
+			<input type="submit" value="입력">
+			</div>
+		</div>
 	</div>
 </form>	
