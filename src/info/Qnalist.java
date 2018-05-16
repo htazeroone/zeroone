@@ -30,7 +30,7 @@ public class Qnalist implements Action{
 		
 		DAO dao = new DAO();
 		
-		int total = dao.infototal();
+		int total = dao.infototal("qna");
 		
 		int totalpage = total/limit;
 		
