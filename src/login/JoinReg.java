@@ -17,39 +17,34 @@ public class JoinReg implements Action {
 		String pname = request.getParameter("pname");
 		String pw1 = request.getParameter("pw1");
 		String pw2 = request.getParameter("pw2");
-		
-		String msg = "아이디와 비밀번호를 확인해주세요 ";
+
+		String msg = "아이디가 중복됩니다 ";
 		String url = "../login/JoinForm";
-		
+
 		DAO dao = new DAO();
-		
+
 		//중복이 되면 false
 		boolean pidRes = dao.pidChk(pid);
-		boolean pwRes;
-		if(pw1.equals(pw2)) {
-			pwRes = true;
-		}else {
-			pwRes = false;
-		}
 
 		VO vo = new VO();
-		//비밀번호가 둘이 일치하고 중복이 아니어서 true라면 회원가입시킨다 
-		if(pidRes==true && pwRes==true) {
+
+		//비밀번호가 둘이 일치하고 중복이 아니어서 true라면 회원가입시킨다
+		if(pidRes==true ) {
 			vo.setPid(pid);
 			vo.setPname(pname);
 			vo.setPw(pw1);
-			dao.join(vo);	
-			
+			dao.join(vo);
+
 			 msg = "회원가입성공";
 			 url = "../main/Main";
 		}
-		
+
 		dao.close();
-		
+
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
 		request.setAttribute("main", "mypage/alert.jsp");
-		
+
 		return new ActionData();
 	}
 
