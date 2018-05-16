@@ -27,8 +27,8 @@
 		%>
 		<%=session.getAttribute("pname") %>님 오늘도 즐코!<br>
 		<a href="../login/Logout">로그아웃</a><br>
-		<!-- <a href="../mypage/Achieve">학습성취도</a><br> -->
-		<form action="Achieve" method="post">
+		<!-- <a href="../mypage/Achieve" >학습성취도</a><br> -->
+		<form action="../mypage/Achieve" method="post">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="submit" value="학습성취도">
 		</form>
