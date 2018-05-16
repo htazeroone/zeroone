@@ -31,7 +31,7 @@
 	
 	<tr>
 		<td colspan="2" align="center">
-			<a href="List?id=${data.id }">목록으로</a>
+			<a href="List?id=${data.id }&head=${param.head}">목록으로</a>
 			<a href="DeleteForm?id=${data.id }">삭제</a>
 			<a href="ModifyForm?id=${data.id }">수정</a>			
 		</td>

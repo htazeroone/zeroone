@@ -30,16 +30,31 @@ public class DAO {
 	}
 	
 	// id로 page를 잡아내기 위한 메소드
-	public int getRnum_Lecture(int id) {
+	public int getRnum_Lecture(int id, int head) {
 		int rnum = 0;
 		try {
-			sql = "select * from "
-					+ "(select rownum rnum, tt.* from "
-					+ "(select * from lecture order by id desc) tt) "
-					+ "where id = ?";
 			
-			ptmt = con.prepareStatement(sql);
-			ptmt.setInt(1, id);
+			if(head != 0) {
+				
+				sql = "select * from "
+						+ "(select rownum rnum, tt.* from "
+						+ "(select * from lecture where head = ? order by id desc) tt) "
+						+ "where id = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, head);
+				ptmt.setInt(2, id);
+				
+			} else { // 0인 경우에는?? 즉 전체
+				sql = "select * from "
+						+ "(select rownum rnum, tt.* from "
+						+ "(select * from lecture order by id desc) tt) "
+						+ "where id = ?";
+				
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+			}
+			
 			rs = ptmt.executeQuery();
 			rs.next();
 			rnum = rs.getInt("RNUM");
@@ -51,12 +66,21 @@ public class DAO {
 	}
 	
 	// list에서 총 페이지 수를 구하기 위해 필요한 totalCnt 메소드
-	public int totalCnt_Lecture() {
+	public int totalCnt_Lecture(int head) {
 		
 		try {
-			sql = "select count(*) from lecture";
-			ptmt = con.prepareStatement(sql);
-			rs=ptmt.executeQuery();
+			// 말머리에서 1~10 중 하나를 선택했을 경우?
+			if(head != 0) {
+				sql = "select count(*) from lecture where head = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, head);
+				
+			} else { // 말머리에서 전체를 선택했을 경우? head == 0
+				sql = "select count(*) from lecture";
+				ptmt = con.prepareStatement(sql);
+			}
+			
+			rs = ptmt.executeQuery();
 			rs.next();
 			return rs.getInt(1);
 			
@@ -402,6 +426,8 @@ public class DAO {
 				vo.setContent(rs.getString("content"));
 				vo.setUpfile(rs.getString("upfile"));
 				
+				System.out.println(vo.getReg_date());
+				
 
 				arr.add(vo);
 
@@ -477,10 +503,7 @@ public class DAO {
 
 		return null;
 	}
-	
-	//ㅊ qna insert
-	
-	public int qinsert(VO vo) {
+public int qinsert(VO vo) {
 		
 		int nextid = 0;
 		
@@ -492,6 +515,16 @@ public class DAO {
 			rs.next();
 			
 			nextid=rs.getInt(1);
+			
+			System.out.println("======================");
+			System.out.println(vo.getKind());
+			System.out.println(nextid);
+			System.out.println(nextid);
+			System.out.println(vo.getPname());
+			System.out.println(vo.getTitle());
+			System.out.println(vo.getContent());
+			System.out.println(vo.getUpfile());
+			System.out.println("======================");
 			
 			sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content,upfile) "
 					+ "values(?,?,?,0,0,-1,0,sysdate,?,?,?,?)" ;
@@ -505,8 +538,6 @@ public class DAO {
 			ptmt.setString(5, vo.getTitle());
 			ptmt.setString(6, vo.getContent());
 			ptmt.setString(7, vo.getUpfile());
-	
-			
 			
 			ptmt.executeUpdate();
 			
@@ -517,7 +548,6 @@ public class DAO {
 		
 		return nextid;
 	}
-	
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}

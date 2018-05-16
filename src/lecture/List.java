@@ -17,15 +17,27 @@ public class List implements Action {
 		DAO dao = new DAO();
 		
 		// 여기서 말거리 기능 생각해보기!
-		
 		int head = 0;
 		
 		if(request.getParameter("head") != null && !request.getParameter("head").equals("")) {
 			head = Integer.parseInt(request.getParameter("head"));
+			
+			
+		}
+		// head가 결정됐고 head가 0이라면 --> 총 글의 수를 알아야 함.
+		// head가 결정됐고 head가 0이 아니라면 --> 총 글의 수가 아니라 챕터별 글의 수를 알아야 함.
+		
+		// 해당의 경우에 따른 글의 총 개수가 몇개인지를 알아낸다. (total)
+		int total = dao.totalCnt_Lecture(head);
+		int totalPage = total/limit;
+		
+		if( total % limit != 0) {
+			totalPage++;
 		}
 		
 		if(request.getParameter("id") != null && !request.getParameter("id").equals("")) {
-			int rnum = dao.getRnum_Lecture(Integer.parseInt(request.getParameter("id")));
+			
+			int rnum = dao.getRnum_Lecture(Integer.parseInt(request.getParameter("id")), head);
 			page = rnum / limit;
 			
 			if(rnum % limit != 0) {
@@ -43,17 +55,10 @@ public class List implements Action {
 		int startPage = (page-1)/pageLimit * pageLimit + 1;
 		int endPage = startPage + pageLimit - 1;
 		
-		int total = dao.totalCnt_Lecture();
-		int totalPage = total/limit;
-		
-		if( total % limit != 0) {
-			totalPage++;
-		}
-		
 		if(endPage > totalPage) {
 			endPage = totalPage;
 		}
-		System.out.println(head);
+
 		request.setAttribute("head", head);
 		request.setAttribute("page", page);
 		request.setAttribute("start", start);
@@ -61,7 +66,7 @@ public class List implements Action {
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("data", dao.list_Lecture(start, end, head));
-		System.out.println("????????/");
+
 		dao.close();
 		
 		
