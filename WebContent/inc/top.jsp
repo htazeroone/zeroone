@@ -32,6 +32,10 @@
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="submit" value="학습성취도">
 		</form>
+		<form action="../mypage/Note" method="post">
+		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
+		<input type="submit" value="학습노트">
+		</form>
 		<a href="../mypage/ModifyPwForm">비밀번호변경</a><br>
 		<a href="../mypage/OutForm">회원탈퇴</a><br>
 		<%
