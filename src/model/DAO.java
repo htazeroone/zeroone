@@ -316,6 +316,25 @@ public class DAO {
 
 	}
 
+	//회원가입 시 동일 pname 존재 여부 확인 (중복이라면 false 리턴)
+			public boolean pnameChk(String pname) {
+				sql = "select * from member where pname = ?";
+				try {
+					ptmt = con.prepareStatement(sql);
+					ptmt.setString(1, pname);
+					rs = ptmt.executeQuery();
+
+					if(rs.isBeforeFirst()) {
+						System.out.println("pname이 중복된닷");
+						return false;
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return true;
+
+			}
 	//회원가입 시킨다
 	public void join(VO vo) {
 		sql = "insert into member (pid, pname, pw) values (?, ?, ?)";
@@ -583,7 +602,7 @@ public class DAO {
 		return null;
 	}
 
-//ㅊ qna 인설트	
+//ㅊ qna 인설트
 	public int qinsert(VO vo) {
 
 		int nextid = 0;
@@ -629,22 +648,22 @@ public class DAO {
 
 		return nextid;
 	}
-	
+
 	//ㅊ 수정
 		public void modify(VO vo) {
-			
+
 			try {
 				sql="update info set pname = ?,upfile = ? , title = ? , content = ? where id=?";
 				ptmt=con.prepareStatement(sql);
-				
+
 				ptmt.setString(1, vo.getPname());
 				ptmt.setString(2, vo.getUpfile());
 				ptmt.setString(3, vo.getTitle());
 				ptmt.setString(4, vo.getContent());
 				ptmt.setInt(5, vo.getId());
-				
+
 				ptmt.executeUpdate();
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}

@@ -22,14 +22,23 @@ public class JoinReg implements Action {
 		String url = "../login/JoinForm";
 
 		DAO dao = new DAO();
-
-		//중복이 되면 false
-		boolean pidRes = dao.pidChk(pid);
-
 		VO vo = new VO();
 
+
+		//dao.pidChk : id 중복체크
+		//dao.pnameChk : 닉네임 중복체크
+		//중복이 되면 false
+		boolean pidRes = dao.pidChk(pid);
+		boolean pnameRes = dao.pnameChk(pname);
+
+
+		//닉네임 중복이라면, msg변경
 		//비밀번호가 둘이 일치하고 중복이 아니어서 true라면 회원가입시킨다
-		if(pidRes==true ) {
+		if(pnameRes==false) {
+			msg = "닉네임이 중복됩니다 ";
+		}
+
+		if(pidRes==true && pnameRes==true) {
 			vo.setPid(pid);
 			vo.setPname(pname);
 			vo.setPw(pw1);
@@ -38,6 +47,9 @@ public class JoinReg implements Action {
 			 msg = "회원가입성공";
 			 url = "../main/Main";
 		}
+
+
+
 
 		dao.close();
 
