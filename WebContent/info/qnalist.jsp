@@ -81,7 +81,13 @@
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	
 
+	<div>
+		<div>
+		<a href="Insert">글쓰기</a>
+		</div>
+	</div>
 </div>
 
 
