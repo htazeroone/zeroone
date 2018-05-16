@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="loginReg">
+<form action="../login/LoginReg" method="post">
 	<table border="">
 		<tr>
 			<td>id</td>
@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<td>pw</td>
-			<td><input type="text" name="pw" /></td>
+			<td><input type="password" name="pw" /></td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
