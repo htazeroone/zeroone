@@ -236,7 +236,7 @@ public class DAO {
 	}
 	
 	// lecture 테이블에서 글 삭제
-	public void delete(int id) {
+	public void delete_Lecture(int id) {
 		
 		try {
 			

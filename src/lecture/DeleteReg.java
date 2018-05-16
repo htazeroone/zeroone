@@ -22,7 +22,7 @@ public class DeleteReg implements Action {
 		String url = "Detail?id="+vo.getId();
 		
 		if(dao.search_Lecture(vo)) {
-			dao.delete(vo.getId());
+			dao.delete_Lecture(vo.getId());
 			msg = "삭제 성공";
 			url = "List";
 		}
