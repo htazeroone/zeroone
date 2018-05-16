@@ -20,7 +20,11 @@
 		<td>
 			<select name="head">
 				<c:forEach var="i" begin="1" end="10">
-					<option value="${i }" selected="selected"><ct:parseTag>${i }</ct:parseTag></option>
+					<%String sel = ""; %>
+					<c:if test="${i == 1}">
+						<%sel = "selected=\"selected\""; %>
+					</c:if>
+					<option value="${i }" <%=sel %>><ct:parseTag>${i }</ct:parseTag></option>
 				</c:forEach>
 			</select>
 		</td>
