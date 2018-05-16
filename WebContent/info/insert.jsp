@@ -30,7 +30,8 @@
 		<div class="tr">
 			<div class="td">이름</div>
 			<div class="td">
-			<input type="text" name="pname">
+			<%=session.getAttribute("pname")%>
+			<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
 			</div>
 		</div>
 		<div class="tr">
