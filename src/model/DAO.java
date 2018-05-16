@@ -230,7 +230,9 @@ public class DAO {
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
 				vo.setUpfile(rs.getString("upfile"));
-
+				
+				System.out.println(vo.getReg_date());
+				
 
 				arr.add(vo);
 

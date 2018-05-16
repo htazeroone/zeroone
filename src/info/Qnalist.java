@@ -16,7 +16,9 @@ public class Qnalist implements Action{
 		ActionData data = new ActionData();
 		
 		int page = 1;
-		int limit = 3, pagelimit=4;
+		
+		int limit = 100, pagelimit=100;
+		//int limit = 3, pagelimit=4;
 		
 		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
 			page = Integer.parseInt(request.getParameter("page"));

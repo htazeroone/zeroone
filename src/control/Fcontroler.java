@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,14 @@ import model.ActionData;
  * Servlet implementation class Fcontroler
  */
 @WebServlet("/quiz/*")
+
+@MultipartConfig(
+		location="C:\\tomcat\\temp",
+		maxFileSize=1024*5000,
+		maxRequestSize=1024*1024*100,
+		fileSizeThreshold=1024*1024*10
+)
+
 public class Fcontroler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

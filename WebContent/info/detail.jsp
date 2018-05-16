@@ -10,8 +10,6 @@
 		display: inline-block;
 		border: 3px solid purple; 
 		width: 70px;
-		
-	
 	}
 </style>
 <div>

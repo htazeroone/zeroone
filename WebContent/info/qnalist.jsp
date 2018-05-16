@@ -12,7 +12,7 @@
 		background-color : white;
 		display: inline-block;
 		border: 3px solid purple; 
-		width: 70px;
+		width: 100px;
 	}
 	.tr{
 		background-color: pink;
@@ -22,7 +22,7 @@
 	.td{
 		display: inline-block;
 		border: 3px solid purple; 
-		width: 70px;
+		width: 100px;
 	}
 
 </style>
@@ -85,7 +85,7 @@
 
 	<div>
 		<div>
-		<a href="Insert">글쓰기</a>
+		<a href="Insert?kind=qna">글쓰기</a>
 		</div>
 	</div>
 </div>
