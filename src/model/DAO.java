@@ -694,6 +694,33 @@ public class DAO {
 	
 		}
 		
+		//승진 quiz 문제 출력
+		
+		public ArrayList<VO> question(int chid) {
+			ArrayList<VO> res = new ArrayList<>();
+
+			try {
+				sql="select * from quiz where chid = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, chid);
+				rs = ptmt.executeQuery();
+
+				while(rs.next()) {
+					VO vo = new VO();
+					vo.setQuestion(rs.getString("question"));
+					vo.setId(rs.getInt("id"));
+					vo.setChid(rs.getInt("chid"));
+					vo.setAnswer(rs.getString("answer"));
+					res.add(vo);
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return res;
+		}	
+
+		
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}

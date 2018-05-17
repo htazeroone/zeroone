@@ -4,17 +4,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
 <style type="text/css">
-
 #ox {
 	width: 20%;
-	height: 80%;
+	height: 90%;
 	position: absolute;
 	background-color: lightblue;
 }
 
 #answer {
 	width: 20%;
-	height: 80%;
+	height: 90%;
 	margin-left: 20%;
 	position: absolute;
 	background-color: lightgreen;
@@ -22,7 +21,7 @@
 
 #check {
 	width: 20%;
-	height: 80%;
+	height: 90%;
 	margin-left: 40%;
 	position: absolute;
 	background-color: lightyellow;
@@ -30,7 +29,7 @@
 
 #last {
 	width: 20%;
-	height: 80%;
+	height: 90%;
 	margin-left: 60%;
 	position: absolute;
 	background-color: pink;
@@ -38,7 +37,7 @@
 
 #save {
 	width: 20%;
-	height: 80%;
+	height: 90%;
 	margin-left: 80%;
 	position: absolute;
 	background-color: white;
@@ -46,18 +45,57 @@
 
 #button {
 	width: 100%;
-	height: 23.75%;
-	margin-top : 90%;
-	position: absolute;
+	height: 10%;
+	margin-top: 106.5%;
+	position: relative;
 	background-color: gray;
 }
 
+#section {
+	width: 100%;
+	height: 11%;
+	position: relative;
+	background-color: lightyellow;
+}
+
+#a1 {
+	width: 100%;
+	height: 22%;
+	position: relative;
+	background-color: lightgreen;
+}
+
+#a2 {
+	width: 100%;
+	height: 22.5%;
+	position: relative;
+	background-color: lightyellow;
+}
+
+#a3 {
+	width: 100%;
+	height: 22.5%;
+	position: relative;
+	background-color: pink;
+}
+
+#a4 {
+	width: 100%;
+	height: 22.5%;
+	position: relative;
+	background-color: white;
+}
 </style>
 </head>
 
 <div id=ox>정답 유무</div>
 
-<div id=answer>문제 정답</div>
+<div id=answer>
+<div id=section>문제 정답</div>
+<c:forEach varStatus="no" items="${problem }" var="qq">
+<div id="a${no.count }">정답: ${qq.answer }</div>
+</c:forEach>
+</div>
 
 <div id=check>선택한 답</div>
 

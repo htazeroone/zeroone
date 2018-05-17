@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Action;
 import model.ActionData;
+import model.DAO;
 
 public class Chapter4 implements Action{
 
@@ -13,11 +14,14 @@ public class Chapter4 implements Action{
 		// TODO Auto-generated method stub
 	
 	ActionData data = new ActionData();
-
+	DAO dao = new DAO();
+	Integer chid = Integer.parseInt((String)request.getSession().getAttribute("num"));
+ 	
+	request.setAttribute("problem", dao.question(chid));
 	request.setAttribute("menu", "quizmenu.jsp");
 	request.setAttribute("main1", "quizbox/chapter4.jsp");
 	request.setAttribute("main2", "quizbox/quizresult.jsp");
-	
+	dao.close();
 	return data;
 	}	
 }

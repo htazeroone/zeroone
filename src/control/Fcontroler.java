@@ -42,12 +42,28 @@ public class Fcontroler extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		
-		String cl = request.getRequestURI().substring((request.getContextPath()+"/quiz").length()+1).replaceAll("/", ".");
-
-
-		try {
-			Action action = (Action)Class.forName(cl).newInstance();
+		String cl = request.getRequestURI().substring((request.getContextPath()+"/quiz").length()+1);
+		
+		System.out.println(cl);
+		String[] cls = cl.split("/");
+		
+		String num = cls[1].substring(cls[1].length()-1);
+		System.out.println(num);
+		
+		if(num.equals("1") || num.equals("2") || num.equals("3") || num.equals("4") || num.equals("5") ||
+				num.equals("6") || num.equals("7") || num.equals("8") || num.equals("9") ||num.equals("0")) {
 			
+			if(num.equals("0")) {
+				num="10";
+				request.getSession().setAttribute("num", num);
+			}
+			
+			request.getSession().setAttribute("num", num);			
+		}
+
+		
+		try {
+			Action action = (Action)Class.forName(cls[0]+"."+cls[1]).newInstance();
 			ActionData data = action.execute(request, response);
 			
 			if(data!=null) {

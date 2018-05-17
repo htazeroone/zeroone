@@ -51,11 +51,14 @@
 </style>
 </head>
     
-<div id=chapter>chapter</div>
-<div id=q1>Q.1</div>
-<div id=q2>Q.2</div>
-<div id=q3>Q.3</div>
-<div id=q4>Q.4</div>
+<div id=chapter>chapter${sessionScope.num}</div>
+
+<c:forEach varStatus="no" items="${problem }" var="qq">
+
+<div id="q${no.count }">Q.${qq.id}${qq.question }</div>
+
+</c:forEach>
+
 <div id=checkAnswer>
 <form action="Chapter1Answer" >
 	<table>
