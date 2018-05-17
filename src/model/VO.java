@@ -3,15 +3,57 @@ package model;
 import java.util.Date;
 
 public class VO {
-	
+
 	Integer chid, head, id, total, correction, cnt, save, ox, orid, gid, seq, lev, rec;
 	String question, answer, pname, title, content, pid, input, kind, pw, upfile;
 	Date reg_date;
-	
 
-	
+	//문제 선택지 -quiz 테이블에 추가됨
+	String s1, s2, s3, s4, s5;
+
+	//챕터 이름 -chname 테이블에 추가됨
+	String chname;
+
+
+	public String getChname() {
+		return chname;
+	}
+	public void setChname(String chname) {
+		this.chname = chname;
+	}
+	public String getS1() {
+		return s1;
+	}
+	public void setS1(String s1) {
+		this.s1 = s1;
+	}
+	public String getS2() {
+		return s2;
+	}
+	public void setS2(String s2) {
+		this.s2 = s2;
+	}
+	public String getS3() {
+		return s3;
+	}
+	public void setS3(String s3) {
+		this.s3 = s3;
+	}
+	public String getS4() {
+		return s4;
+	}
+	public void setS4(String s4) {
+		this.s4 = s4;
+	}
+	public String getS5() {
+		return s5;
+	}
+	public void setS5(String s5) {
+		this.s5 = s5;
+	}
+
 	public Integer getHead() {
-		
+
 		return head;
 	}
 	public void setHead(Integer head) {
@@ -129,7 +171,7 @@ public class VO {
 		this.content = content;
 	}
 
-	
+
 	public String getPid() {
 		return pid;
 	}
@@ -168,7 +210,7 @@ public class VO {
 				+ ", title=" + title + ", content=" + content + ", pid=" + pid + ", input=" + input + ", kind=" + kind
 				+ ", pw=" + pw + ", upfile=" + upfile + ", reg_date=" + reg_date + "]";
 	}
-	
-	
-	
+
+
+
 }
