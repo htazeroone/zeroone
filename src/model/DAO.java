@@ -724,6 +724,117 @@ public class DAO {
 			return res;
 		}
 
+		//ㅊ 답글 입력
+		public int cominsert(VO vo) {
+			
+			int nextid=0;
+			
+			try {
+				
+				sql="select max(id)+1 from info";
+				ptmt=con.prepareStatement(sql);
+				rs = ptmt.executeQuery();
+
+				rs.next();
+
+				nextid=rs.getInt(1);
+				
+				VO ori = qdetail(vo.id);
+				
+				sql = "update info set seq=seq+1 where gid=? and seq > ?";
+				
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, ori.getGid());
+				ptmt.setInt(2, ori.getSeq());
+				ptmt.executeUpdate();
+				
+				sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content) "
+						+ "values(?,?,?,?,?,-1,0,sysdate,?,?,?)";
+				
+				ptmt = con.prepareStatement(sql);
+				
+				ptmt.setString(1,ori.getKind());
+				ptmt.setInt(2, nextid);
+				ptmt.setInt(3, ori.getGid());
+				ptmt.setInt(4, ori.getSeq()+1);
+				ptmt.setInt(5, ori.getLev()+1);
+				ptmt.setString(6, vo.getPname());
+				ptmt.setString(7, vo.getTitle());
+				ptmt.setString(8, vo.getContent());
+				
+				ptmt.executeUpdate();
+				
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			return nextid;
+		}
+		
+		//ㅊ 댓글 삽입
+		public void replyinsert(VO vo) {
+			
+			try {
+				int nextid=0;
+				sql="select max(id) from reply";
+				ptmt=con.prepareStatement(sql);
+				rs = ptmt.executeQuery();
+				
+				rs.next();
+				
+				nextid=rs.getInt(1)+1;
+
+				sql = "insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
+						+ "values(?,?,?,0,0,?,?,sysdate)";
+				
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, vo.getId());
+				ptmt.setInt(2, nextid);
+				ptmt.setInt(3, nextid);
+				ptmt.setString(4, vo.getPname());
+				ptmt.setString(5, vo.getContent());
+				
+				ptmt.executeUpdate();
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+		//ㅊ 댓글 리스트
+		public ArrayList<VO> replylist(int id){
+			ArrayList<VO> arr = new ArrayList<>();
+			
+			try {
+				sql = "select * from reply where orid = ?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+				rs=ptmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					VO vo = new VO();
+					vo.setOrid(rs.getInt("orid"));
+					vo.setId(rs.getInt("id"));
+					vo.setGid(rs.getInt("gid"));
+					vo.setSeq(rs.getInt("seq"));
+					vo.setLev(rs.getInt("lev"));
+					vo.setPname(rs.getString("pname"));
+					vo.setContent(rs.getString("content"));
+					vo.setReg_date(rs.getDate("reg_date"));
+					
+					arr.add(vo);
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			
+			return arr;
+		}
 
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}

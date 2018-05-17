@@ -17,10 +17,12 @@ public class Modify implements Action{
 		
 		DAO dao = new DAO();
 		
+		request.setAttribute("page", request.getParameter("page"));
 		
 		request.setAttribute("data", dao.qdetail(Integer.parseInt(request.getParameter("id"))) );
 		request.setAttribute("main", "info/modify.jsp");
 		
+		dao.close();
 		return data;
 	}
 }

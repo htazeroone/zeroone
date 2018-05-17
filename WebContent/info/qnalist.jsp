@@ -39,7 +39,6 @@
 </head>
 <body>
 
-
 <div>
 
 	<div>
@@ -127,7 +126,7 @@
 
 	<div>
 		<div>
-		<a href="Insert?kind=${kind }">글쓰기</a>
+		<a href="Insert?kind=${kind }&page=${page}">글쓰기</a>
 		</div>
 	</div>
 </div>

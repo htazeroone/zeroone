@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <style>
 
@@ -16,32 +15,26 @@
 
 </style>
 
-<form action="ModifyReg" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="id" value="${data.id }">
+<form action="Comreg" method="post" enctype="multipart/form-data">
 	<div class="table">
-			
+	
 		<div class="tr">
 			<div class="td">kind</div>
-			<div class="td">${data.kind }</div>
+			<div class="td">${data.kind }
+			<input type="hidden" name="kind" value="${data.kind }">
+			<input type="hidden" name="id" value="${data.id }">
+			<input type="hidden" name="page" value="${page }">
+			</div>
 		</div>
 		
 		<div class="tr">
 			<div class="td">이름</div>
 			<div class="td">
-			<input type="text" name="pname" value="${data.pname }">
+			<%=session.getAttribute("pname")%>
+			<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
 			</div>
 		</div>
 		
-		<c:if test="${data.upfile!=null }">
-			<div class="tr">
-				<div class="td">파일</div>
-				<div class="td">
-					${data.upfile }
-				<input type="hidden" name="upfile" value="${data.upfile }">
-				</div>
-			</div>
-		</c:if>
-	
 		<div class="tr">
 			<div class="td">제목</div>
 			<div class="td">
@@ -57,7 +50,7 @@
 		
 		<div class="tr">
 			<div class="td">
-			<input type="submit" value="수정">
+			<input type="submit" value="입력">
 			<a href="Detail?id=${data.id }&page=${page}">뒤로</a>
 			</div>
 		</div>

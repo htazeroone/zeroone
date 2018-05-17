@@ -8,7 +8,7 @@ import model.ActionData;
 import model.DAO;
 import model.VO;
 
-public class ModifyReg implements Action{
+public class Replyinsert implements Action{
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
@@ -19,22 +19,18 @@ public class ModifyReg implements Action{
 		DAO dao = new DAO();
 		VO vo = new VO();
 		
-		String id = request.getParameter("id");
-		
-		vo.setId(Integer.parseInt(id));
-		vo.setPname(request.getParameter("pname"));
-		vo.setUpfile(request.getParameter("upfile"));
-		vo.setTitle(request.getParameter("title"));
 		vo.setContent(request.getParameter("content"));
+		vo.setPname(request.getParameter("pname"));
+		vo.setId(Integer.parseInt(request.getParameter("id")));
 		
-		dao.modify(vo);
+		int page = Integer.parseInt(request.getParameter("page"));
 		
+		dao.replyinsert(vo);
 		data.setRedirect(true);
-		data.setPath("Detail?id="+id);
-
+		data.setPath("Detail?id="+vo.getId()+"&page="+page);
+		
 		dao.close();
 		
 		return data;
 	}
-	
 }

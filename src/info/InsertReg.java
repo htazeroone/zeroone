@@ -29,8 +29,8 @@ public class InsertReg implements Action{
 		
 		vo.setUpfile(fileupload(request));
 		
-		
-		data.setPath("Detail?id="+dao.qinsert(vo));
+
+		data.setPath("Detail?id="+dao.qinsert(vo)+"&page="+request.getParameter("page"));
 		data.setRedirect(true);
 
 		dao.close();

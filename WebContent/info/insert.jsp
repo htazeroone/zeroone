@@ -23,7 +23,7 @@
 			<div class="td">kind</div>
 			<div class="td">${kind }
 			<input type="hidden" name="kind" value="${kind }">
-			
+			<input type="hidden" name="page" value="${page }">
 			</div>
 		</div>
 		

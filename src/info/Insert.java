@@ -15,7 +15,7 @@ public class Insert implements Action {
 		
 		request.setAttribute("kind", request.getParameter("kind"));
 		
-		
+		request.setAttribute("page", request.getParameter("page"));
 		request.setAttribute("main", "info/insert.jsp");
 		
 		return data;

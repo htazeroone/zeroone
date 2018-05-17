@@ -8,33 +8,27 @@ import model.ActionData;
 import model.DAO;
 import model.VO;
 
-public class ModifyReg implements Action{
+public class Cominsert implements Action{
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+	
 		ActionData data = new ActionData();
 		
 		DAO dao = new DAO();
-		VO vo = new VO();
+		VO vo = dao.qdetail(Integer.parseInt(request.getParameter("id")));
 		
-		String id = request.getParameter("id");
+		vo.setTitle("[답변]"+vo.getTitle());
+		vo.setContent("[답변]"+vo.getContent());
 		
-		vo.setId(Integer.parseInt(id));
-		vo.setPname(request.getParameter("pname"));
-		vo.setUpfile(request.getParameter("upfile"));
-		vo.setTitle(request.getParameter("title"));
-		vo.setContent(request.getParameter("content"));
 		
-		dao.modify(vo);
+		request.setAttribute("page", request.getParameter("page"));
+		request.setAttribute("data", vo);
+		request.setAttribute("main", "info/comment.jsp");
 		
-		data.setRedirect(true);
-		data.setPath("Detail?id="+id);
-
 		dao.close();
 		
 		return data;
 	}
-	
 }

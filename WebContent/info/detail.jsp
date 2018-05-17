@@ -17,6 +17,21 @@ var getout = <%=chk %>
 </script>
 
 <style>
+	#td1{
+		margin:2px;
+	 	width: 800px;
+	 	height: 30px;
+	 	background-color: gray;
+	 	float:left;
+	}
+	#td2{
+		margin:2px;
+	 	width: 100px;
+	 	height: 30px;
+	 	background-color: gray;
+	 	float:left;
+	}
+
 	.tr{
 		background-color: pink;
 
@@ -24,7 +39,29 @@ var getout = <%=chk %>
 	.td{
 		display: inline-block;
 		border: 3px solid purple; 
-		width: 70px;
+		width: 120px;
+		margin: 3px;
+	}
+	
+	.rinsert{
+		background-color: pink;
+
+	}
+	.ritd1{
+		align-items: center;
+		margin:2px;
+		display: inline-block;
+		border: 3px solid purple; 
+		width: 795px;
+	}
+	.ritd2{
+		top:0px;	
+		align-items: center;
+		display: inline-block;
+		background-color:pink;
+		width: 100px;
+		height: 30px;
+		cursor: pointer;
 	}
 </style>
 <div>
@@ -59,14 +96,63 @@ var getout = <%=chk %>
 
 	</div>
 
-	<c:if test="${data.pname==pname }">
-	<div class="tr">
-		<div class="td">
-		<a href="Modify?id=${data.id }">수정</a>
-		<a href="Delete?id=${data.id }&kind=${data.kind}">삭제</a>
-		<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
+
+	<div>
+	<c:choose>
+		<c:when test="${reply.size()==0 }">
+			<div class="tr">
+				<div class="td">
+					댓글이 없습니다.
+				</div>
+			</div>
+		</c:when>
+		<c:otherwise>
+			<c:forEach var="rr" items="${reply }">
+			<div class="tr">
+				<div id="td1">
+				${rr.content }
+				
+				</div>
+				<div id="td2">
+				${rr.pname }
+				</div>
+			</div>
+
+			</c:forEach>
+		
+		</c:otherwise>
+	</c:choose>
+	
+	</div>
+	
+	<form action="Replyinsert">
+	
+	<div class="rinsert">
+		<div class="ritd1">
+			<textarea cols="100" name="content"></textarea>
+			<input type="hidden" name="id" value="${data.id }">
+			<input type="hidden" name="page" value="${page }">
+			<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
+		</div>
+		<div class="ritd2" onclick="">
+			
+			<input type="submit" value="댓글">
 		</div>
 	</div>
-	</c:if>
-
+	</form>
+	
+	<div class="tr">
+		<c:if test="${data.pname==pname }">
+		
+			<div class="td">
+				<a href="Modify?id=${data.id }&kind=${data.kind }&page=${page}">수정</a>
+				<a href="Delete?id=${data.id }&kind=${data.kind}">삭제</a>
+			</div>
+		
+		</c:if>
+		<div class="td">
+				<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
+				<a href="Cominsert?id=${data.id }&page=${page}">답글</a>
+		</div>
+	</div>
 </div>
