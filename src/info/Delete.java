@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Action;
 import model.ActionData;
+import model.DAO;
+
 
 public class Delete implements Action{
 
@@ -14,7 +16,17 @@ public class Delete implements Action{
 		
 		ActionData data = new ActionData();
 		
-		request.setAttribute("main", "info/delete.jsp");
+		DAO dao = new DAO();
+		
+		
+		dao.qdelete(Integer.parseInt(request.getParameter("id")));
+		
+		
+		data.setPath("Qnalist");
+		data.setRedirect(true);
+		
+		dao.close();
+		
 		return data;
 	}
 }

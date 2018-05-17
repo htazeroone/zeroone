@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -524,9 +525,6 @@ public class DAO {
 				vo.setContent(rs.getString("content"));
 				vo.setUpfile(rs.getString("upfile"));
 
-				System.out.println(vo.getReg_date());
-
-
 				arr.add(vo);
 
 
@@ -616,16 +614,6 @@ public class DAO {
 
 			nextid=rs.getInt(1);
 
-			System.out.println("======================");
-			System.out.println(vo.getKind());
-			System.out.println(nextid);
-			System.out.println(nextid);
-			System.out.println(vo.getPname());
-			System.out.println(vo.getTitle());
-			System.out.println(vo.getContent());
-			System.out.println(vo.getUpfile());
-			System.out.println("======================");
-
 			sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content,upfile) "
 					+ "values(?,?,?,0,0,-1,0,sysdate,?,?,?,?)" ;
 
@@ -669,6 +657,43 @@ public class DAO {
 			}
 
 		}
+		
+	//ㅊ 삭제
+		
+		public void qdelete(int id) {
+			
+			System.out.println("qdelete 메소드");
+
+			try {
+				sql="select upfile,kind from info where id = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+				rs = ptmt.executeQuery();
+				rs.next();
+				
+				String file = rs.getString(1);
+				String kind = rs.getString(2);
+	
+				String path = "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\"+kind+"\\"+file;
+				
+				sql="delete from info where id = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+				ptmt.executeUpdate();
+				
+				
+				File ff = new File(path);
+				ff.delete();
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e);
+			}
+	
+		}
+		
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}

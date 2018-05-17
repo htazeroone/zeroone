@@ -43,7 +43,7 @@ public class Fcontroler extends HttpServlet {
 		
 		
 		String cl = request.getRequestURI().substring((request.getContextPath()+"/quiz").length()+1).replaceAll("/", ".");
-		System.out.println("cl : " + cl);
+
 
 		try {
 			Action action = (Action)Class.forName(cl).newInstance();
