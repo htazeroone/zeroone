@@ -453,7 +453,7 @@ public class DAO {
 	//학습성취도 -- 각 챕터 안의 문제 수
 	public ArrayList<Double> eachQNum() {
 		ArrayList<Double> res = new ArrayList();
-		sql = "select count(distinct id) count from quiz group by chid";
+		sql = "select count(distinct id) count from quiz group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			rs = ptmt.executeQuery();
@@ -470,16 +470,19 @@ public class DAO {
 	}
 
 	//학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
-	public ArrayList<Double> eachOXNum(String pid) {
-		ArrayList<Double> res = new ArrayList();
-		sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
+	public ArrayList<VO> eachOXNum(String pid) {
+		ArrayList<VO> res = new ArrayList<VO>();
+		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
+		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='1' group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
-				System.out.println("각 챕터 안의 정답 수:"+rs.getInt(1));
-				res.add(rs.getDouble(1));
+				VO vo = new VO();
+				vo.setChid(rs.getInt("chid"));
+				vo.setOx(rs.getInt("ox"));
+				res.add(vo);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -488,6 +491,7 @@ public class DAO {
 		System.out.println("eachOXNum() 종료");
 		return res;
 	}
+
 
 //찬 qna랑 notice 리스트 종류랑 스타트와 엔드
 
@@ -504,7 +508,7 @@ public class DAO {
 			ptmt.setString(1, kind);
 			ptmt.setInt(2, start);
 			ptmt.setInt(3, end);
-			
+
 
 			rs = ptmt.executeQuery();
 
@@ -529,7 +533,7 @@ public class DAO {
 
 
 			}
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -657,45 +661,45 @@ public class DAO {
 			}
 
 		}
-		
+
 	//ㅊ 삭제
-		
+
 		public void qdelete(int id) {
-			
+
 			System.out.println("qdelete 메소드");
 
 			try {
 				sql="select upfile,kind from info where id = ?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, id);
-				
+
 				rs = ptmt.executeQuery();
 				rs.next();
-				
+
 				String file = rs.getString(1);
 				String kind = rs.getString(2);
-	
+
 				String path = "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\"+kind+"\\"+file;
-				
+
 				sql="delete from info where id = ?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, id);
-				
+
 				ptmt.executeUpdate();
-				
-				
+
+
 				File ff = new File(path);
 				ff.delete();
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println(e);
 			}
-	
+
 		}
-		
+
 		//승진 quiz 문제 출력
-		
+
 		public ArrayList<VO> question(int chid) {
 			ArrayList<VO> res = new ArrayList<>();
 
@@ -718,9 +722,9 @@ public class DAO {
 				// TODO: handle exception
 			}
 			return res;
-		}	
+		}
 
-		
+
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}
