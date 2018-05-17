@@ -27,27 +27,26 @@ String test = "test";
 
 window.onload=function(){
 
-	function console(ddd){
+/* 	function console(ddd){
 		$("#conn").append(ddd+"<br>");
-	}
+	} */
 
 
 	/*   alert("들어오는가"); */
 
 	  <c:forEach var="n" items="${chName}" varStatus="no">
 	  	arrN.push("${n}");
-	  	console(arrN[${no.index}]);
+	  	/* console(arrN[${no.index}]); */
 	  </c:forEach>
 
 	  <c:forEach var="p" items="${percent}" varStatus="no">
 	  	arrP.push("${p}");
-	  	console(arrP[${no.index}]);
+	  	/* console(arrP[${no.index}]); */
 	  /* 	obj[key] = arrN[${no.index}];
 	  	obj[value] = Number(arrP[${no.index}]);
 	  	console(obj['1단원']); */
-
 	  </c:forEach>
-		console("totalChNum:"+${totalChNum});
+
 
   };
 
@@ -62,9 +61,6 @@ window.onload=function(){
 	for(var i = 1; i< ${totalChNum}; i++){
 		 data.addRow([arrN[i], Number(arrP[i])]);
 	}
-	 /*
-    data.addRow([arrN[5], Number(arrP[5])]);
-    data.addRow([arrN[1], Number(arrP[1])]);*/
 
     var options = {
       title: 'JAVA 퀴즈 정답 현황',
