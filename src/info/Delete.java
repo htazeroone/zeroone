@@ -21,8 +21,10 @@ public class Delete implements Action{
 		
 		dao.qdelete(Integer.parseInt(request.getParameter("id")));
 		
+		String kind = request.getParameter("kind");
 		
-		data.setPath("Qnalist");
+		
+		data.setPath("List?kind="+kind);
 		data.setRedirect(true);
 		
 		dao.close();

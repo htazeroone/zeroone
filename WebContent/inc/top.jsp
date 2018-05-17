@@ -16,7 +16,7 @@
 </td>
 
 <td>
-<a href="../info/Qnalist">QnA</a>
+<a href="../info/Qna">QnA</a>
 <a href="../info/Notice">Notice</a>
 <a href="../info/About">About us</a>
 </td>

@@ -26,6 +26,7 @@ public class InsertReg implements Action{
 		vo.setPname(request.getParameter("pname"));
 		vo.setTitle(request.getParameter("title"));
 		vo.setContent(request.getParameter("content"));
+		
 		vo.setUpfile(fileupload(request));
 		
 		
@@ -72,7 +73,10 @@ public class InsertReg implements Action{
 		String fileDo = filename.substring(0, pos);
 		String exp = filename.substring(pos);
 		
-		String path = "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\qna\\";
+		
+		System.out.println("kindㅁㅇㄴㄹㅇㅁㄴㄹ : " + "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\"+request.getParameter("kind")+"\\");
+		
+		String path = "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\"+request.getParameter("kind")+"\\";
 		
 		int cnt=0;
 		
