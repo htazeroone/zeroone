@@ -40,15 +40,15 @@ public class Fcontroler extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		
-		
+	
 		String cl = request.getRequestURI().substring((request.getContextPath()+"/quiz").length()+1);
 		
 		System.out.println(cl);
+		
 		String[] cls = cl.split("/");
 		
 		String num = cls[1].substring(cls[1].length()-1);
-		System.out.println(num);
+		
 		
 		if(num.equals("1") || num.equals("2") || num.equals("3") || num.equals("4") || num.equals("5") ||
 				num.equals("6") || num.equals("7") || num.equals("8") || num.equals("9") ||num.equals("0")) {
@@ -79,6 +79,7 @@ public class Fcontroler extends HttpServlet {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+	
 		}
 		
 		

@@ -64,6 +64,7 @@ var getout = <%=chk %>
 		<div class="td">
 		<a href="Modify?id=${data.id }">수정</a>
 		<a href="Delete?id=${data.id }&kind=${data.kind}">삭제</a>
+		<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
 		</div>
 	</div>
 	</c:if>

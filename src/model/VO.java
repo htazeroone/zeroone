@@ -160,4 +160,15 @@ public class VO {
 	public void setReg_date(Date reg_date) {
 		this.reg_date = reg_date;
 	}
+	@Override
+	public String toString() {
+		return "VO [chid=" + chid + ", head=" + head + ", id=" + id + ", total=" + total + ", correction=" + correction
+				+ ", cnt=" + cnt + ", save=" + save + ", ox=" + ox + ", orid=" + orid + ", gid=" + gid + ", seq=" + seq
+				+ ", lev=" + lev + ", rec=" + rec + ", question=" + question + ", answer=" + answer + ", pname=" + pname
+				+ ", title=" + title + ", content=" + content + ", pid=" + pid + ", input=" + input + ", kind=" + kind
+				+ ", pw=" + pw + ", upfile=" + upfile + ", reg_date=" + reg_date + "]";
+	}
+	
+	
+	
 }

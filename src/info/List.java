@@ -21,11 +21,13 @@ public class List implements Action{
 		
 		int page = 1;
 		
-		int limit = 100, pagelimit=100;
-		//int limit = 3, pagelimit=4;
+		int limit = 3, pagelimit=4;
+
 		
 		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
+			
 			page = Integer.parseInt(request.getParameter("page"));
+			
 		}
 		
 		int start = (page-1)*limit+1;
@@ -34,9 +36,17 @@ public class List implements Action{
 		int startpage = (page-1)/pagelimit*pagelimit+1;
 		int endpage = startpage+pagelimit-1;
 		
+		System.out.println("===================");
+		System.out.println("kind : "+ kind);
+		System.out.println("page : " + page);
+		System.out.println(start+":"+end);
+		
+		System.out.println(startpage+":"+endpage);
+		
+		System.out.println("===================");
 		DAO dao = new DAO();
 		
-		int total = dao.infototal("qna");
+		int total = dao.infototal(kind);
 		
 		int totalpage = total/limit;
 		
@@ -49,8 +59,11 @@ public class List implements Action{
 		}
 		
 		request.setAttribute("kind", kind);
+		
 		request.setAttribute("data", dao.qnlist(kind, start, end));
+		
 		request.setAttribute("main", "info/qnalist.jsp");
+		
 		request.setAttribute("page", page);
 		request.setAttribute("start", start);
 		request.setAttribute("startpage", startpage);
