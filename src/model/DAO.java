@@ -529,10 +529,6 @@ public class DAO {
 
 
 			}
-
-			for(VO vv : arr) {
-				System.out.println(vv);
-			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception

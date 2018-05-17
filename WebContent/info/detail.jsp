@@ -56,7 +56,7 @@ var getout = <%=chk %>
 		<div class="td">${data.title }</div>
 		<div class="td">${data.content }</div>
 		<div class="td">${data.upfile }</div>
-		<div class="td">${data.id==pname }</div>
+
 	</div>
 
 	<c:if test="${data.pname==pname }">

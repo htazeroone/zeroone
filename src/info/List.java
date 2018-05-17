@@ -36,14 +36,6 @@ public class List implements Action{
 		int startpage = (page-1)/pagelimit*pagelimit+1;
 		int endpage = startpage+pagelimit-1;
 		
-		System.out.println("===================");
-		System.out.println("kind : "+ kind);
-		System.out.println("page : " + page);
-		System.out.println(start+":"+end);
-		
-		System.out.println(startpage+":"+endpage);
-		
-		System.out.println("===================");
 		DAO dao = new DAO();
 		
 		int total = dao.infototal(kind);
