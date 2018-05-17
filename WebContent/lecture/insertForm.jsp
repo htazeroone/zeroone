@@ -15,7 +15,7 @@
 <body>
 <form name="nse" action="InsertReg" method="post" enctype="multipart/form-data">
 <table border="">
-	<tr>
+<tr>
 		<td>챕터</td>
 		<td>
 			<select name="head">

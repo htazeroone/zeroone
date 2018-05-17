@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-
+<%@ taglib prefix="ct" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,14 +19,15 @@
 <table border="">
 	<tr>
 		<td>챕터</td>
-		<td><select name="head">	
-			<%
-			String[] chaps = {"자바 시작하기", "변수와 타입", "연산자", "조건문과 반복문", "참조타입", 
-					"클래스", "상속", "인터페이스", "예외처리", "기본API클래스"};
-			for(String chap : chaps) { %>
-				<option value="<%=chap %>"><%=chap %></option>
-			<% }%>
-			
+		<td>
+			<select name="head">
+				<c:forEach var="i" begin="1" end="10">
+					<%String sel = ""; %>
+					<c:if test="${i == data.head}">
+						<%sel = "selected=\"selected\""; %>
+					</c:if>
+					<option value="${i }" <%=sel %>><ct:parseTag>${i }</ct:parseTag></option>
+				</c:forEach>
 			</select>
 		</td>
 	</tr>

@@ -12,14 +12,12 @@ public class ModifyReg implements Action {
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("안 들어와??");
+		
 		
 		VO vo = new VO();
 		
-		System.out.println(Integer.parseInt(request.getParameter("id")));
 		vo.setId(Integer.parseInt(request.getParameter("id")));
 		
-		System.out.println("왜 되다가 마는거지?");
 		String msg = "수정 실패";
 		String url = "ModifyForm?id="+vo.getId();
 		
@@ -38,6 +36,7 @@ public class ModifyReg implements Action {
 		
 		dao.close();
 		
+		System.out.println("여기로 안와?안와?안와?");
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
 		request.setAttribute("main", "lecture/alert.jsp");

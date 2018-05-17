@@ -19,6 +19,7 @@ public class Detail implements Action {
 		request.setAttribute("data", dao.detail_Lecture(id));
 		dao.close();
 		request.setAttribute("main", "lecture/detail.jsp");
+		
 		return new ActionData();
 	}
 }

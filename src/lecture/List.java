@@ -59,6 +59,8 @@ public class List implements Action {
 			endPage = totalPage;
 		}
 
+		
+		
 		request.setAttribute("head", head);
 		request.setAttribute("page", page);
 		request.setAttribute("start", start);
