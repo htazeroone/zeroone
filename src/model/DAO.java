@@ -272,7 +272,7 @@ public class DAO {
 		}
 	}
 
-	//로그인 성공시 pname, pid 담은 VO 리턴
+	//지아 - 로그인 성공시 pname, pid 담은 VO 리턴
 	public VO loginReg(VO vo) {
 
 		sql = "select pname from member where pid=? and pw=?";
@@ -297,7 +297,7 @@ public class DAO {
 
 	}
 
-	//회원가입 시 동일 id 존재 여부 확인 (중복이라면 false 리턴)
+	//지아 -회원가입 시 동일 id 존재 여부 확인 (중복이라면 false 리턴)
 	public boolean pidChk(String pid) {
 		sql = "select * from member where pid = ?";
 		try {
@@ -317,7 +317,7 @@ public class DAO {
 
 	}
 
-	//회원가입 시 동일 pname 존재 여부 확인 (중복이라면 false 리턴)
+	//지아 -회원가입 시 동일 pname 존재 여부 확인 (중복이라면 false 리턴)
 			public boolean pnameChk(String pname) {
 				sql = "select * from member where pname = ?";
 				try {
@@ -336,7 +336,7 @@ public class DAO {
 				return true;
 
 			}
-	//회원가입 시킨다
+	//지아 -회원가입 시킨다
 	public void join(VO vo) {
 		sql = "insert into member (pid, pname, pw) values (?, ?, ?)";
 		try {
@@ -355,7 +355,7 @@ public class DAO {
 	}
 
 
-	//비밀번호 변경시 -- 기존비밀번호를 정확히 입력했는지 확인
+	//지아 -비밀번호 변경시 -- 기존비밀번호를 정확히 입력했는지 확인
 	public boolean pwChk(VO vo) {
 		sql = "select * from member where pid=? and pw=?";
 		System.out.println("pwChk() pid:"+vo.getPid());
@@ -378,7 +378,7 @@ public class DAO {
 		return false;
 	}
 
-	////비밀번호 변경시 -- 새 비밀번호로 업데이트
+	//지아 -비밀번호 변경시 -- 새 비밀번호로 업데이트
 	public void pwUpdate(VO vo) {
 		sql = "update member set pw = ? where pid=?";
 		System.out.println("pwUpdate() pid:"+vo.getPid());
@@ -395,7 +395,7 @@ public class DAO {
 		}
 	}
 
-	//회원 탈퇴
+	//지아 -회원 탈퇴
 	public void deleteMember(VO vo) {
 		sql = "delete member where pw=? and pid=?";
 		try {
@@ -411,7 +411,7 @@ public class DAO {
 	}
 
 
-	//학습성취도 -- 전체 챕터 수  (quiz테이블 참조)
+	//지아 -학습성취도 -- 전체 챕터 수  (quiz테이블 참조)
 	public int totalChNum() {
 		sql = "select count(distinct chid) count from quiz where chid is not null";
 		try {
@@ -429,7 +429,7 @@ public class DAO {
 		return 0;
 	}
 
-	//학습성취도 -- 전체 챕터 이름 ArrayList
+	//지아 -학습성취도 -- 전체 챕터 이름 ArrayList
 	public ArrayList<String> totalChName(){
 		ArrayList<String> res = new ArrayList();
 		sql = "select chname from chname";
@@ -450,7 +450,7 @@ public class DAO {
 	}
 
 
-	//학습성취도 -- 각 챕터 안의 문제 수
+	//지아 -학습성취도 -- 각 챕터 안의 문제 수
 	public ArrayList<Double> eachQNum() {
 		ArrayList<Double> res = new ArrayList();
 		sql = "select count(distinct id) count from quiz group by chid order by chid";
@@ -469,7 +469,7 @@ public class DAO {
 		return res;
 	}
 
-	//학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
+	//지아 -학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
 	public ArrayList<VO> eachOXNum(String pid) {
 		ArrayList<VO> res = new ArrayList<VO>();
 		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
@@ -493,7 +493,7 @@ public class DAO {
 	}
 	
 	
-	//학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분 
+	//지아 -학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분 
 	public boolean isDataInNote(String pid) {
 		sql = "select * from study_note where pid = ?";
 		try {
@@ -515,7 +515,7 @@ public class DAO {
 	}
 	
 
-	//학습노트 왼쪽 메뉴 -- 사용자가 학습노트에 저장해둔 챕터 번호와 챕터명을 리턴
+	//지아 -학습노트 왼쪽 메뉴 -- 사용자가 학습노트에 저장해둔 챕터 번호와 챕터명을 리턴
 	public ArrayList<VO> getChidList(String pid){
 		ArrayList<VO> chList = new ArrayList();
 		
