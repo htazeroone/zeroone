@@ -8,7 +8,7 @@
 <table border="" width="100%" height="100%">
 <tr>
 <td>
-<a href="../lecture/Java">이론</a>
+<a href="../lecture/List">이론</a>
 </td>
 
 <td>
@@ -16,9 +16,11 @@
 </td>
 
 <td>
-<a href="../info/About">인포</a>
+<a href="../info/Qna">QnA</a>
+<a href="../info/Notice">Notice</a>
+<a href="../info/About">About us</a>
+<a href="../info/Test">test</a>
 </td>
-
 <td>
 <%
 	if(session.getAttribute("pname")!=null){
