@@ -19,12 +19,14 @@ public class InsertReg implements Action {
 		vo.setHead(Integer.parseInt(request.getParameter("head")));
 		vo.setContent(request.getParameter("content"));
 		
+		String subject = request.getParameter("subject");
 		DAO dao = new DAO();
-		int id = dao.insert_Lecture(vo);
+		
+		int id = dao.insert_Lecture(vo, subject);
 		dao.close();
 		ActionData data = new ActionData();
 		data.setRedirect(true);
-		data.setPath("Detail?id="+id);
+		data.setPath("Detail?id="+id+"&subject="+subject);
 		
 		return data;
 	}

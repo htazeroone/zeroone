@@ -5,18 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Action;
 import model.ActionData;
-import model.DAO;
 
-public class InsertForm implements Action {
-
+public class AddLectureForm implements Action{
+	
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("main", "lecture/insertForm.jsp");
-		
-		DAO dao = new DAO();
-		request.setAttribute("chapList", dao.getChapterList(request.getParameter("subject")));
-		dao.close();
-		
+		request.setAttribute("main", "lecture/addLectureForm.jsp");
 		return new ActionData();
 	}
 }

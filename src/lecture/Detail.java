@@ -17,6 +17,8 @@ public class Detail implements Action {
 		dao.addCnt_Lecture(id);
 		
 		request.setAttribute("data", dao.detail_Lecture(id));
+		request.setAttribute("chapName", dao.getChapterName(id));
+		
 		dao.close();
 		request.setAttribute("main", "lecture/detail.jsp");
 		

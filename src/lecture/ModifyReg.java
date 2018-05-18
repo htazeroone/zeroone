@@ -19,7 +19,7 @@ public class ModifyReg implements Action {
 		vo.setId(Integer.parseInt(request.getParameter("id")));
 		
 		String msg = "수정 실패";
-		String url = "ModifyForm?id="+vo.getId();
+		String url = "ModifyForm?id="+vo.getId()+"&subject="+request.getParameter("subject");
 		
 		DAO dao = new DAO();
 		if(dao.search_Lecture(vo)) {
@@ -28,15 +28,13 @@ public class ModifyReg implements Action {
 			vo.setTitle(request.getParameter("title"));
 			vo.setContent(request.getParameter("content"));
 
-			dao.modify_Lecture(vo);
+			dao.modify_Lecture(vo, request.getParameter("subject"));
 			msg = "수정 성공";
-			url = "Detail?id="+vo.getId();
-			
+			url = "Detail?id="+vo.getId()+"&subject="+request.getParameter("subject");
 		}
 		
 		dao.close();
 		
-		System.out.println("여기로 안와?안와?안와?");
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
 		request.setAttribute("main", "lecture/alert.jsp");

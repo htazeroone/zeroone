@@ -30,8 +30,26 @@ public class DAO {
 		}
 	}
 
+
+	public ArrayList<String> getSubjects() {
+		
+		ArrayList<String> arr = new ArrayList<>();
+		try {
+			sql = "select distinct subject, suborder from subjectboard order by suborder";
+			ptmt = con.prepareStatement(sql);
+			rs = ptmt.executeQuery();
+			
+			while(rs.next()) {
+				arr.add(rs.getString("SUBJECT"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
 	// id로 page를 잡아내기 위한 메소드
-	public int getRnum_Lecture(int id, int head) {
+	public int getRnum_Lecture(String subject, int id, int head) {
 		int rnum = 0;
 		try {
 
@@ -39,21 +57,22 @@ public class DAO {
 
 				sql = "select * from "
 						+ "(select rownum rnum, tt.* from "
-						+ "(select * from lecture where head = ? order by id desc) tt) "
+						+ "(select * from lecture where head = ? and subject = ? order by id desc) tt) "
 						+ "where id = ?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, head);
-				ptmt.setInt(2, id);
+				ptmt.setString(2, subject);
+				ptmt.setInt(3, id);
 
 			} else { // 0인 경우에는?? 즉 전체
 				sql = "select * from "
 						+ "(select rownum rnum, tt.* from "
-						+ "(select * from lecture order by id desc) tt) "
+						+ "(select * from lecture where subject=? order by id desc) tt) "
 						+ "where id = ?";
 
 				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, id);
-
+				ptmt.setString(1, subject);
+				ptmt.setInt(2, id);
 			}
 
 			rs = ptmt.executeQuery();
@@ -67,18 +86,19 @@ public class DAO {
 	}
 
 	// list에서 총 페이지 수를 구하기 위해 필요한 totalCnt 메소드
-	public int totalCnt_Lecture(int head) {
+	public int totalCnt_Lecture(String subject, int head) {
 
 		try {
 			// 말머리에서 1~10 중 하나를 선택했을 경우?
 			if(head != 0) {
-				sql = "select count(*) from lecture where head = ?";
+				sql = "select count(*) from lecture where head = ? and subject=?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, head);
-
+				ptmt.setString(2, subject);
 			} else { // 말머리에서 전체를 선택했을 경우? head == 0
-				sql = "select count(*) from lecture";
+				sql = "select count(*) from lecture where subject=?";
 				ptmt = con.prepareStatement(sql);
+				ptmt.setString(1, subject);
 			}
 
 			rs = ptmt.executeQuery();
@@ -92,7 +112,7 @@ public class DAO {
 	}
 
 	// list를 빼내오기 위한 메소드
-	public ArrayList<VO> list_Lecture(int start, int end, int head) {
+	public ArrayList<VO> list_Lecture(String subject, int start, int end, int head) {
 
 		ArrayList<VO> arr = new ArrayList<>();
 
@@ -101,22 +121,23 @@ public class DAO {
 			if(head != 0) {
 				sql = "select * from "
 						+ "(select rownum rnum, tt.* from "
-						+ "(select * from lecture where head = ? order by id desc) tt) "
+						+ "(select * from lecture where subject=? and head = ? order by id desc) tt) "
 						+ "where rnum >= ? and rnum <= ?";
 				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, head);
-				ptmt.setInt(2, start);
-				ptmt.setInt(3, end);
+				ptmt.setString(1, subject);
+				ptmt.setInt(2, head);
+				ptmt.setInt(3, start);
+				ptmt.setInt(4, end);
 
-			} else {// head가 0일 때는 chapter 해당사항이 없는 경우, 즉 맨 접속했을 때
+			} else {// head가 0일 때는 chapter 해당사항이 없는 경우, 즉 맨 처음 접속했을 때
 				sql = "select * from "
 						+ "(select rownum rnum, tt.* from "
-						+ "(select * from lecture order by id desc) tt) "
+						+ "(select * from lecture where subject=? order by id desc) tt) "
 						+ "where rnum >= ? and rnum <= ?";
 				ptmt = con.prepareStatement(sql);
-
-				ptmt.setInt(1, start);
-				ptmt.setInt(2, end);
+				ptmt.setString(1, subject);
+				ptmt.setInt(2, start);
+				ptmt.setInt(3, end);
 			}
 
 			rs = ptmt.executeQuery();
@@ -141,8 +162,50 @@ public class DAO {
 		return arr;
 	}
 
+	public ArrayList<String> getChapterList(String subject) {
+		
+		ArrayList<String> arr = new ArrayList<>();
+		try {
+			
+			sql = "select chaptername from subjectboard where subject = ? order by head";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, subject);
+			rs = ptmt.executeQuery();
+			
+			while(rs.next()) {
+				String chapterName = rs.getString("chaptername");
+				arr.add(chapterName);
+			}
+		} catch(Exception e) {
+			
+		}
+		return arr;
+	}
+	
+	public String getChapterName(int id) {
+		
+		try {
+			
+			sql = "select chaptername from subjectboard "
+					+ "where subject = (select subject from lecture where id = ?) "
+					+ "and head = (select head from lecture where id = ?)";
+			
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, id);
+			ptmt.setInt(2, id);
+			rs = ptmt.executeQuery();
+			
+			rs.next();
+			return rs.getString("CHAPTERNAME");
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	// DB에 글 삽입(sequence 대신 max(id) 활용)
-	public int insert_Lecture(VO vo) {
+	public int insert_Lecture(VO vo, String subject) {
 		int nextId = 0;
 
 		try {
@@ -155,8 +218,8 @@ public class DAO {
 
 			System.out.println("nextId: "+nextId);
 
-			sql = "insert into lecture(id, cnt, reg_date, head, pname, title, content) "
-					+ "values(?, ?, sysdate, ?, ?, ?, ?)";
+			sql = "insert into lecture(id, cnt, reg_date, head, pname, title, content, subject) "
+					+ "values(?, ?, sysdate, ?, ?, ?, ?, ?)";
 
 			ptmt = con.prepareStatement(sql);
 
@@ -167,7 +230,7 @@ public class DAO {
 			ptmt.setString(4, vo.getPname());
 			ptmt.setString(5, vo.getTitle());
 			ptmt.setString(6, vo.getContent());
-
+			ptmt.setString(7, subject);
 			ptmt.executeUpdate();
 
 
@@ -192,7 +255,9 @@ public class DAO {
 
 	//detail을 얻어오는 메소드
 	public VO detail_Lecture(int id) {
-		try {
+		
+		try {		
+			
 			sql = "select * from lecture where id = ?";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1,id);
@@ -215,13 +280,13 @@ public class DAO {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	// 글을 '삭제'하거나 '수정'할 때 해당 아이디와 관련된 글이 있는지 확인함
 	// 관리자의 경우 pw 확인은 필요없음.
 	public boolean search_Lecture(VO vo) {
 		boolean chk = false;
+		
 		try {
 			sql = "select * from lecture where id = ?";
 			ptmt = con.prepareStatement(sql);
@@ -229,9 +294,8 @@ public class DAO {
 			rs = ptmt.executeQuery();
 
 			chk = rs.next();
-
 		} catch(Exception e) {
-
+			e.printStackTrace();
 		}
 		return chk;
 	}
@@ -245,31 +309,83 @@ public class DAO {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, id);
 			ptmt.executeUpdate();
-
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	// lecture게시판에서 글 수정
-	public void modify_Lecture(VO vo) {
+	public void modify_Lecture(VO vo, String subject) {
 
 		try {
 
-			sql = "update lecture set head=?, pname=?, title=?, content=? where id=?";
+			sql = "update lecture set head=?, pname=?, title=?, content=?, subject=? where id=?";
 
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, vo.getHead());
 			ptmt.setString(2, vo.getPname());
 			ptmt.setString(3, vo.getTitle());
 			ptmt.setString(4, vo.getContent());
-			ptmt.setInt(5, vo.getId());
+			ptmt.setString(5, subject);
+			ptmt.setInt(6, vo.getId());
 
 			ptmt.executeUpdate();
 
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addNewLecture(String boardName, ArrayList<String> chapNum) {
+ 		int nextSubOrder = 0;
+		try {
+			
+			sql ="select max(rownum)+1 from (select distinct subject from subjectboard)";
+			ptmt = con.prepareStatement(sql);
+			rs = ptmt.executeQuery();
+			rs.next();
+			nextSubOrder = rs.getInt(1);
+			
+			
+			for(int i = 0; i < chapNum.size(); i++) {
+				sql = "insert into subjectboard(subject, head, chaptername, suborder) "
+						+ "values(?, ?, ?, ?)";
+				
+				ptmt = con.prepareStatement(sql);
+				
+				ptmt.setString(1, boardName);
+				ptmt.setInt(2, i);
+				ptmt.setString(3, chapNum.get(i));
+				ptmt.setInt(4, nextSubOrder);
+				
+				ptmt.executeUpdate();
+			}
+				
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSubject(String delSubject) {
+		
+		try {
+			
+			sql = "delete from subjectBoard where subject=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, delSubject);
+			ptmt.executeUpdate();
+			
+			sql = "delete from lecture where subject=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, delSubject);
+			ptmt.executeUpdate();
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	//지아 - 로그인 성공시 pname, pid 담은 VO 리턴

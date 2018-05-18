@@ -5,7 +5,7 @@
  	if(confirm("${cf}")) {
 		location.href="${url}";
 	} else {
-		location.href="Detail?id=${param.id}";
+		location.href="Detail?id=${param.id}&subject=${param.subject}";
 	}
  	
 </script>

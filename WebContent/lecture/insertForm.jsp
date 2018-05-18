@@ -14,17 +14,24 @@
 </head>
 <body>
 <form name="nse" action="InsertReg" method="post" enctype="multipart/form-data">
+<input type="hidden" name="subject" value="${param.subject }">
+
 <table border="">
-<tr>
+	<tr>
 		<td>챕터</td>
 		<td>
 			<select name="head">
-				<c:forEach var="i" begin="1" end="10">
-					<%String sel = ""; %>
-					<c:if test="${i == 1}">
-						<%sel = "selected=\"selected\""; %>
+				<c:forEach var="i" items="${chapList }" varStatus="no">
+					<c:if test="${no.count != 1 }">
+					<c:choose>
+						<c:when test="${no.index == head}">
+							<option value="${no.index }" selected="selected">${i }</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${no.index }">${i }</option>
+						</c:otherwise>
+					</c:choose>
 					</c:if>
-					<option value="${i }" <%=sel %>><ct:parseTag>${i }</ct:parseTag></option>
 				</c:forEach>
 			</select>
 		</td>
@@ -66,13 +73,10 @@
 	<tr>
 		<td colspan="2">
 			<input type="submit" value="글 등록" onclick="submitContents(this)"/>
-			<a href="List?page=${param.page }">뒤로</a>
+			<a href="List?page=${param.page }&subject=${param.subject}">뒤로</a>
 		</td>
 	</tr>
-
 </table>
-
 </form>
-
 </body>
 </html>

@@ -12,7 +12,7 @@ public class DeleteForm implements Action {
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		String cf = "정말로 글을 삭제하시겠습니까?";
-		String url = "DeleteReg?id="+request.getParameter("id");
+		String url = "DeleteReg?id="+request.getParameter("id")+"&subject="+request.getParameter("subject");
 		
 		request.setAttribute("cf", cf);
 		request.setAttribute("url", url);

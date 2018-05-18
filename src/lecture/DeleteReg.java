@@ -19,12 +19,12 @@ public class DeleteReg implements Action {
 		DAO dao = new DAO();
 		
 		String msg = "삭제 실패";
-		String url = "Detail?id="+vo.getId();
+		String url = "Detail?id="+vo.getId()+"&subject="+request.getParameter("subject");
 		
 		if(dao.search_Lecture(vo)) {
 			dao.delete_Lecture(vo.getId());
 			msg = "삭제 성공";
-			url = "List";
+			url = "List?subject="+request.getParameter("subject");
 		}
 		
 		dao.close();

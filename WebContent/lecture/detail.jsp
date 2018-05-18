@@ -7,7 +7,7 @@
 <table border="">
 	<tr>
 		<td>챕터</td>
-		<td><ct:parseTag>${data.head}</ct:parseTag></td>
+		<td>${chapName }</td>
 	</tr>
 	<tr>
 		<td>제목</td>
@@ -32,20 +32,19 @@
 		
 	</tr>	
 	<tr>
-		<td colspan="2" align="center">
+		<td colspan="2" align="right">
 		 <c:choose>
-		 	<c:when test="${data.head != 0}">
-		 		<a href="List">목록으로</a>
+		 	<c:when test="${param.head != 0}"> <!--말머리로 들어왔을 때-->
+		 		<a href="List?subject=${param.subject }">목록으로</a>
 		 	</c:when>
-		 	
 		 	<c:otherwise>
-		 		<a href="List?id=${data.id}">목록으로</a>
+		 		<a href="List?id=${data.id}&page=${param.page}&subject=${param.subject }">목록으로</a>
 		 	</c:otherwise>
 		 </c:choose>
 		 	
 			<c:if test="${sessionScope.pid == 'admin'}">
-				<a href="DeleteForm?id=${data.id }&head=${data.head}">삭제</a>
-				<a href="ModifyForm?id=${data.id }&head=${data.head}">수정</a>
+				<a href="DeleteForm?id=${data.id }&head=${data.head}&subject=${param.subject }">삭제</a>
+				<a href="ModifyForm?id=${data.id }&head=${data.head}&subject=${param.subject }">수정</a>
 			</c:if>
 		</td>
 	</tr>
