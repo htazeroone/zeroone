@@ -39,7 +39,7 @@ function allChk(){
 <input type="hidden" value="${chid }" name="chid">
 	<div class="part">
 	<c:forEach var="q" items="${qInfo }">
-		<div>${q.id }.${q.question }</div>
+		<div>${q.id }.${q.question }정답률:${q.correction/q.total }</div>
 		<div><input type="radio" name="${q.id }" value="1"> ${q.s1 }</div>
 		<div><input type="radio" name="${q.id }" value="2"> ${q.s2 }</div>
 		<div><input type="radio" name="${q.id }" value="3"> ${q.s3 }</div>
