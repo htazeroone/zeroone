@@ -862,7 +862,7 @@ public class DAO {
 		}
 
 		//승진 quiz 문제 출력
-
+		
 		public ArrayList<VO> question(int chid) {
 			ArrayList<VO> res = new ArrayList<>();
 
@@ -878,15 +878,63 @@ public class DAO {
 					vo.setId(rs.getInt("id"));
 					vo.setChid(rs.getInt("chid"));
 					vo.setAnswer(rs.getString("answer"));
+					vo.setS1(rs.getString("s1"));
+					vo.setS2(rs.getString("s2"));
+					vo.setS3(rs.getString("s3"));
+					vo.setS4(rs.getString("s4"));
+					vo.setS5(rs.getString("s5"));
 					res.add(vo);
 				}
+
 
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			return res;
 		}
+		
+		//승진 문제 푼 결과 저장 
+		public int insertresult(VO vo) {
+			try {
+				sql = "insert into study_note"
+						+"(chid, id, input, ox) values (?, ?, ?, ?)";			
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, vo.getChid());
+				ptmt.setInt(2, vo.getId());							
+				ptmt.setString(3, vo.getInput());
+				ptmt.setInt(4, vo.getOx());
+				ptmt.executeUpdate();
 
+			} catch(SQLException e) {
+				
+			}
+			return 0;
+		}
+		
+		//승진 문제 푼 결과 출력
+
+		public ArrayList<VO> result(int chid) {
+			ArrayList<VO> res = new ArrayList<>();
+
+			try {
+				sql="select * from study_note where chid = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, chid);
+				rs = ptmt.executeQuery();
+
+				while(rs.next()) {
+					VO vo = new VO();
+					vo.setOx(rs.getInt("ox"));
+					vo.setChid(rs.getInt("chid"));
+					vo.setInput(rs.getString("input"));
+					res.add(vo);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return res;
+		}
+		
 		//ㅊ 답글 입력
 		public int cominsert(VO vo) {
 			

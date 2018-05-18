@@ -19,7 +19,7 @@ public class Chapter8 implements Action{
  	
 	request.setAttribute("problem", dao.question(chid));
 	request.setAttribute("menu", "quizmenu.jsp");
-	request.setAttribute("main1", "quizbox/chapter8.jsp");
+	request.setAttribute("main1", "quizbox/chapter1.jsp");
 	request.setAttribute("main2", "quizbox/quizresult.jsp");
 	dao.close();
 	return data;

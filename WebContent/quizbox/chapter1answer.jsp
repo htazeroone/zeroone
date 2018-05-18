@@ -4,14 +4,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
 <style type="text/css">
-#ox {
+.ox {
 	width: 20%;
 	height: 90%;
 	position: absolute;
 	background-color: lightblue;
 }
 
-#answer {
+.answer {
 	width: 20%;
 	height: 90%;
 	margin-left: 20%;
@@ -19,7 +19,7 @@
 	background-color: lightgreen;
 }
 
-#check {
+.check {
 	width: 20%;
 	height: 90%;
 	margin-left: 40%;
@@ -27,7 +27,7 @@
 	background-color: lightyellow;
 }
 
-#last {
+.save {
 	width: 20%;
 	height: 90%;
 	margin-left: 60%;
@@ -35,72 +35,82 @@
 	background-color: pink;
 }
 
-#save {
-	width: 20%;
-	height: 90%;
-	margin-left: 80%;
-	position: absolute;
-	background-color: white;
-}
-
-#button {
-	width: 100%;
-	height: 10%;
-	margin-top: 106.5%;
+.button {
+	width: 80%;
+	height: 143.2px;
+	margin-top: 96.9%;
 	position: relative;
 	background-color: gray;
 }
 
-#section {
+.section {
 	width: 100%;
-	height: 11%;
+	height: 80px;
 	position: relative;
 	background-color: lightyellow;
 }
 
-#a1 {
+.a1 {
 	width: 100%;
-	height: 22%;
+	height: 143.5px;
 	position: relative;
 	background-color: lightgreen;
 }
 
-#a2 {
+.a2 {
 	width: 100%;
-	height: 22.5%;
+	height: 143.5px;
 	position: relative;
 	background-color: lightyellow;
 }
 
-#a3 {
+.a3 {
 	width: 100%;
-	height: 22.5%;
+	height: 143.5px;
 	position: relative;
 	background-color: pink;
 }
 
-#a4 {
+.a4 {
 	width: 100%;
-	height: 22.5%;
+	height: 143.5px;
 	position: relative;
 	background-color: white;
 }
 </style>
 </head>
 
-<div id=ox>정답 유무</div>
-
-<div id=answer>
-<div id=section>문제 정답</div>
-<c:forEach varStatus="no" items="${problem }" var="qq">
-<div id="a${no.count }">정답: ${qq.answer }</div>
-</c:forEach>
+ <div class=ox>
+	<div class=section>정답 유무</div>
+	<c:forEach varStatus="no" items="${result }" var="rs">
+		<div class="a${no.count }">정답: ${rs.ox }</div>
+	</c:forEach>
 </div>
 
-<div id=check>선택한 답</div>
+<div class=answer>
+	<div class=section>문제 정답</div>
+	<c:forEach varStatus="no" items="${problem }" var="qq">
+		<div class="a${no.count }">정답: ${qq.answer }</div>
+	</c:forEach>
+</div>
 
-<div id=last>지난번에 선택한 답</div>
+<div class=check>
+	<div class=section>선택한 답</div>
+	<c:forEach varStatus="no" items="${result }" var="rs">
+		<div class="a${no.count }">정답: ${rs.input }</div>
+	</c:forEach>
+</div>
 
-<div id=save>학습노드 저장</div>
+<div class=save>
+	<div class=section>학습노트 저장</div>
+	<c:forEach varStatus="no" items="${problem }" var="qq">
+	<form action= "Chapter${sessionScope.num}Save" method="post">
+			<div class="a${no.count }">문제 ${qq.id}번 
+		<input type = "checkbox" name= "save" value = problem><br>
+		<input type = "submit" value ="저장하기">
+			</div>
+	</form>
+	</c:forEach>
+</div>
 
-<div id=button>정답수정 및 학습노트에 저장하기</div>
+<div class=button>정답수정 및 학습노트에 저장하기</div>
