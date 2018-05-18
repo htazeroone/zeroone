@@ -1029,6 +1029,20 @@ public class DAO {
 	
 		}
 		
+		//ㅊ 댓글삭제
+		
+		public void recdelete(int id) {
+			
+			try {
+				sql="delete from reply where id = ?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}

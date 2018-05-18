@@ -14,6 +14,7 @@ var getout = <%=chk %>
         location.href="../main/Main"
     }
 
+    
 </script>
 
 <style>
@@ -27,7 +28,7 @@ var getout = <%=chk %>
 	#td2{
 		margin:2px;
 	 	width: 100px;
-	 	height: 30px;
+	 	height: 50px;
 	 	background-color: gray;
 	 	float:left;
 	}
@@ -63,7 +64,14 @@ var getout = <%=chk %>
 		height: 30px;
 		cursor: pointer;
 	}
+	
+	.rediv{
+	
+		background-color: gray;
+		display: none;
+	}
 </style>
+
 <div>
 	<div class="tr">
 		<div class="td">kind</div>
@@ -98,6 +106,7 @@ var getout = <%=chk %>
 
 
 	<div>
+
 	<c:choose>
 		<c:when test="${reply.size()==0 }">
 			<div class="tr">
@@ -107,6 +116,7 @@ var getout = <%=chk %>
 			</div>
 		</c:when>
 		<c:otherwise>
+			
 			<c:forEach var="rr" items="${reply }">
 			<div class="tr">
 				<div id="td1">
@@ -115,6 +125,16 @@ var getout = <%=chk %>
 				</div>
 				<div id="td2">
 				${rr.pname }
+				<c:if test="${rr.pname==pname }">
+				
+				<form action="Recdelete">
+					<input type="hidden" name="id" value="${rr.id }">
+					<input type="hidden" name="orid" value="${data.id }">
+					<input type="hidden" name="page" value="${page }">
+					<input type="submit" value="댓글삭제">
+				</form>
+	
+				</c:if>
 				</div>
 			</div>
 
@@ -134,9 +154,9 @@ var getout = <%=chk %>
 			<input type="hidden" name="page" value="${page }">
 			<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
 		</div>
-		<div class="ritd2" onclick="">
+		<div class="ritd2">
 			
-			<input type="submit" value="댓글">
+			<input type="submit" value="등록">
 		</div>
 	</div>
 	</form>

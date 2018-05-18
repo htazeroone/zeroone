@@ -7,30 +7,19 @@ import model.Action;
 import model.ActionData;
 import model.DAO;
 
-
-public class Detail implements Action {
+public class Test implements Action{
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
+	
 		ActionData data = new ActionData();
-		
 		DAO dao = new DAO();
 		
-		int id = Integer.parseInt(request.getParameter("id"));
-
-		if(request.getParameter("cnt")==null) {
-			dao.qncnt(id);
-		}
-
-		request.setAttribute("page", request.getParameter("page"));
-		request.setAttribute("data", dao.qdetail(id));
-		request.setAttribute("reply", dao.replylist(id));
-		request.setAttribute("main", "info/detail.jsp");
+		request.setAttribute("data",dao.replylist(1));
+		request.setAttribute("main", "test.jsp");
 		
 		dao.close();
-		
 		return data;
 	}
-
 }

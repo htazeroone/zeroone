@@ -57,7 +57,7 @@ public class Fcontroler extends HttpServlet {
 				num="10";
 				request.getSession().setAttribute("num", num);
 			}
-			
+		
 			request.getSession().setAttribute("num", num);			
 		}
 

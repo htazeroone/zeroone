@@ -24,7 +24,7 @@ public class Rec implements Action{
 		
 		
 		data.setRedirect(true);
-		data.setPath("Detail?id="+id+"&page="+request.getParameter("page")+"&rec=gorec");
+		data.setPath("Detail?id="+id+"&page="+request.getParameter("page")+"&cnt=no");
 
 		
 		dao.close();

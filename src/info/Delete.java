@@ -25,6 +25,7 @@ public class Delete implements Action{
 		
 		
 		data.setPath("List?kind="+kind);
+		
 		data.setRedirect(true);
 		
 		dao.close();

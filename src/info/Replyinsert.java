@@ -27,7 +27,7 @@ public class Replyinsert implements Action{
 		
 		dao.replyinsert(vo);
 		data.setRedirect(true);
-		data.setPath("Detail?id="+vo.getId()+"&page="+page);
+		data.setPath("Detail?id="+vo.getId()+"&page="+page+"&cnt=no");
 		
 		dao.close();
 		
