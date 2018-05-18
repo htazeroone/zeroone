@@ -491,6 +491,53 @@ public class DAO {
 		System.out.println("eachOXNum() 종료");
 		return res;
 	}
+	
+	
+	//학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분 
+	public boolean isDataInNote(String pid) {
+		sql = "select * from study_note where pid = ?";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			rs = ptmt.executeQuery();
+			System.out.println("pid:"+pid);
+			
+			if(rs.next()) {
+				System.out.println("study_note에 데이터가 있네요");
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+	
+
+	//학습노트 왼쪽 메뉴 -- 사용자가 학습노트에 저장해둔 챕터 번호와 챕터명을 리턴
+	public ArrayList<VO> getChidList(String pid){
+		ArrayList<VO> chList = new ArrayList();
+		
+		sql = "select * from chname where chid in (select distinct chid from study_note where pid = ?)";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			rs = ptmt.executeQuery();
+			System.out.println("pid:"+pid);
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setChid(rs.getInt("chid"));
+				vo.setChname(rs.getString("chname"));
+				chList.add(vo);
+			}
+			return chList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 
 //찬 qna랑 notice 리스트 종류랑 스타트와 엔드
