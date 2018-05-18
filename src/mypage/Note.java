@@ -21,23 +21,36 @@ public class Note implements Action {
 		VO vo = new VO();
 		ArrayList<VO> chList = null;
 		int chid = 0;
-
+		//qNum : 사용자가 선택한 챕터의 문제개수 
+		int qNum = 0;
+		//읽어올 문제 데이터들
+		ArrayList<VO> qInfo = null;
 		
 		//사용자의 study_note에 데이터가 있나 없나  구분 
 		if(dao.isDataInNote(pid)) { //--학습노트에 데이터가 있다면
 			//pid의 study_note에 있는 chid 들을 가져와 메뉴를 뿌려준다
-			System.out.println("dao.getChidList(pid) 수행");
 			chList = dao.getChidList(pid);
-		
+			System.out.println("dao.getChidList(pid) 수행");
+			
+			
 			//메뉴에서 챕터를 클릭하지 않았다면, 
 			if(null==request.getParameter("chid")) {
-				//가장 최신 chList의 문제들을 가져온다 
-				System.out.println(chList.get(0).getChid());
-			}else { //메뉴에서 챕터를 클릭했다면,
+				//가장 최신 챕터의 문제 수 
+				System.out.println("가장 최신 챕터id: "+chList.get(0).getChid());
+				qNum = dao.qNum(chList.get(0).getChid(), pid);
+				
+				//가장 최신 챕터의 문제들을 읽어온다
+				qInfo = dao.qInfo(chList.get(0).getChid(), pid);
+				
+			}else { //메뉴에서 챕터를 클릭했다면, 챕터의 문제들을 읽어온다 
 				chid = Integer.parseInt(request.getParameter("chid"));
-				System.out.println("chid:"+chid);
+				qNum = dao.qNum(chid, pid);
+				System.out.println("사용자가 클릭한 챕터번호:"+chid);
+				qInfo = dao.qInfo(chid, pid);
 			}
-			
+			request.setAttribute("chList", chList);
+			request.setAttribute("chid", chid);
+			request.setAttribute("qInfo", qInfo);
 			request.setAttribute("menu", "studymenu.jsp");
 			request.setAttribute("main1", "mypage/studypage.jsp");
 			
@@ -46,8 +59,8 @@ public class Note implements Action {
 			request.setAttribute("main", "mypage/studypage_empty.jsp");
 		}
 
-		request.setAttribute("chList", chList);
-		request.setAttribute("studytest", "studytest");
+		dao.close();
+		
 
 	/*	request.setAttribute("main2", "mypage/answerpage.jsp");*/
 
