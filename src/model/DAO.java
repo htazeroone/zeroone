@@ -654,6 +654,55 @@ public class DAO {
 		}
 		return null;
 	}
+	
+	//학습노트 -- 사용자가 학습노트에 저장해둔 챕터 마다의 문제 개수들 리턴
+		public int qNum(int chid, String pid) {
+			sql = "select count(*) count from study_note where chid=? and pid=?";
+			try {
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, chid);
+				ptmt.setString(2, pid);
+				rs = ptmt.executeQuery();
+				if(rs.next()) {
+					return rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return 0;
+		}
+
+		//지아 - 학습노트 -- 사용자가 선택한 챕터의 문제들의 정보 조회(문제 텍스트, 답 등등)
+		public ArrayList<VO> qInfo(int chid, String pid){
+			ArrayList<VO> res = new ArrayList();
+			sql = "select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ?)";
+			try {
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, chid);
+				ptmt.setString(2, pid);
+				rs = ptmt.executeQuery();
+				while(rs.next()) {
+					VO vo = new VO();
+					vo.setId(rs.getInt("id"));
+					vo.setQuestion(rs.getString("question"));
+					//정답률 계산용: total, correction
+					vo.setTotal(rs.getInt("total"));
+					vo.setCorrection(rs.getInt("correction"));
+					vo.setS1(rs.getString("s1"));
+					vo.setS2(rs.getString("s2"));
+					vo.setS3(rs.getString("s3"));
+					vo.setS4(rs.getString("s4"));
+					vo.setS5(rs.getString("s5"));
+					res.add(vo);
+				}
+				return res;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
 
 
 //찬 qna랑 notice 리스트 종류랑 스타트와 엔드
