@@ -151,6 +151,7 @@ var getout = <%=chk %>
 		
 		</c:if>
 		<div class="td">
+				<input type="button" value="추천" onclick="location.href='Rec?id=${data.id}&page=${page }'">
 				<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
 				<a href="Cominsert?id=${data.id }&page=${page}">답글</a>
 		</div>

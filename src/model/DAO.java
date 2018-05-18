@@ -836,6 +836,36 @@ public class DAO {
 			return arr;
 		}
 
+		//ㅊ 추천수
+		public void qnrec(int id) {
+			
+			try {
+				sql="update info set rec=rec+1 where id = ?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+	
+		}
+		
+		//ㅊ 조회수
+		public void qncnt(int id) {
+			
+			try {
+				sql="update info set cnt=cnt+1 where id = ?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+	
+		}
+		
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}
