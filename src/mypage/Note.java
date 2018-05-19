@@ -25,29 +25,55 @@ public class Note implements Action {
 		int qNum = 0;
 		//읽어올 문제 데이터들
 		ArrayList<VO> qInfo = null;
-		
+		//사용자가 입력한답 뭉탱이
+		ArrayList<String> input = new ArrayList<String>();
+		//정답 확인 결과 
+		ArrayList<VO> res = null;
 		//사용자의 study_note에 데이터가 있나 없나  구분 
 		if(dao.isDataInNote(pid)) { //--학습노트에 데이터가 있다면
 			//pid의 study_note에 있는 chid 들을 가져와 메뉴를 뿌려준다
-			chList = dao.getChidList(pid);
-			System.out.println("dao.getChidList(pid) 수행");
-			
+			chList = dao.getChidList(pid);		
 			
 			//메뉴에서 챕터를 클릭하지 않았다면, 
 			if(null==request.getParameter("chid")) {
-				//가장 최신 챕터의 문제 수 
-				System.out.println("가장 최신 챕터id: "+chList.get(0).getChid());
-				qNum = dao.qNum(chList.get(0).getChid(), pid);
+				System.out.println("가장 최신 챕터id: "+chList.get(0).getChid());				
+				//chid: 현재 챕터 번호를 가장 최신 챕터번호로 지정 
+				chid = chList.get(0).getChid();
 				
-				//가장 최신 챕터의 문제들을 읽어온다
-				qInfo = dao.qInfo(chList.get(0).getChid(), pid);
-				
-			}else { //메뉴에서 챕터를 클릭했다면, 챕터의 문제들을 읽어온다 
+			}else { //메뉴에서 챕터를 클릭했다면(또는 현재 챕터 값이 지정되어 있다면), 챕터의 문제들을 읽어온다 
+				//chid: 클릭한 챕터번호를 저장 
 				chid = Integer.parseInt(request.getParameter("chid"));
-				qNum = dao.qNum(chid, pid);
 				System.out.println("사용자가 클릭한 챕터번호:"+chid);
-				qInfo = dao.qInfo(chid, pid);
 			}
+			System.out.println("chid:"+chid);
+			//qNum: 챕터의 문제 수
+			qNum = dao.qNum(chid, pid);
+			System.out.println("qNum:"+qNum);
+			//qInfo: 챕터의 문제 데이터 모두
+			qInfo = dao.qInfo(chid, pid);
+
+			System.out.println("test:"+Integer.toString(qInfo.get(0).getId()));
+			
+			//사용자가 정답을 찍어서 보낸경우, (파라미터 이름은 문제 번호, 값은 선택지번호)
+			if(null!=request.getParameter(Integer.toString(qInfo.get(0).getId()))){		
+				for(int i=0; i<qNum; i++) {
+					input.add(request.getParameter(Integer.toString(qInfo.get(i).getId())));
+					System.out.println("input답:"+input.get(i));
+				}
+				
+				//idList : 답을 확인 할 '문제번호 리스트'를 생성
+				ArrayList<Integer> idList = new ArrayList();
+				for(int i=0; i<qNum; i++) {
+					idList.add(qInfo.get(i).getId());
+					System.out.println("답 맞춰볼 문제번호 리스트:"+idList.get(i));
+				}
+				
+				//quizRes : 문제 번호와 사용자 입력 답을 입력하여 정오답 결과 및 정답 리턴
+				//res : id, ox, answer, input 을 가지고있다 
+				res = dao.quizRes(pid, chid, idList, input, qNum);			
+				System.out.println(res);
+			}
+			request.setAttribute("res", res);
 			request.setAttribute("chList", chList);
 			request.setAttribute("chid", chid);
 			request.setAttribute("qInfo", qInfo);

@@ -39,7 +39,8 @@ function allChk(){
 <input type="hidden" value="${chid }" name="chid">
 	<div class="part">
 	<c:forEach var="q" items="${qInfo }">
-		<div>${q.id }.${q.question }정답률:${q.correction/q.total }</div>
+		<div>${q.id }.${q.question }<br>
+		정답률:${q.correction/q.total*100 }%</div>
 		<div><input type="radio" name="${q.id }" value="1"> ${q.s1 }</div>
 		<div><input type="radio" name="${q.id }" value="2"> ${q.s2 }</div>
 		<div><input type="radio" name="${q.id }" value="3"> ${q.s3 }</div>
@@ -53,10 +54,29 @@ function allChk(){
 
 
 
-
+<form action="Note" method="post">
 <div class="part">
-정답들 
-</div>
 
+<!-- res : id, ox, answer, input 을 가지고있다   -->
+	<c:if test="${!empty res }">
+		<div> <번호> <체크> <정오답 결과> <정답> <내가 틀렸던 답> </div>
+		<c:forEach var="a" items="${res }">
+			<div>${a.id }<input type="radio" name="aa${a.id }" value="1"> 
+			<c:choose>
+				<c:when test="${a.ox eq '1' }">
+				O
+				</c:when>
+				<c:otherwise>
+				X
+				</c:otherwise>
+			</c:choose>
+			${a.answer } ${a.input }			
+			</div>
+		</c:forEach>
+		<div>체크한 문제를 학습 노트에 저장할 수 있습니다.</div>
+		<div><input type="submit" value="학습 노트에 저장"></div>
+	</c:if>
+</div>
+</form>	
 </body>
 </html>

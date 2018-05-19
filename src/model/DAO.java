@@ -703,6 +703,69 @@ public class DAO {
 			}
 			return null;
 		}
+		
+		//지아 - 학습노트 -- 사용자 입력답에 대한 정답과 OX결과 리턴 +  study_note에 맞춘 문제 update
+		public ArrayList<VO> quizRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qNum){
+			ArrayList<VO> res = new ArrayList();
+			ArrayList<String> ox = new ArrayList();
+			try {
+				//사용자 입력답에 대한 정답 및 OX여부 조회 
+				for(int i=0; i<qNum; i++) {
+					sql = "select * from quiz where chid=? and id=?";
+					ptmt = con.prepareStatement(sql);
+					ptmt.setInt(1, chid);
+					ptmt.setInt(2, idList.get(i));
+					rs = ptmt.executeQuery();
+					
+					if(rs.next()) {
+						//id, answer, ox를 담는다
+						VO vo = new VO();
+						//조회한 정답과 사용자 선택답이 같다면 OX를 1로 저장 
+						System.out.println("정답:"+rs.getString("answer")+" input"+input.get(i));
+						if(rs.getString("answer").equals(input.get(i))) {
+							ox.add("1");
+							vo.setOx(1);
+						}else {
+							ox.add("0");
+							vo.setOx(0);
+						}
+						vo.setId(rs.getInt("id"));
+						vo.setAnswer(rs.getString("answer"));	
+						
+						//내가 틀렸던 input 조회 
+						sql = "select input from study_note where pid=? and chid=? and id=?";
+						ptmt = con.prepareStatement(sql);
+						ptmt.setString(1, pid);
+						ptmt.setInt(2, chid);
+						ptmt.setInt(3, idList.get(i));
+						rs = ptmt.executeQuery();
+						rs.next();
+						vo.setInput(rs.getString("input"));
+						
+						res.add(vo);
+					}
+				}
+				
+				//사용자 입력답안과 OX결과를 study_note에 저장 
+				for(int i=0; i<qNum; i++) {
+					sql = "update study_note set input =?, ox=? where pid=? and chid=? and id=?";
+					ptmt = con.prepareStatement(sql);
+					ptmt.setString(1, input.get(i));
+					ptmt.setString(2, ox.get(i));
+					ptmt.setString(3, pid);
+					ptmt.setInt(4, chid);
+					ptmt.setInt(5, idList.get(i));
+					ptmt.executeUpdate();
+				}
+
+				return res;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			return null;
+		}
 
 
 //찬 qna랑 notice 리스트 종류랑 스타트와 엔드

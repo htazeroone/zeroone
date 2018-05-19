@@ -15,7 +15,7 @@
 	<form action="Note" method="post">
 		<input type="hidden" value="${ch.chid }" name="chid">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-		<input type="submit" value="${ch.chname }" name="${ch.chid }">
+		<input type="submit" value="${ch.chname }">
 	</form>
 </c:forEach>
 
