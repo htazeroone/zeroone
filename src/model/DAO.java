@@ -609,17 +609,16 @@ public class DAO {
 	}
 	
 	
-	//지아 -학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분 
+	//지아 - 학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분 
 	public boolean isDataInNote(String pid) {
 		sql = "select * from study_note where pid = ?";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			rs = ptmt.executeQuery();
-			System.out.println("pid:"+pid);
 			
 			if(rs.next()) {
-				System.out.println("study_note에 데이터가 있네요");
+				System.out.println("isDataInNote(): study_note에 데이터가 있네요");
 				return true;
 			}
 		} catch (SQLException e) {
@@ -631,16 +630,15 @@ public class DAO {
 	}
 	
 
-	//지아 -학습노트 왼쪽 메뉴 -- 사용자가 학습노트에 저장해둔 챕터 번호와 챕터명을 리턴
+	//지아 - 학습노트 왼쪽 메뉴 -- 사용자가 학습노트에 저장해둔 챕터 번호와 챕터명을 리턴
 	public ArrayList<VO> getChidList(String pid){
 		ArrayList<VO> chList = new ArrayList();
 		
-		sql = "select * from chname where chid in (select distinct chid from study_note where pid = ?)";
+		sql = "select * from chname where chid in (select distinct chid from study_note where pid = ?) order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			rs = ptmt.executeQuery();
-			System.out.println("pid:"+pid);
 			while(rs.next()) {
 				VO vo = new VO();
 				vo.setChid(rs.getInt("chid"));
@@ -654,139 +652,144 @@ public class DAO {
 		}
 		return null;
 	}
+
+	//지아 - 학습노트 -- 사용자가 학습노트에 저장해둔 챕터 마다의 총 문제 수 들 리턴
+	public int qNum(int chid, String pid) {
+		sql = "select count(*) count from study_note where chid=? and pid=?";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, chid);
+			ptmt.setString(2, pid);
+			rs = ptmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	//지아 - 학습노트 -- 사용자가 선택한 챕터의 문제들의 정보 조회(문제 텍스트, 답 등등)
+	public ArrayList<VO> qInfo(int chid, String pid, int start, int end){
+		ArrayList<VO> res = new ArrayList();
+
+		sql = "select * from (select rownum rnum, tt.* from " + 
+				"(select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? ) order by id) tt) " + 
+				"where rnum>=? and rnum<= ?";
+		
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, chid);
+			ptmt.setString(2, pid);
+			ptmt.setInt(3, start);
+			ptmt.setInt(4, end);
+			rs = ptmt.executeQuery();
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setId(rs.getInt("id"));
+				vo.setQuestion(rs.getString("question"));
+				//정답률 계산용: total, correction
+				vo.setTotal(rs.getInt("total"));
+				vo.setCorrection(rs.getInt("correction"));
+				vo.setS1(rs.getString("s1"));
+				vo.setS2(rs.getString("s2"));
+				vo.setS3(rs.getString("s3"));
+				vo.setS4(rs.getString("s4"));
+				vo.setS5(rs.getString("s5"));
+				res.add(vo);
+			}
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
-	//지아 - 학습노트 -- 사용자가 학습노트에 저장해둔 챕터 마다의 문제 개수들 리턴
-		public int qNum(int chid, String pid) {
-			sql = "select count(*) count from study_note where chid=? and pid=?";
-			try {
+	//지아 - 학습노트 -- 사용자 입력답에 대한 정답과 OX결과 리턴 +  study_note에 맞춘 문제 update
+	public ArrayList<VO> quizRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit){
+		ArrayList<VO> res = new ArrayList();
+		ArrayList<String> ox = new ArrayList();
+		try {
+			//사용자 입력답에 대한 정답 및 OX여부 조회 
+			for(int i=0; i<qLimit; i++) {
+				sql = "select * from quiz where chid=? and id=?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, chid);
-				ptmt.setString(2, pid);
+				ptmt.setInt(2, idList.get(i));
 				rs = ptmt.executeQuery();
-				if(rs.next()) {
-					return rs.getInt(1);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return 0;
-		}
-
-
-		//지아 - 학습노트 -- 사용자가 선택한 챕터의 문제들의 정보 조회(문제 텍스트, 답 등등)
-		public ArrayList<VO> qInfo(int chid, String pid){
-			ArrayList<VO> res = new ArrayList();
-			sql = "select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? ) order by id";
-			try {
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, chid);
-				ptmt.setString(2, pid);
-				rs = ptmt.executeQuery();
-				while(rs.next()) {
-					VO vo = new VO();
-					vo.setId(rs.getInt("id"));
-					vo.setQuestion(rs.getString("question"));
-					//정답률 계산용: total, correction
-					vo.setTotal(rs.getInt("total"));
-					vo.setCorrection(rs.getInt("correction"));
-					vo.setS1(rs.getString("s1"));
-					vo.setS2(rs.getString("s2"));
-					vo.setS3(rs.getString("s3"));
-					vo.setS4(rs.getString("s4"));
-					vo.setS5(rs.getString("s5"));
-					res.add(vo);
-				}
-				return res;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-		
-		//지아 - 학습노트 -- 사용자 입력답에 대한 정답과 OX결과 리턴 +  study_note에 맞춘 문제 update
-		public ArrayList<VO> quizRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qNum){
-			ArrayList<VO> res = new ArrayList();
-			ArrayList<String> ox = new ArrayList();
-			try {
-				//사용자 입력답에 대한 정답 및 OX여부 조회 
-				for(int i=0; i<qNum; i++) {
-					sql = "select * from quiz where chid=? and id=?";
-					ptmt = con.prepareStatement(sql);
-					ptmt.setInt(1, chid);
-					ptmt.setInt(2, idList.get(i));
-					rs = ptmt.executeQuery();
-					
-					if(rs.next()) {
-						//id, answer, ox를 담는다
-						VO vo = new VO();
-						//조회한 정답과 사용자 선택답이 같다면 OX를 1로 저장 
-						System.out.println("정답:"+rs.getString("answer")+" input"+input.get(i));
-						if(rs.getString("answer").equals(input.get(i))) {
-							ox.add("1");
-							vo.setOx(1);
-						}else {
-							ox.add("0");
-							vo.setOx(0);
-						}
-						vo.setId(rs.getInt("id"));
-						vo.setAnswer(rs.getString("answer"));	
-						
-						//내가 틀렸던 input 조회 
-						sql = "select input from study_note where pid=? and chid=? and id=?";
-						ptmt = con.prepareStatement(sql);
-						ptmt.setString(1, pid);
-						ptmt.setInt(2, chid);
-						ptmt.setInt(3, idList.get(i));
-						rs = ptmt.executeQuery();
-						rs.next();
-						vo.setInput(rs.getString("input"));
-						
-						res.add(vo);
-					}
-				}
 				
-				//사용자 입력답안과 OX결과를 study_note에 저장 
-				for(int i=0; i<qNum; i++) {
-					sql = "update study_note set input =?, ox=? where pid=? and chid=? and id=?";
-					ptmt = con.prepareStatement(sql);
-					ptmt.setString(1, input.get(i));
-					ptmt.setString(2, ox.get(i));
-					ptmt.setString(3, pid);
-					ptmt.setInt(4, chid);
-					ptmt.setInt(5, idList.get(i));
-					ptmt.executeUpdate();
-				}
-
-				return res;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-			return null;
-		}
-		
-		//지아 - 학습노트 -- 선택한 문제만 학습노트에서 삭제 
-		public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize) {
-			for(int i=0; i<deleteIdSize; i++) {
-				sql = "delete from study_note where pid=? and chid=? and id=?";
-				try {
+				if(rs.next()) {
+					//id, answer, ox를 담는다
+					VO vo = new VO();
+					//조회한 정답과 사용자 선택답이 같다면 OX를 1로 저장 
+					System.out.println("정답:"+rs.getString("answer")+" input"+input.get(i));
+					if(rs.getString("answer").equals(input.get(i))) {
+						ox.add("1");
+						vo.setOx(1);
+					}else {
+						ox.add("0");
+						vo.setOx(0);
+					}
+					vo.setId(rs.getInt("id"));
+					vo.setAnswer(rs.getString("answer"));	
+					
+					//내가 틀렸던 input 조회 
+					sql = "select input from study_note where pid=? and chid=? and id=?";
 					ptmt = con.prepareStatement(sql);
 					ptmt.setString(1, pid);
 					ptmt.setInt(2, chid);
-					ptmt.setInt(3, deleteId.get(i));
-					ptmt.executeQuery();
+					ptmt.setInt(3, idList.get(i));
+					rs = ptmt.executeQuery();
+					rs.next();
+					vo.setInput(rs.getString("input"));
 					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}		
+					res.add(vo);
+				}
 			}
-			System.out.println("DB에서 deleteId() 종료");
 			
+			//사용자 입력답안과 OX결과를 study_note에 저장 
+			for(int i=0; i<qLimit; i++) {
+				sql = "update study_note set input =?, ox=? where pid=? and chid=? and id=?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setString(1, input.get(i));
+				ptmt.setString(2, ox.get(i));
+				ptmt.setString(3, pid);
+				ptmt.setInt(4, chid);
+				ptmt.setInt(5, idList.get(i));
+				ptmt.executeUpdate();
+			}
+
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	
+		return null;
+	}
+	
+	//지아 - 학습노트 -- 선택한 문제만 학습노트에서 삭제 
+	public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize) {
+		for(int i=0; i<deleteIdSize; i++) {
+			sql = "delete from study_note where pid=? and chid=? and id=?";
+			try {
+				ptmt = con.prepareStatement(sql);
+				ptmt.setString(1, pid);
+				ptmt.setInt(2, chid);
+				ptmt.setInt(3, deleteId.get(i));
+				ptmt.executeQuery();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		}
+		System.out.println("DB에서 deleteId() 종료");
+		
+	}
 
 
 //찬 qna랑 notice 리스트 종류랑 스타트와 엔드
