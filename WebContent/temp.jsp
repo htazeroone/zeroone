@@ -22,7 +22,7 @@ background-color: yellow;
 #smenu{
 width: 20%;
 height: 100%;
-margin-top : 8%;
+margin-top : 12%;
 position: absolute;
 background-color: blue;
 
@@ -32,7 +32,7 @@ background-color: blue;
 width: 40%;
 height: 100%;
 margin-left : 20%;
-margin-top : 8%;
+margin-top : 12%;
 position: absolute;
 background-color: green;
 }
@@ -41,7 +41,7 @@ background-color: green;
 width: 40%;
 height: 100%;
 margin-left : 60%;
-margin-top : 8%;
+margin-top : 12%;
 position: absolute;
 background-color: skyblue;
 }
@@ -56,7 +56,7 @@ margin-top: 10px;
 width: 100%;
 height: 100%;
 
-margin-top : 8%;
+margin-top : 12%;
 position: absolute;
 background-color: green;
 }
