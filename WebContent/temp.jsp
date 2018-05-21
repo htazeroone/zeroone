@@ -24,7 +24,7 @@ width: 20%;
 height: 100%;
 margin-top : 12%;
 position: absolute;
-background-color: blue;
+background-color: pink;
 
 }
 
