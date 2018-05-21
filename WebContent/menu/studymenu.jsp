@@ -8,15 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-학습노트 메뉴 페이지당
 
 <!-- for문  -->
 <c:forEach var="ch" items="${chList }">
-	<form action="Note" method="post">
+<%-- 	<form action="Note" method="post">
 		<input type="hidden" value="${ch.chid }" name="chid">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="submit" value="${ch.chname }">
-	</form>
+	</form> --%>
+	<a href="Note?chid=${ch.chid }">${ch.chname }</a><br>
 </c:forEach>
 
 </body>
