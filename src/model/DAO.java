@@ -655,7 +655,7 @@ public class DAO {
 		return null;
 	}
 	
-	//학습노트 -- 사용자가 학습노트에 저장해둔 챕터 마다의 문제 개수들 리턴
+	//지아 - 학습노트 -- 사용자가 학습노트에 저장해둔 챕터 마다의 문제 개수들 리턴
 		public int qNum(int chid, String pid) {
 			sql = "select count(*) count from study_note where chid=? and pid=?";
 			try {
@@ -673,10 +673,11 @@ public class DAO {
 			return 0;
 		}
 
+
 		//지아 - 학습노트 -- 사용자가 선택한 챕터의 문제들의 정보 조회(문제 텍스트, 답 등등)
 		public ArrayList<VO> qInfo(int chid, String pid){
 			ArrayList<VO> res = new ArrayList();
-			sql = "select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ?)";
+			sql = "select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? ) order by id";
 			try {
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, chid);
@@ -765,6 +766,26 @@ public class DAO {
 			}
 		
 			return null;
+		}
+		
+		//지아 - 학습노트 -- 선택한 문제만 학습노트에서 삭제 
+		public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize) {
+			for(int i=0; i<deleteIdSize; i++) {
+				sql = "delete from study_note where pid=? and chid=? and id=?";
+				try {
+					ptmt = con.prepareStatement(sql);
+					ptmt.setString(1, pid);
+					ptmt.setInt(2, chid);
+					ptmt.setInt(3, deleteId.get(i));
+					ptmt.executeQuery();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
+			}
+			System.out.println("DB에서 deleteId() 종료");
+			
 		}
 
 
