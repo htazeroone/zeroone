@@ -113,7 +113,7 @@ public class Note implements Action {
 			System.out.println("qInfo.size():"+qInfo.size());
 			
 			if(qNum==0) {
-				String url = "../mypage/Note?pid="+pid;
+				String url = "../mypage/Note";
 				String msg = "해당 Chapter의 모든 문제를 삭제했습니다.";
 				request.setAttribute("msg", msg);
 				request.setAttribute("url", url);			
