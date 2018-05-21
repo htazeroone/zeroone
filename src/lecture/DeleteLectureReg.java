@@ -15,18 +15,16 @@ public class DeleteLectureReg implements Action{
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		String delSubject = request.getParameter("subject");
-		
-	
+		System.out.println(delSubject);
 		DAO dao = new DAO();
 		dao.deleteSubject(delSubject);
-		ArrayList<String> subjects = dao.getSubjects();
+		ArrayList<String> subjects = dao.getSubjects();		
+		
 		
 		dao.close();
-	
-		
-		System.out.println("이게 지금 되는겁니까? ");
+
 		request.setAttribute("msg", "과목이 삭제됐습니다.");
-		request.setAttribute("url", "List="+subjects.get(0));
+		request.setAttribute("url", "List?subjects="+subjects.get(0));
 		request.setAttribute("main", "lecture/alert.jsp");
 		return new ActionData();
 	}

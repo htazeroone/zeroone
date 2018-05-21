@@ -1,3 +1,4 @@
+<%@page import="model.DAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,8 +9,10 @@
 		document.frm.submit();
 	}
 	
-	function findLecture() {
-		document.sch.submit();
+	function findLec() {
+		var sch = document.sch
+		sch
+		submit();
 	}
 </script>
 
@@ -19,7 +22,6 @@
 			${subject}게시판
 		</td>
 	</tr>
-
 	<tr>
 		<td>말머리</td>
 		<td>
@@ -40,20 +42,13 @@
 				
 			</form>
 		</td>
-		<!-- 
+		 
 		<td colspan="3" align="right">
-			<form name="sch" action="?">
-				<select>
-					<option value="0">제목</option>
-					<option value="1">내용</option>
-					<option value="2">제목+내용</option>
-					<option value="3">글쓴이</option>
-				</select>
-				
+			<form name="sch" action="List">
 				<input type="text" name="find">
-				<input type="submit" value="찾기" onclick="findLecture()">
+				<input type="submit" value="검색" onclick="findLec()">
 			</form>
-		</td> -->
+		</td>
 	</tr>
 	<tr>
 		<th>번호</th><th>제목</th><th>글쓴이</th><th>등록일</th><th>조회수</th>
@@ -66,11 +61,12 @@
 
 <c:otherwise>
 	<c:forEach var="i" items="${data }" varStatus="no">
+		
 		<tr>
 			<td>${no.index + start }</td>
-			
-			<td>			
-				<a href="Detail?id=${i.id }&page=${page}&subject=${subject}">${i.title}</a>
+			<td>
+				
+				<a href="Detail?id=${i.id}&page=${page}&subject=${subject}">${i.title}</a>
 			</td>
 			
 			<td>${i.pname }</td>

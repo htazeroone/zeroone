@@ -30,7 +30,7 @@ public class List implements Action {
 		// head가 결정됐고 head가 0이라면 --> 총 글의 수를 알아야 함.
 		// head가 결정됐고 head가 0이 아니라면 --> 총 글의 수가 아니라 챕터별 글의 수를 알아야 함.
 		
-		// 해당의 경우에 따른 글의 총 개수가 몇개인지를 알아낸다. (total)
+		// 해당의 경우에 따른 글의 총 개수가 몇개인지를 알아낸다. total
 		int total = dao.totalCnt_Lecture(subject, head);
 		int totalPage = total/limit;
 		

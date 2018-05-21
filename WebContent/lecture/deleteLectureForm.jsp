@@ -16,7 +16,7 @@
 	</tr>
 	<tr>
 		<td colspan="2" align="right">
-			<a href="DeleteLectureReg">과목 삭제하기</a>
+			<input type="submit" value="선택과목 삭제">
 		</td>
 	</tr>
 </table>
