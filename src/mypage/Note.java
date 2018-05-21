@@ -203,7 +203,7 @@ public class Note implements Action {
 			
 		}else { //--학습노트에 데이터가 없다면
 			System.out.println("note에 데이터가 없어서 빈 화면 출력");
-			request.setAttribute("main1", "mypage/studypage_empty.jsp");
+			request.setAttribute("main", "mypage/studypage_empty.jsp");
 		}
 
 		dao.close();
