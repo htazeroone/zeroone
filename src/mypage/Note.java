@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Action;
 import model.ActionData;
@@ -14,8 +15,15 @@ public class Note implements Action {
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
-		String pid = (String)request.getParameter("pid");
-		System.out.println("pid:"+pid);
+		HttpSession session=request.getSession();
+		
+		/*String pid = (String)request.getParameter("pid");*/
+		String pid ="";
+		if(null!=session.getAttribute("pid")) {
+			pid = (String)session.getAttribute("pid");
+		}
+
+		System.out.println("Note 진입 ! pid:"+pid);
 
 		DAO dao = new DAO();
 		VO vo = new VO();
@@ -115,6 +123,7 @@ public class Note implements Action {
 			if(qNum==0) {
 				String url = "../mypage/Note";
 				String msg = "해당 Chapter의 모든 문제를 삭제했습니다.";
+
 				request.setAttribute("msg", msg);
 				request.setAttribute("url", url);			
 				request.setAttribute("main", "mypage/alert.jsp");
@@ -123,8 +132,10 @@ public class Note implements Action {
 				qInfo = dao.qInfo(chid, pid, start, end);
 	
 				if(page==totalPage && qInfo.size()==0) {
-					String url = "../mypage/Note?pid="+pid;
+					//String url = "../mypage/Note?pid="+pid;
+					String url = "../mypage/Note";
 					String msg = "해당 Chapter의 학습을 마치셨습니다.";
+					request.setAttribute("pid", pid);
 					request.setAttribute("msg", msg);
 					request.setAttribute("url", url);
 					request.setAttribute("main", "mypage/alert.jsp");
@@ -134,7 +145,7 @@ public class Note implements Action {
 				}
 			}
 			
-			System.out.println("여긴 타냐11");
+
 			//사용자가 정답을 찍어서 보낸경우, (파라미터 이름은 문제 번호, 값은 선택지번호)
 			if(qInfo.size()!=0 && null!=request.getParameter(Integer.toString(qInfo.get(0).getId()))){		
 				System.out.println("정답 확인을 시작해볼까...");

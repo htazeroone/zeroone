@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Action;
 import model.ActionData;
@@ -14,8 +15,9 @@ public class Achieve implements Action {
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
-
-		String pid = (String)request.getParameter("pid");
+		HttpSession session=request.getSession();
+		/*String pid = (String)request.getParameter("pid");*/
+		String pid = (String)session.getAttribute("pid");
 		System.out.println("Achieve 진입 성공! pid:"+pid);
 		DAO dao = new DAO();
 		VO vo = new VO();

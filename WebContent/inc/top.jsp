@@ -98,15 +98,18 @@ $(document).ready(function(){
 		%>
 		<%=session.getAttribute("pname") %>님 오늘도 즐코!<br>
 		<a href="../login/Logout">로그아웃</a><br>
-		<!-- <a href="../mypage/Achieve" >학습성취도</a><br> -->
-		<form action="../mypage/Achieve" method="post">
+
+<%-- 		<form action="../mypage/Achieve" method="post">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="submit" value="학습성취도">
 		</form>
 		<form action="../mypage/Note" method="post">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-		<input type="submit" value="학습노트">
-		</form>
+		<input type="submit" value="학습노트"> 
+		</form>--%>
+		<a href="../mypage/Achieve" >학습성취도</a><br>
+		<a href="../mypage/Note" >학습노트</a><br>
+		
 		<a href="../mypage/ModifyPwForm">비밀번호변경</a><br>
 		<a href="../mypage/OutForm">회원탈퇴</a><br>
 		<%
