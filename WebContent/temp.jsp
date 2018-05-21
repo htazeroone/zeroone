@@ -103,10 +103,12 @@ background-color: green;
 		<div id="smain1">
 			<jsp:include page="${main1 }"/>
 		</div>
-		
+<!-- 지아 주석 :  학습 노트의 경우 메인페이지가 하나만 필요해서 수정했습니다 -->	
+		<c:if test="${main1=='mypage/studymenu.jsp' }">
 		<div id="smain2">
 			<jsp:include page="${main2 }"/>
 		</div>
+		</c:if>
 	</c:when>
 
 	<c:otherwise>
