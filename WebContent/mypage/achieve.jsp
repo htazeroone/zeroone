@@ -9,13 +9,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>학습성취도</title>
 
-<%
-/* ArrayList<String> chName = (ArrayList)request.getAttribute("chName");
-ArrayList<Double> percent = (ArrayList)request.getAttribute("percent"); */
-
-int totalChNum = (int)request.getAttribute("totalChNum");
-String test = "test";
-%>
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
@@ -25,31 +18,23 @@ String test = "test";
   var arrN = new Array();
   var arrP = new Array();
 
-window.onload=function(){
+	window.onload=function(){
 
-/* 	function console(ddd){
+	function console(ddd){
 		$("#conn").append(ddd+"<br>");
-	} */
+	}
 
-
-	/*   alert("들어오는가"); */
+	   alert("들어오는가");
 
 	  <c:forEach var="n" items="${chName}" varStatus="no">
 	  	arrN.push("${n}");
-	  	/* console(arrN[${no.index}]); */
 	  </c:forEach>
 
 	  <c:forEach var="p" items="${percent}" varStatus="no">
 	  	arrP.push("${p}");
-	  	/* console(arrP[${no.index}]); */
-	  /* 	obj[key] = arrN[${no.index}];
-	  	obj[value] = Number(arrP[${no.index}]);
-	  	console(obj['1단원']); */
 	  </c:forEach>
 
-
   };
-
 
   function drawStuff() {
     var data = new google.visualization.arrayToDataTable([
