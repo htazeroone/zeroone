@@ -87,10 +87,9 @@ $(document).ready(function(){
 </td>
 
 <td>
-<a href="../info/Qnalist">QnA</a>
+<a href="../info/Qna">QnA</a>
 <a href="../info/Notice">Notice</a>
 <a href="../info/About">About us</a>
-<a href="../info/Test">test</a>
 </td>
 
 <td>
