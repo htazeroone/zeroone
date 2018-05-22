@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/form.css" />
 <title>Insert title here</title>
 
 <script type="text/javascript">
@@ -35,22 +36,17 @@
 
 </head>
 <body>
+  <div class="site__container">
+<p class="text--center">* 비밀번호는 영대소문자, 숫자조합으로 7자 이상 20자 이하입니다<br>
+회원 탈퇴를 위해 기존비밀번호를 입력해주세요.</p>
+    <div class="grid__container">
 
-<div>
-* 비밀번호는 영대소문자, 숫자조합으로 7자 이상 20자 이하입니다
-</div>
 
-<form name="frm" method="post">
-<!-- 비밀번호 변경을 위해 pw와 pid을 보낸다  -->
+
+<%-- <form name="frm" method="post">
 <input type="hidden" name="pid" value="<%=session.getAttribute("pid") %>" />
 	<div>
-	회원 탈퇴를 위해 기존비밀번호를 입력해주세요.
-	</div>
-	<div>
 	기존 비밀번호 입력:<input type="password" name="oldpw" />
-	</div>
-	<div>
-	새 비밀번호를 입력해주세요.
 	</div>
 	<div>
 	새 비밀번호 입력:<input type="password" name="newpw1" />
@@ -61,6 +57,33 @@
 	<div>
 	<input type="button" onclick="pwChk()" value="비밀번호변경" />
 	</div>
-</form>
+</form> --%>
+
+<form name="frm" method="post"  class="form form--login">
+	<input type="hidden" name="pid" value="<%=session.getAttribute("pid") %>" />
+        
+         <div class="form__field">
+          <label class="fontawesome-lock" for="login__password"><span class="hidden">Password</span></label>
+          <input id="login__password" name="oldpw" type="password" class="form__input" placeholder="Password" required>
+        </div>
+
+        <div class="form__field">
+          <label class="fontawesome-lock" for="login__password"><span class="hidden">Password</span></label>
+          <input id="login__password" name="newpw1" type="password" class="form__input" placeholder="New Password" required>
+        </div>
+        
+        <div class="form__field">
+          <label class="fontawesome-lock" for="login__password"><span class="hidden">Password</span></label>
+          <input id="login__password" name="newpw2" type="password" class="form__input" placeholder="Confirm the New Password" required>
+        </div>
+
+        <div class="form__field">
+          <input type="button" onclick="pwChk()" value="비밀번호변경">
+        </div>
+		
+	</form>
+    </div>
+
+  </div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/form.css" />
 <title>Insert title here</title>
 
 
@@ -46,39 +46,43 @@
 </head>
 <body>
 
-<div>
-* 아이디는 영대소문자, 숫자 사용가능하며 7자 이상 20자 이하입니다
-</div>
+  <div class="site__container">
+  <p class="text--center">아이디 <span class="fontawesome-arrow-right"></span> 영대소문자, 숫자 사용가능하며 7자 이상 20자 이하입니다<br>
+		비밀번호 <span class="fontawesome-arrow-right"></span> 영대소문자, 숫자조합으로 7자 이상 20자 이하입니다 </p>
+    <div class="grid__container">
+	
+	<form name="frm" method="post"  class="form form--login">
+	<input type="hidden" name="pid" value="<%=session.getAttribute("pid") %>" />
+        
+        <div class="form__field">
+          <label class="fontawesome-user" for="login__username"><span class="hidden">ID</span></label>
+          <input id="login__username" name="pid" type="text" class="form__input" placeholder="ID" required>
+        </div>
+        
+         <div class="form__field">
+          <label class="fontawesome-user" for="login__username"><span class="hidden">Name</span></label>
+          <input id="login__username" name="pname" type="text" class="form__input" placeholder="Username" required>
+        </div>
+        
+         <div class="form__field">
+          <label class="fontawesome-lock" for="login__password"><span class="hidden">PW</span></label>
+          <input id="login__password" name="pw1" type="password" class="form__input" placeholder="Password" required>
+        </div>
+        
+         <div class="form__field">
+          <label class="fontawesome-lock" for="login__password"><span class="hidden">PW</span></label>
+          <input id="login__password" name="pw2" type="password" class="form__input" placeholder="Password 확인" required>
+        </div>
 
-<div>
-* 비밀번호는 영대소문자, 숫자조합으로 7자 이상 20자 이하입니다
-</div>
+        <div class="form__field">
+          <input type="button" onclick="regChk()" value="JOIN" />
+        </div>
 
-<form name="frm" method="post">
-	<table border="">
-		<tr>
-			<td>아이디</td>
-			<td><input type="text" name="pid" /></td>
-		</tr>
-		<tr>
-			<td>닉네임</td>
-			<td><input type="text" name="pname" /></td>
-		</tr>
-		<tr>
-			<td>비밀번호</td>
-			<td><input type="password" name="pw1" /></td>
-		</tr>
-		<tr>
-			<td>비밀번호확인</td>
-			<td><input type="password" name="pw2" /></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center">
-			<input type="button" onclick="regChk()" value="회원가입" />
-			</td>
-		</tr>
-	</table>
-</form>
+	</form>
 
+    </div>
+
+  </div>
+  
 </body>
 </html>
