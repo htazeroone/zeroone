@@ -23,7 +23,7 @@ public class IncorrectNote implements Action {
 			pid = (String)session.getAttribute("pid");
 		}
 
-		System.out.println("Note 진입 ! pid:"+pid);
+		System.out.println("IncorrectNote 진입 ! pid:"+pid);
 
 		DAO dao = new DAO();
 		VO vo = new VO();
@@ -87,7 +87,7 @@ public class IncorrectNote implements Action {
 			System.out.println("chid:"+chid);
 			//oxNum : 사용자가 선택한 챕터의 총 오답 수 
 			oxNum = dao.oxNum(chid, pid);
-			System.out.println("qNum 사용자가 선택한 챕터의 총 문제 수 :"+oxNum);
+			System.out.println("oxNum 사용자가 선택한 챕터의 총 문제 수 :"+oxNum);
 			//oxInfo: 챕터의 문제 데이터 
 			oxInfo = dao.oxInfo(chid, pid, start, end);
 			
@@ -142,8 +142,8 @@ public class IncorrectNote implements Action {
 					request.setAttribute("url", url);
 					request.setAttribute("main", "mypage/alert.jsp");
 				}else {
-					request.setAttribute("menu", "studymenu.jsp");
-					request.setAttribute("main1", "mypage/studypage.jsp");
+					request.setAttribute("menu", "chkmenu.jsp");
+					request.setAttribute("main1", "mypage/chkpage.jsp");
 				}
 			}
 
@@ -212,7 +212,7 @@ public class IncorrectNote implements Action {
 			request.setAttribute("res", res);
 			request.setAttribute("chList", chList);
 			request.setAttribute("chid", chid);
-			request.setAttribute("qInfo", oxInfo);
+			request.setAttribute("oxInfo", oxInfo);
 			
 		}else { //--학습노트에 데이터가 없다면
 			System.out.println("note에 데이터가 없어서 빈 화면 출력");
