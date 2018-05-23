@@ -625,7 +625,32 @@ public class DAO {
 		return res;
 	}
 
-	//지아 -학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
+	//학습성취도 -- 학습노트 테이블에서 각 챕터 마다 사용자가 푼 문제수
+	public ArrayList<VO> studyQNum(String pid){
+		//ArrayList<Integer> res = new ArrayList();
+		ArrayList<VO> res = new ArrayList<VO>();
+		sql = "select chid, count(*) count from study_note where pid=? group by chid order by chid";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			rs = ptmt.executeQuery();
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setChid(rs.getInt("chid"));
+				vo.setOx(rs.getInt("count"));
+
+				res.add(vo);
+			}
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	//학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
 	public ArrayList<VO> eachOXNum(String pid) {
 		ArrayList<VO> res = new ArrayList<VO>();
 		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
@@ -647,6 +672,53 @@ public class DAO {
 		System.out.println("eachOXNum() 종료");
 		return res;
 	}
+
+	//학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
+	public ArrayList<VO> eachONum(String pid) {
+		ArrayList<VO> res = new ArrayList<VO>();
+		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
+		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='1' group by chid order by chid";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			rs = ptmt.executeQuery();
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setChid(rs.getInt("chid"));
+				vo.setOx(rs.getInt("ox"));
+				res.add(vo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("eachONum() 종료");
+		return res;
+	}
+
+	//학습성취도 -- 지금pid의 chid마다의 ox==0인 문제 개수
+	public ArrayList<VO> eachXNum(String pid) {
+		ArrayList<VO> res = new ArrayList<VO>();
+		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
+		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='0' group by chid order by chid";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			rs = ptmt.executeQuery();
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setChid(rs.getInt("chid"));
+				vo.setOx(rs.getInt("ox"));
+				res.add(vo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("eachXNum() 종료");
+		return res;
+	}
+
 
 
 	//지아 - 학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분

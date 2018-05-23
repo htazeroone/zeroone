@@ -6,6 +6,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<style type="text/css">
+
+#barchart_values{
+	/* margin: 0; */
+	display: inline-block;
+	background-color: pink;
+	/* width: 700px; height: 500px; */
+
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>학습성취도</title>
 
@@ -14,63 +25,104 @@
   <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="../../js/jquery-ui.min.js"></script>
   <script type="text/javascript">
-  google.charts.load('current', {'packages':['bar']});
-  google.charts.setOnLoadCallback(drawStuff);
-  var arrN = new Array();
+
+  google.charts.load("current", {packages:["corechart"]});
+  google.charts.setOnLoadCallback(drawChart);
+  var arrName = new Array();
+  var arrO = new Array();
+  var arrX = new Array();
+
   var arrP = new Array();
 
-	window.onload=function(){
+ 	window.onload=function(){
 
 	function console(ddd){
 		$("#conn").append(ddd+"<br>");
 	}
 
-	   alert("들어오는가");
+	   /* alert("들어오는가"); */
 
 	  <c:forEach var="n" items="${chName}" varStatus="no">
-	  	arrN.push("${n}");
+	  	arrName.push("${n}");
 	  </c:forEach>
 
-	  <c:forEach var="p" items="${percent}" varStatus="no">
-	  	arrP.push("${p}");
+	  <c:forEach var="o" items="${resultONum}" varStatus="no">
+	  	arrO.push("${o}");
+	  </c:forEach>
+
+	  <c:forEach var="x" items="${resultXNum}" varStatus="no">
+	  	arrX.push("${x}");
 	  </c:forEach>
 
   };
+  function drawChart() {
+/* 	var data = google.visualization.arrayToDataTable([
+          ['Genre', '맞은 개수', '틀린 개수', { role: 'annotation' } ],
+          [arrName[0], Number(arrO[0]), Number(arrX[0]), ''] 
+        ]); 
+      
+	 for(var i = 1; i< ${totalChNum}; i++){
+		data.addRow([arrName[i], Number(arrO[i]),  Number(arrX[i]), '']);
+	 }  */
+	 
+	 var data = new google.visualization.DataTable(); 
+     
+	 data.addColumn('string', 'AA');
+	 data.addColumn('number', '맞은 개수');
+	 data.addColumn('number', '틀린 개수');
+	 data.addColumn('string', { role: 'annotation' });
+	 
+	 for(var i = 0; i< ${totalChNum}; i++){
+ 		 if(Number(arrO[i])==0 && Number(arrX[i])==0){
+			data.addRow([arrName[i], null,  null, '']);
+		 }else if(Number(arrO[i])==0){
+			data.addRow([arrName[i], null,  Number(arrX[i]), '']);
+			
+		 } else if(Number(arrX[i])==0){
+			data.addRow([arrName[i], Number(arrO[i]),  null, '']);
+			
+		 } else{ 
+		 	data.addRow([arrName[i], Number(arrO[i]),  Number(arrX[i]), '']);
+		 }
+	 } 		
+      var view = new google.visualization.DataView(data);
 
-  function drawStuff() {
-    var data = new google.visualization.arrayToDataTable([
-      ['Chapter', 'Correction Percentage'],
-      [arrN[0], Number(arrP[0])],
+      view.setColumns([0, 
+          { calc: "stringify",
+            sourceColumn: 1,
+            type: "string",
+            role: "annotation" },
+          1,
+          2,
+          { calc: "stringify",
+            sourceColumn: 2,
+            type: "string",
+            role: "annotation" }
 
-    ]);
+          ]);
 
-	for(var i = 1; i< ${totalChNum}; i++){
-		 data.addRow([arrN[i], Number(arrP[i])]);
-	}
-
-    var options = {
-      title: 'JAVA 퀴즈 정답 현황',
-      width: 900,
-      legend: { position: 'none' },
-      chart: { title: 'JAVA 퀴즈 정답 현황'},
-      bars: 'horizontal', // Required for Material Bar Charts.
-      axes: {
-        x: {
-          0: { side: 'top', label: 'Percentage'} // Top x-axis.
-        }
-      },
-      bar: { groupWidth: "90%" }
-    };
-
-    var chart = new google.charts.Bar(document.getElementById('top_x_div'));
-    chart.draw(data, options);
+      var options = {
+    	  title: 'JAVA 문제 정오답 결과',
+    	  fontSize: 15,
+    	  vAxis: {title:'Chapter'},
+    	  hAxis: {title:'Number of Quiz'},
+          width: 1000,
+          height: 600,
+          legend: { position: 'top', maxLines: 5},
+          bar: { groupWidth: '80%' }, 
+          isStacked: true
+        };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+      chart.draw(view, options);
   };
+
+
   </script>
 
 </head>
 <body>
-
-<div id="top_x_div" style="width: 900px; height: 500px;"></div>
+<div id="barchart_values" ></div>
+<!-- <div id="top_x_div"></div> -->
 <!-- <div id="conn" style="width: 900px; height: 500px;"></div> -->
 
 </body>
