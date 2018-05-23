@@ -71,7 +71,7 @@ $(document).ready(function(){
 
 <nav>
 	<ul>
-		<li><a href="#">Home</a></li>
+		<li><a href="../main/Main">Home</a></li>
 		<li><a href="#">이론게시판</a>
 			<ul>
 			<%
