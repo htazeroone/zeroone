@@ -814,7 +814,8 @@ public class DAO {
 	//지아 - 학습노트 -- 선택한 문제만 학습노트에서 삭제
 	public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize) {
 		for(int i=0; i<deleteIdSize; i++) {
-			sql = "delete from study_note where pid=? and chid=? and id=?";
+			//sql = "delete from study_note where pid=? and chid=? and id=?";
+			sql = "update study_note set save=0 where pid=? and chid=? and id=?";
 			try {
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, pid);
