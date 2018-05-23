@@ -109,6 +109,11 @@
       var options = {
     	  title: 'JAVA 문제 정오답 결과',
     	  fontSize: 15,
+    	  backgroundColor: '#d9e1e8',
+    	  series: {
+              0: { color: '#fe4365' },
+              1: { color: '#fc9d9a' }
+            },
     	  vAxis: {title:'Chapter'},
     	  hAxis: {title:'Number of Quiz'},
           width: 990,
@@ -127,7 +132,7 @@
 </head>
 <body>
 
-		<div id="barchart_values" ></div>
+	<div id="barchart_values" ></div>
 <!-- <div id="conn" style="width: 900px; height: 500px;"></div> -->
 
 </body>
