@@ -103,14 +103,15 @@
 
 <div class=save>
 	<div class=section>학습노트 저장</div>
+	<form action= "ProblemSave" method="post">
 	<c:forEach varStatus="no" items="${problem }" var="qq">
-	<form action= "Chapter${sessionScope.num}Save" method="post">
 			<div class="a${no.count }">문제 ${qq.id}번 
-		<input type = "checkbox" name= "save" value = problem><br>
+		<input type= "hidden" name="id${no.count }" value="${qq.id }">
+		<input type = "checkbox" name= "save${no.count }" value = ${no.count }><br>
+			</div>
+	</c:forEach>
+			<div>
 		<input type = "submit" value ="저장하기">
 			</div>
-	</form>
-	</c:forEach>
+		</form>
 </div>
-
-<div class=button>정답수정 및 학습노트에 저장하기</div>

@@ -52,7 +52,7 @@
 </head>
 		<div class=chapter>chapter${sessionScope.num}</div>
 
-<form action="Chapter1Answer" method="post">
+<form action="Answer" method="post">
     
 	<c:forEach varStatus="no" items="${problem }" var="qq">
 		<input type="hidden" name="id${no.count }" value="${qq.id }">

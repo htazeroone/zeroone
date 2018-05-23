@@ -1047,12 +1047,12 @@ public class DAO {
 		}
 
 		//승진 quiz 문제 출력
-
+		
 		public ArrayList<VO> question(int chid) {
 			ArrayList<VO> res = new ArrayList<>();
 
 			try {
-				sql="select * from quiz where chid = ?";
+				sql="select * from quiz where chid = ? order by id asc";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, chid);
 				rs = ptmt.executeQuery();
@@ -1077,34 +1077,17 @@ public class DAO {
 			}
 			return res;
 		}
-
-		//승진 문제 푼 결과 저장
-		public int insertresult(VO vo) {
-			try {
-				sql = "insert into study_note"
-						+"(chid, id, input, ox) values (?, ?, ?, ?)";
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, vo.getChid());
-				ptmt.setInt(2, vo.getId());
-				ptmt.setString(3, vo.getInput());
-				ptmt.setInt(4, vo.getOx());
-				ptmt.executeUpdate();
-
-			} catch(SQLException e) {
-
-			}
-			return 0;
-		}
-
+		
 		//승진 문제 푼 결과 출력
 
-		public ArrayList<VO> result(int chid) {
+		public ArrayList<VO> result(String pid, int chid) {
 			ArrayList<VO> res = new ArrayList<>();
 
 			try {
-				sql="select * from study_note where chid = ?";
+				sql="select * from study_note where pid = ? and chid = ? order by id asc";
 				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, chid);
+				ptmt.setString(1, pid);
+				ptmt.setInt(2, chid);
 				rs = ptmt.executeQuery();
 
 				while(rs.next()) {
@@ -1118,6 +1101,68 @@ public class DAO {
 				// TODO: handle exception
 			}
 			return res;
+		}
+		
+		// 승진 문제 결과 저장
+		// select 하고 데이터가 있으면 업데이트하고, 없으면 삽입함
+
+		public void insert_result(VO vo) {
+			try {
+				sql = "select * from study_note where pid = ? and chid = ? and id = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setString(1, vo.getPid());
+				ptmt.setInt(2, vo.getChid());
+				ptmt.setInt(3, vo.getId());
+				rs = ptmt.executeQuery();
+				
+				if(rs.next()) {
+					sql = "update study_note set chid = ?, id = ?, input = ?, ox = ? where pid = ? and chid = ? and id = ?";
+
+					ptmt = con.prepareStatement(sql);
+					ptmt.setInt(1, vo.getChid());
+					ptmt.setInt(2, vo.getId());							
+					ptmt.setString(3, vo.getInput());
+					ptmt.setInt(4, vo.getOx());
+					ptmt.setString(5, vo.getPid());
+					ptmt.setInt(6, vo.getChid());
+					ptmt.setInt(7, vo.getId());
+					ptmt.executeUpdate();
+
+				}else {
+					
+					sql = "insert into study_note"
+							+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";			
+					ptmt = con.prepareStatement(sql);
+					ptmt.setInt(1, vo.getChid());
+					ptmt.setInt(2, vo.getId());							
+					ptmt.setString(3, vo.getInput());
+					ptmt.setInt(4, vo.getOx());
+					ptmt.setString(5, vo.getPid());
+					ptmt.executeUpdate();
+					
+				}
+				
+			} catch(SQLException e) {
+				
+			}
+		}
+
+		//승진 문제 저장 
+		public void problem_save(VO vo) {
+
+			try {
+				
+				sql = "update study_note set save = ? where pid = ? and chid = ? and id = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, vo.getSave());
+				ptmt.setString(2, vo.getPid());
+				ptmt.setInt(3, vo.getChid());
+				ptmt.setInt(4, vo.getId());
+				ptmt.executeUpdate();
+
+			} catch(SQLException e) {
+				
+			}
 		}
 
 		//ㅊ 답글 입력
