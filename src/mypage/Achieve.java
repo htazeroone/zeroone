@@ -76,8 +76,27 @@ public class Achieve implements Action {
 
 					if(temp==total) {
 						System.out.println("찾았다! total:"+total+" temp:"+temp+", chSeq"+chSeq);
-
 						for(int i=0; i<eachONum.size(); i++) {
+							if(temp==eachONum.get(i).getChid()) {
+								System.out.println("studyQNum.get(chSeq).getOx():"+studyQNum.get(chSeq).getOx());
+								System.out.println("eachONum.get(i).getOx():"+eachONum.get(i).getOx());
+								resultONum.add(eachONum.get(i).getOx());
+								if(studyQNum.get(chSeq).getOx()==eachONum.get(i).getOx()) {
+									resultXNum.add(0);
+								}
+							}
+						}
+						for(int i=0; i<eachXNum.size(); i++) {
+							if(temp==eachXNum.get(i).getChid()) {
+								System.out.println("studyQNum.get(chSeq).getOx():"+studyQNum.get(chSeq).getOx());
+								System.out.println("eachXNum.get(i).getOx():"+eachXNum.get(i).getOx());
+								resultXNum.add(eachXNum.get(i).getOx());
+								if(studyQNum.get(chSeq).getOx()==eachXNum.get(i).getOx()) {
+									resultONum.add(0);
+								}
+							}
+						}
+/*						for(int i=0; i<eachONum.size(); i++) {
 							if(temp==eachONum.get(i).getChid()) {
 								System.out.println("studyQNum.get(chSeq).getOx():"+studyQNum.get(chSeq).getOx());
 								System.out.println("eachONum.get(chSeq).getOx():"+eachONum.get(chSeq).getOx());
@@ -96,7 +115,7 @@ public class Achieve implements Action {
 									resultONum.add(0);
 								}
 							}
-						}
+						}*/
 						//break;
 					}else {
 						System.out.println("아니얌");
