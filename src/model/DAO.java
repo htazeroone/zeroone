@@ -651,7 +651,7 @@ public class DAO {
 
 	//지아 - 학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분
 	public boolean isDataInNote(String pid) {
-		sql = "select * from study_note where pid = ?";
+		sql = "select * from study_note where pid = ? and save=1";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
@@ -674,7 +674,7 @@ public class DAO {
 	public ArrayList<VO> getChidList(String pid){
 		ArrayList<VO> chList = new ArrayList();
 
-		sql = "select * from chname where chid in (select distinct chid from study_note where pid = ?) order by chid";
+		sql = "select * from chname where chid in (select distinct chid from study_note where pid = ? and save=1) order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
