@@ -59,7 +59,6 @@ height: 100%;
 
 margin-top : 12%;
 position: absolute;
-background-color: green;
 z-index: 100;
 }
 </style>
