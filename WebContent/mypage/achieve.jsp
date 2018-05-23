@@ -10,11 +10,15 @@
 <style type="text/css">
 
 #barchart_values{
-	/* margin: 0; */
-	display: inline-block;
 	background-color: pink;
-	/* width: 700px; height: 500px; */
+   /*  margin: 0 auto; */
 
+  	 position: absolute;
+
+	 left: 37%;
+	 top: 20%;
+	 margin-left: -250px;
+	 margin-top: -250px;
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -25,7 +29,7 @@
   <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="../../js/jquery-ui.min.js"></script>
   <script type="text/javascript">
-
+ 
   google.charts.load("current", {packages:["corechart"]});
   google.charts.setOnLoadCallback(drawChart);
   var arrName = new Array();
