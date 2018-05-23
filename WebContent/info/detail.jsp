@@ -86,12 +86,12 @@ function rehide(){
 		display: none; 
 	}
 	
-
-
 </style>
 
+
+
 <div>
-	<div class="tr">
+<!-- 	<div class="tr">
 		<div class="td">kind</div>
 		<div class="td">id</div>
 		<div class="td">gid</div>
@@ -104,7 +104,7 @@ function rehide(){
 		<div class="td">title</div>
 		<div class="td">content</div>
 		<div class="td">upfile</div>
-	</div>
+	</div> -->
 
 	<div class="tr">
 		<div class="td">${data.kind }</div>
