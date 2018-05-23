@@ -281,6 +281,7 @@ public class DAO {
 		}
 		return null;
 	}
+	
 
 	// 글을 '삭제'하거나 '수정'할 때 해당 아이디와 관련된 글이 있는지 확인함
 	// 관리자의 경우 pw 확인은 필요없음.
@@ -968,6 +969,14 @@ public class DAO {
 			System.out.println("qdelete 메소드");
 
 			try {
+				
+				sql="delete from reply where orid=?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+				
+				ptmt.executeUpdate();
+				
+				
 				sql="select upfile,kind from info where id = ?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, id);

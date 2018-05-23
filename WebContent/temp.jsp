@@ -9,9 +9,10 @@
 <style type="text/css">
 
 html{
-width: 100%;
-height: 100%
+width: 1024px;
+height: 768px;
 }
+
 #top{
 width: 100%;
 height: 15%;
