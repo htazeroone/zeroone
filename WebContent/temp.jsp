@@ -17,7 +17,7 @@ height: 768px;
 width: 100%;
 height: 15%;
 position: absolute;
-background-color: yellow;
+z-index: 300;
 }
 
 #smenu{
@@ -60,6 +60,7 @@ height: 100%;
 margin-top : 12%;
 position: absolute;
 background-color: green;
+z-index: 100;
 }
 </style>
 </head>
@@ -74,21 +75,21 @@ background-color: green;
 	String pname = null;
 	String pid = null;
 
-	
+
 	if(request.getAttribute("pid")!=null){
 		session.setAttribute("pid", request.getAttribute("pid"));
 		pid = (String)session.getAttribute("pid");
-		
+
 		session.setAttribute("pname", request.getAttribute("pname"));
 		pname = (String)session.getAttribute("pname");
 	}
 
-	
+
 	if(request.getAttribute("logout")!=null){
 		session.removeAttribute("pname");
 		session.removeAttribute("pid");
 	}
-	
+
 %>
 
 		<jsp:include page="inc/top.jsp"/>
@@ -104,7 +105,7 @@ background-color: green;
 		<div id="smain1">
 			<jsp:include page="${main1 }"/>
 		</div>
-<!-- 지아 주석 :  학습 노트의 경우 메인페이지가 하나만 필요해서 수정했습니다 -->	
+<!-- 지아 주석 :  학습 노트의 경우 메인페이지가 하나만 필요해서 수정했습니다 -->
 		<c:if test="${main1=='mypage/studymenu.jsp' }">
 		<div id="smain2">
 			<jsp:include page="${main2 }"/>
