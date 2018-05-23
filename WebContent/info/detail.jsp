@@ -14,7 +14,22 @@ var getout = <%=chk %>
         location.href="../main/Main"
     }
 
-    
+function re(a){
+	var b = 'rd'+a;
+	
+	rehide();
+	document.getElementById(b).style.display='block';
+
+}    
+
+function rehide(){
+	var abc = document.getElementsByClassName('rediv');
+	
+	for(var i=0;i<abc.length;i++){
+		abc.item(i).style.display='none'
+	}
+	
+}
 </script>
 
 <style>
@@ -68,8 +83,11 @@ var getout = <%=chk %>
 	.rediv{
 	
 		background-color: gray;
-		display: none;
+		display: none; 
 	}
+	
+
+
 </style>
 
 <div>
@@ -121,10 +139,14 @@ var getout = <%=chk %>
 			<div class="tr">
 				<div id="td1">
 				${rr.content }
+				<button onclick="re(${rr.id})">댓글</button>
 				
+				<button onclick="rehide()">댓글안보이기</button>
 				</div>
 				<div id="td2">
 				${rr.pname }
+				
+				
 				<c:if test="${rr.pname==pname }">
 				
 				<form action="Recdelete">
@@ -137,7 +159,31 @@ var getout = <%=chk %>
 				</c:if>
 				</div>
 			</div>
-
+<!-- ================================================================================= -->
+			<div class="rediv" id = "rd${rr.id }">
+				<div id="td3">
+					<form action="Rereinsert">
+	
+						<div class="rinsert">
+							<div class="ritd1">
+								<textarea cols="100" name="content"></textarea>
+								<input type="hidden" name="orid" value="${data.id }">
+								<input type="hidden" name="id" value = "${rr.id }">
+								<input type="hidden" name="gid" value = "${rr.gid }">
+								<input type="hidden" name="seq" value = "${rr.seq }">
+								<input type="hidden" name="lev" value = "${rr.lev }">
+								<input type="hidden" name="page" value="${page }">
+								<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
+							</div>
+							<div class="ritd2">
+				
+								<input type="submit" value="등록">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+<!-- ================================================================================= -->			
 			</c:forEach>
 		
 		</c:otherwise>

@@ -1227,6 +1227,50 @@ public class DAO {
 				// TODO: handle exception
 			}
 		}
+		
+		//ㅊ 대댓글 입력
+		
+		public void rereinsert(VO vo) {
+			
+			try {
+				
+				sql="select max(id) from reply";
+				
+				ptmt=con.prepareStatement(sql);
+				rs = ptmt.executeQuery();
+				rs.next();
+				
+				int id = rs.getInt(1)+1;
+						
+				
+				sql = "update reply set seq=seq+1 where gid=? and seq > ?";
+				
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, vo.getGid());
+				ptmt.setInt(2, vo.getSeq());
+				ptmt.executeUpdate();
+				
+				sql="insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
+						+ "values(?,?,?,?,?,?,?,sysdate)";
+				
+				ptmt=con.prepareStatement(sql);
+				
+				ptmt.setInt(1, vo.getOrid());
+				ptmt.setInt(2, id);
+				ptmt.setInt(3, vo.getId());
+				ptmt.setInt(4, vo.getSeq()+1);
+				ptmt.setInt(5, vo.getLev()+1);
+				ptmt.setString(6, vo.getPname());
+				ptmt.setString(7, vo.getContent());
+				
+				ptmt.executeUpdate();
+						
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}		
+		
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
 		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}
