@@ -109,6 +109,8 @@ $(document).ready(function(){
 				<li><a href="../login/Logout">로그아웃</a></li>
 				<li><a href="../mypage/Achieve" >학습성취도</a></li>
 				<li><a href="../mypage/Note" >학습노트</a></li>
+				<li><a href="../mypage/IncorrectNote" >오답노트</a></li>
+				
 				<li><a href="../mypage/ModifyPwForm">비밀번호변경</a></li>
 				<li><a href="../mypage/OutForm">회원탈퇴</a></li>
 			</ul>
