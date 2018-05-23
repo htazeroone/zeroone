@@ -12,9 +12,16 @@ public class Detail implements Action {
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		
 		DAO dao = new DAO();
-		dao.addCnt_Lecture(id);
+		
+		if(request.getParameter("pid") != null && !request.getParameter("pid").equals("")) {
+			
+			String pid = request.getParameter("pid");
+			dao.readLecture(id, pid);
+		} else {
+			dao.addCnt_Lecture(id);
+			
+		}
 		
 		request.setAttribute("data", dao.detail_Lecture(id));
 		request.setAttribute("chapName", dao.getChapterName(id));

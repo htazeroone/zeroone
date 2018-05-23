@@ -1,5 +1,7 @@
 package lecture;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -70,6 +72,11 @@ public class List implements Action {
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("data", dao.list_Lecture(subject, start, end, head));
+		
+		
+		if(request.getSession().getAttribute("pid") != null && !request.getSession().getAttribute("pid").equals("")) {
+			request.setAttribute("readList", dao.getReadList((String)request.getSession().getAttribute("pid")));
+		}
 		
 		request.setAttribute("chapList", dao.getChapterList(subject));
 		

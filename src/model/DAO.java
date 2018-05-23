@@ -162,6 +162,31 @@ public class DAO {
 		return arr;
 	}
 
+	
+	public ArrayList<Integer> getReadList(String pid) {
+		ArrayList<Integer> aList = new ArrayList<>();
+		
+		try {
+			
+			sql = "select distinct lecId from lecturechk where pid=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			rs = ptmt.executeQuery();
+			
+			while(rs.next()) {
+				aList.add(rs.getInt(1));
+			}
+					
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		for(int num : aList) {
+			System.out.println(num);
+		}
+		
+		return aList;
+	}
+	
 	public ArrayList<String> getChapterList(String subject) {
 		
 		ArrayList<String> arr = new ArrayList<>();
@@ -282,6 +307,20 @@ public class DAO {
 		return null;
 	}
 	
+	public void readLecture(int id, String pid) {
+		
+		try {
+			sql = "insert into lectureChk(pid, lecid) values(?, ?)";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			ptmt.setInt(2, id);
+			
+			ptmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	// 글을 '삭제'하거나 '수정'할 때 해당 아이디와 관련된 글이 있는지 확인함
 	// 관리자의 경우 pw 확인은 필요없음.

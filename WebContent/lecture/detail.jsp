@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="ct" tagdir="/WEB-INF/tags" %>
+
 
 <table border="">
 	<tr>
@@ -46,6 +46,12 @@
 				<a href="DeleteForm?id=${data.id }&head=${data.head}&subject=${param.subject }">삭제</a>
 				<a href="ModifyForm?id=${data.id }&head=${data.head}&subject=${param.subject }">수정</a>
 			</c:if>
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="2">
+			<a href="Detail?pid=${sessionScope.pid }&id=${data.id }&page=${param.page }&head=${data.head}&subject=${param.subject}">학습완료 체크</a>
 		</td>
 	</tr>
 </table>

@@ -8,12 +8,7 @@
 	function listCate(){
 		document.frm.submit();
 	}
-	
-	function findLec() {
-		var sch = document.sch
-		sch
-		submit();
-	}
+
 </script>
 
 <table border="">
@@ -39,19 +34,11 @@
 					</c:forEach>
 				</select>
 				<input type="hidden" name="subject" value="${subject }">
-				
-			</form>
-		</td>
-		 
-		<td colspan="3" align="right">
-			<form name="sch" action="List">
-				<input type="text" name="find">
-				<input type="submit" value="검색" onclick="findLec()">
 			</form>
 		</td>
 	</tr>
 	<tr>
-		<th>번호</th><th>제목</th><th>글쓴이</th><th>등록일</th><th>조회수</th>
+		<th>번호</th><th>제목</th><th>글쓴이</th><th>등록일</th><th>조회수</th><th>내 학습여부</th>
 	</tr>
 	
 <c:choose>
@@ -72,6 +59,21 @@
 			<td>${i.pname }</td>
 			<td><fmt:formatDate value="${i.reg_date }" pattern="yyyy-MM-dd(EE)"/></td>
 			<td>${i.cnt}</td>
+			
+			
+		<c:if test="${readList.size() != 0}">
+			<td>
+				<c:forEach var="num" items="${readList }">
+					<c:choose>
+					<c:when test="${num == i.id}">
+						학습완료
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</td>	
+		</c:if>
 		</tr>
 	</c:forEach>
 	<tr>
@@ -97,6 +99,7 @@
 			</c:if>
 		</td>
 	</tr>
+	
 </c:otherwise>
 
 </c:choose>
