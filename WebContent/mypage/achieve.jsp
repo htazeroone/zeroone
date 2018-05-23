@@ -6,19 +6,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/form.css" />
 
 <style type="text/css">
 
 #barchart_values{
-	background-color: pink;
+/*	background-color: pink;
    /*  margin: 0 auto; */
 
   	 position: absolute;
 
 	 left: 37%;
 	 top: 20%;
-	 margin-left: -250px;
-	 margin-top: -250px;
+ 	 margin-left: -250px;
+	 margin-top: -250px; 
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -110,10 +111,10 @@
     	  fontSize: 15,
     	  vAxis: {title:'Chapter'},
     	  hAxis: {title:'Number of Quiz'},
-          width: 1000,
+          width: 990,
           height: 600,
           legend: { position: 'top', maxLines: 5},
-          bar: { groupWidth: '80%' }, 
+          bar: { groupWidth: '75%' }, 
           isStacked: true
         };
       var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
@@ -125,8 +126,8 @@
 
 </head>
 <body>
-<div id="barchart_values" ></div>
-<!-- <div id="top_x_div"></div> -->
+
+		<div id="barchart_values" ></div>
 <!-- <div id="conn" style="width: 900px; height: 500px;"></div> -->
 
 </body>
