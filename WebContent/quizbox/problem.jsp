@@ -61,12 +61,16 @@
 			<c:forEach varStatus="no" items="${problem }" var="qq">
 				<input type="hidden" name="id${qq.id }" value="${qq.id }">
 				<div class="q${no.count }">
-					Q.${qq.id} ${qq.question }<br> 
+					Q.${qq.id} ${qq.question }
+					<c:if test="${sessionScope.pid == 'admin'}">
+						<a href="../quizbox/ModifyProblemForm?id=${qq.id }">[문제 수정]</a>
+					</c:if><br> 
 					<input type="radio" name="selection${qq.id }" value="1">${qq.s1}<br> 
 					<input type="radio" name="selection${qq.id }" value="2">${qq.s2}<br>
 					<input type="radio" name="selection${qq.id }" value="3">${qq.s3}<br>
 					<input type="radio" name="selection${qq.id }" value="4">${qq.s4}<br>
 					<input type="radio" name="selection${qq.id }" value="5">${qq.s5}<br>
+			
 				</div>
 			</c:forEach>
 
@@ -85,6 +89,9 @@
 				</c:forEach>
 				<c:if test="${endPage < totalPage }">
 					<a href="Chapter${sessionScope.num}?page=${endPage+1 }">[다음	페이지]</a>
+				</c:if>
+				<c:if test="${sessionScope.pid == 'admin'}">
+					<a href="../quizbox/AddProblemForm">[문제 추가]</a>
 				</c:if>
 			</div>
 		</c:otherwise>

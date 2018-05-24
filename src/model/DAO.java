@@ -1283,17 +1283,17 @@ public class DAO {
 	}
 
 	//승진 quiz 문제 출력
-
+	
 	public ArrayList<VO> question(int chid, int start, int end) {
 		ArrayList<VO> res = new ArrayList<>();
 
 		try {
-
+			
 			sql = "select * from " + 
 					"(select rownum rnum, tt.* from " + 
 					"(select * from quiz where chid = ? order by id asc) tt) " + 
 					"where rnum >= ? and rnum <= ?";
-
+			
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, chid);
 			ptmt.setInt(2, start);
@@ -1320,7 +1320,7 @@ public class DAO {
 		}
 		return res;
 	}
-
+	
 	//승진 문제 푼 결과 출력
 
 	public ArrayList<VO> result(String pid, int chid, int start, int end) {
@@ -1332,7 +1332,7 @@ public class DAO {
 					"(select rownum rnum, tt.* from " + 
 					"(select * from study_note where pid = ? and chid = ? order by id asc) tt) " + 
 					"where rnum >= ? and rnum <= ?";
-
+			
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			ptmt.setInt(2, chid);
@@ -1352,7 +1352,7 @@ public class DAO {
 		}
 		return res;
 	}
-
+	
 	// 승진 문제 결과 저장
 	// select 하고 데이터가 있으면 업데이트하고, 없으면 삽입함
 
@@ -1364,7 +1364,7 @@ public class DAO {
 			ptmt.setInt(2, vo.getChid());
 			ptmt.setInt(3, vo.getId());
 			rs = ptmt.executeQuery();
-
+			
 			if(rs.next()) {
 				sql = "update study_note set chid = ?, id = ?, input = ?, ox = ? where pid = ? and chid = ? and id = ?";
 
@@ -1379,7 +1379,7 @@ public class DAO {
 				ptmt.executeUpdate();
 
 			}else {
-
+				
 				sql = "insert into study_note"
 						+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";			
 				ptmt = con.prepareStatement(sql);
@@ -1389,11 +1389,11 @@ public class DAO {
 				ptmt.setInt(4, vo.getOx());
 				ptmt.setString(5, vo.getPid());
 				ptmt.executeUpdate();
-
+				
 			}
-
+			
 		} catch(SQLException e) {
-
+			
 		}
 	}
 
@@ -1401,7 +1401,7 @@ public class DAO {
 	public void problem_save(VO vo) {
 
 		try {
-
+			
 			sql = "update study_note set save = ? where pid = ? and chid = ? and id = ?";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, vo.getSave());
@@ -1411,13 +1411,13 @@ public class DAO {
 			ptmt.executeUpdate();
 
 		} catch(SQLException e) {
-
+			
 		}
 	}
 
-
+	
 	//승진 page
-
+	
 	public int totalCount(int chid) {
 
 		try {
@@ -1425,16 +1425,111 @@ public class DAO {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, chid);
 			rs = ptmt.executeQuery();
-
+			
 			rs.next();
-
+			
 			return rs.getInt(1);
-
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	//승진 문제 추가
+	
+	public int problem_insert(VO vo) {
+		int nextId = 0;
+		
+		try {
+			sql = "select max(id) from quiz where chid = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, vo.getChid());
+			rs = ptmt.executeQuery();
+
+			rs.next();
+			nextId = rs.getInt(1) + 1;
+
+			sql = "insert into quiz(chid, id, question, s1, s2, s3, s4, s5, answer) "
+					+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+			ptmt = con.prepareStatement(sql);
+
+			ptmt.setInt(1, vo.getChid());
+			ptmt.setInt(2, nextId);
+			ptmt.setString(3, vo.getQuestion());
+			ptmt.setString(4, vo.getS1());
+			ptmt.setString(5, vo.getS2());
+			ptmt.setString(6, vo.getS3());
+			ptmt.setString(7, vo.getS4());
+			ptmt.setString(8, vo.getS5());
+			ptmt.setString(9, vo.getAnswer());
+			ptmt.executeUpdate();
+
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return nextId;
+	}
+
+	//승진 문제 수정
+
+	public VO modify_question(int chid, int id) {
+
+		try {
+			
+			sql = "select * from quiz where chid = ? and id = ?";
+			
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, chid);
+			ptmt.setInt(2, id);
+			rs = ptmt.executeQuery();
+
+			if(rs.next()) {
+				VO vo = new VO();
+				vo.setQuestion(rs.getString("question"));
+				vo.setId(rs.getInt("id"));
+				vo.setChid(rs.getInt("chid"));
+				vo.setAnswer(rs.getString("answer"));
+				vo.setS1(rs.getString("s1"));
+				vo.setS2(rs.getString("s2"));
+				vo.setS3(rs.getString("s3"));
+				vo.setS4(rs.getString("s4"));
+				vo.setS5(rs.getString("s5"));
+				return vo;
+			}
+
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+
+	// 승진 문제 수정결과 입력
+	
+	public void modify_insert(VO vo) {
+		try {
+			sql = "update quiz set question = ?, s1 = ?, s2 = ?, s3 = ?, s4 = ?, s5 = ?, answer = ? where chid = ? and id = ?";
+			
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1,  vo.getQuestion());
+			ptmt.setString(2, vo.getS1());
+			ptmt.setString(3, vo.getS2());
+			ptmt.setString(4, vo.getS3());
+			ptmt.setString(5, vo.getS4());
+			ptmt.setString(6, vo.getS5());	
+			ptmt.setString(7, vo.getAnswer());
+			ptmt.setInt(8, vo.getChid());
+			ptmt.setInt(9, vo.getId());
+			ptmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	//ㅊ 답글 입력
