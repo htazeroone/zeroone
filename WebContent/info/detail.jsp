@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
+<link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
+
 <%
     String chk = (String)session.getAttribute("pname");
 %>
@@ -24,202 +26,173 @@ function re(a){
 
 function rehide(){
 	var abc = document.getElementsByClassName('rediv');
-	
+
 	for(var i=0;i<abc.length;i++){
 		abc.item(i).style.display='none'
 	}
 	
 }
+
 </script>
 
 <style>
-	#td1{
-		margin:2px;
-	 	width: 800px;
-	 	height: 30px;
-	 	background-color: gray;
-	 	float:left;
-	}
-	#td2{
-		margin:2px;
-	 	width: 100px;
-	 	height: 50px;
-	 	background-color: gray;
-	 	float:left;
-	}
 
-	.tr{
-		background-color: pink;
-
-	}
-	.td{
-		display: inline-block;
-		border: 3px solid purple; 
-		width: 120px;
-		margin: 3px;
-	}
-	
-	.rinsert{
-		background-color: pink;
-
-	}
-	.ritd1{
-		align-items: center;
-		margin:2px;
-		display: inline-block;
-		border: 3px solid purple; 
-		width: 795px;
-	}
-	.ritd2{
-		top:0px;	
-		align-items: center;
-		display: inline-block;
-		background-color:pink;
-		width: 100px;
-		height: 30px;
-		cursor: pointer;
-	}
-	
 	.rediv{
 	
 		background-color: gray;
 		display: none; 
 	}
+
+	#dd{
+		margin: 0 auto;
+		width: 800px;
+		height: 500px;
 	
+	}
 </style>
 
 
-
-<div>
-<!-- 	<div class="tr">
-		<div class="td">kind</div>
-		<div class="td">id</div>
-		<div class="td">gid</div>
-		<div class="td">seq</div>
-		<div class="td">lev</div>
-		<div class="td">cnt</div>
-		<div class="td">rec</div>
-		<div class="td">reg_date</div>
-		<div class="td">pname</div>
-		<div class="td">title</div>
-		<div class="td">content</div>
-		<div class="td">upfile</div>
-	</div> -->
-
-	<div class="tr">
-		<div class="td">${data.kind }</div>
-		<div class="td">${data.id }</div>
-		<div class="td">${data.gid }</div>
-		<div class="td">${data.seq }</div>
-		<div class="td">${data.lev }</div>
-		<div class="td">${data.cnt }</div>
-		<div class="td">${data.rec }</div>
-		<div class="td">${data.reg_date }</div>
-		<div class="td">${data.pname }</div>
-		<div class="td">${data.title }</div>
-		<div class="td">${data.content }</div>
-		<div class="td">${data.upfile }</div>
-
-	</div>
-
-
-	<div>
-
-	<c:choose>
-		<c:when test="${reply.size()==0 }">
-			<div class="tr">
-				<div class="td">
-					댓글이 없습니다.
-				</div>
-			</div>
-		</c:when>
-		<c:otherwise>
+<div id="dd">
+	<table class="table">
+		<tr>
+			<td>종류</td>
+			<td>${data.kind }</td>
+		</tr>	
+		<tr>
+			<td>번호</td>
+			<td>${data.id }</td>
+		</tr>	
+		<tr>	
+			<td>제목</td>
+			<td>${data.title }</td>
+		</tr>	
+		<tr>	
+			<td>글쓴이</td>
+			<td>${data.pname }</td>
+		</tr>	
+		<tr>	
+			<td>등록일</td>
+			<td>${data.reg_date }</td>
+		</tr>	
+		<tr>	
+			<td>추천수</td>
+			<td>${data.rec }</td>
+		</tr>	
+		<tr>	
+			<td>조회수</td>
+			<td>${data.cnt }</td>
+		</tr>	
+		<tr>	
+			<td colspan="2">${data.content }</td>
+		</tr>
+	
+		<tr>
+			<td colspan="2">댓글</td>
+		</tr>
+	<!-- ========================================================댓글리스트 tr -->	
+		<tr>
+			<c:choose>
+				<c:when test="${reply.size()==0 }">
+					<td colspan="2">댓글이없습니다.</td>
+				
+				</c:when>
 			
-			<c:forEach var="rr" items="${reply }">
-			<div class="tr">
-				<div id="td1">
-				${rr.content }
-				<button onclick="re(${rr.id})">댓글</button>
-				
-				<button onclick="rehide()">댓글안보이기</button>
-				</div>
-				<div id="td2">
-				${rr.pname }
-				
-				
-				<c:if test="${rr.pname==pname }">
-				
-				<form action="Recdelete">
-					<input type="hidden" name="id" value="${rr.id }">
-					<input type="hidden" name="orid" value="${data.id }">
-					<input type="hidden" name="page" value="${page }">
-					<input type="submit" value="댓글삭제">
+				<c:otherwise>
+					<td colspan="2">
+					<table border="" width="100%">
+						<c:forEach var="rr" items="${reply }">
+							<tr>
+								<td>
+									${rr.content }
+									<button onclick="re(${rr.id})">댓글</button>
+									
+									<button onclick="rehide()">댓글안보이기</button>
+								</td>
+								<td>
+									${rr.pname }
+									
+									
+									<c:if test="${rr.pname==pname }">
+									
+										<form action="Recdelete">
+											<input type="hidden" name="id" value="${rr.id }">
+											<input type="hidden" name="orid" value="${data.id }">
+											<input type="hidden" name="page" value="${page }">
+											<input type="submit" value="댓글삭제">
+										</form>
+						
+									</c:if>
+								</td>
+							</tr>
+							
+	<!-- ========================================================/댓글리스트 tr -->		
+	<!-- ========================================================대댓글숨기기 tr -->							
+							
+							<tr class="rediv" id = "rd${rr.id }">
+								<td>
+									<form action="Rereinsert" id="rrinfrm">
+										<textarea cols="100" name="content" style="resize: none;"></textarea>
+										<input type="hidden" name="orid" value="${data.id }">
+										<input type="hidden" name="id" value = "${rr.id }">
+										<input type="hidden" name="gid" value = "${rr.gid }">
+										<input type="hidden" name="seq" value = "${rr.seq }">
+										<input type="hidden" name="lev" value = "${rr.lev }">
+										<input type="hidden" name="page" value="${page }">
+										<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
+									</form>
+								</td>				
+								<td>
+									<button  onclick="document.getElementById('rrinfrm').submit()">댓글달기</button>
+	
+								</td>
+									
+							</tr>
+	<!-- ========================================================/대댓글숨기기 tr -->							
+						</c:forEach>		
+					</table>
+					</td>
+				</c:otherwise>
+			</c:choose>
+		</tr>
+	<!-- 댓글달수있는 창 -->
+		<tr>
+	
+			<td>
+				<form action="Replyinsert" id="rinsert">
+				<textarea cols="100" name="content" style="resize: none;"></textarea>
+				<input type="hidden" name="id" value="${data.id }">
+				<input type="hidden" name="page" value="${page }">
+				<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
 				</form>
-	
-				</c:if>
-				</div>
-			</div>
-<!-- ================================================================================= -->
-			<div class="rediv" id = "rd${rr.id }">
-				<div id="td3">
-					<form action="Rereinsert">
-	
-						<div class="rinsert">
-							<div class="ritd1">
-								<textarea cols="100" name="content"></textarea>
-								<input type="hidden" name="orid" value="${data.id }">
-								<input type="hidden" name="id" value = "${rr.id }">
-								<input type="hidden" name="gid" value = "${rr.gid }">
-								<input type="hidden" name="seq" value = "${rr.seq }">
-								<input type="hidden" name="lev" value = "${rr.lev }">
-								<input type="hidden" name="page" value="${page }">
-								<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
-							</div>
-							<div class="ritd2">
-				
-								<input type="submit" value="등록">
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-<!-- ================================================================================= -->			
-			</c:forEach>
-		
-		</c:otherwise>
-	</c:choose>
-	
-	</div>
-	
-	<form action="Replyinsert">
-	
-	<div class="rinsert">
-		<div class="ritd1">
-			<textarea cols="100" name="content"></textarea>
-			<input type="hidden" name="id" value="${data.id }">
-			<input type="hidden" name="page" value="${page }">
-			<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
-		</div>
-		<div class="ritd2">
+			</td>
+			<td>	
+				<button  onclick="document.getElementById('rinsert').submit()">등록</button>
+			</td>
 			
-			<input type="submit" value="등록">
-		</div>
-	</div>
-	</form>
-	
-	<div class="tr">
-		<c:if test="${data.pname==pname }">
+			
+		</tr>
 		
-			<div class="td">
-				<a href="Modify?id=${data.id }&kind=${data.kind }&page=${page}">수정</a>
-				<a href="Delete?id=${data.id }&kind=${data.kind}">삭제</a>
-			</div>
+	<!-- ========================================================수정삭제 tr -->		
+		<tr>
+			<c:if test="${data.pname==pname||pname=='admin' }">
+			
+				<td>
+					<a href="Modify?id=${data.id }&kind=${data.kind }&page=${page}">수정</a>
+					<a href="Delete?id=${data.id }&kind=${data.kind}">삭제</a>
+				</td>
+			
+			</c:if>
+			<td>
+					<input type="button" value="추천" onclick="location.href='Rec?id=${data.id}&page=${page }'">
+					<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
+					<a href="Cominsert?id=${data.id }&page=${page}">답글</a>
+			</td>
+		</tr>
 		
-		</c:if>
-		<div class="td">
-				<input type="button" value="추천" onclick="location.href='Rec?id=${data.id}&page=${page }'">
-				<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
-				<a href="Cominsert?id=${data.id }&page=${page}">답글</a>
-		</div>
-	</div>
+	<!-- ========================================================/수정삭제 tr -->		
+	</table>
+	<!-- /댓글달수있는 창 -->
+
 </div>
+<script src="/SemiQuiz/jsb/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/SemiQuiz/jsb/bootstrap.js"></script>

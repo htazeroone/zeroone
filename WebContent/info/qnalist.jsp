@@ -6,28 +6,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+
+<link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
+
 <style type="text/css">
 
 #dd{
 	margin: 0 auto;
 	width: 800px;
 	height: 500px;
-	background-color: blue;
+
 }
-table {
-	background-color: white;
-	height: 100%;
-	width: 100%;
-	text-align: center;
-}
+
 </style>
 
 
 </head>
 <body>
-<!-- =====================================테이블로~~============================================ -->
+
 <div id="dd">
-	<table border="">
+	<table class="table">
 		<tr>
 			<th>종류</th>
 			<th>번호</th>
@@ -39,7 +37,7 @@ table {
 		</tr>
 		
 		<c:choose>
-			<c:when test="${data==null }">
+			<c:when test="${data.size()==0 }">
 				<tr>
 					<td colspan="7">게시물이 없습니다.</td>
 				</tr>
@@ -98,12 +96,15 @@ table {
 			</c:otherwise>
 		</c:choose>
 		
-		<tr>
-			<td colspan="7"><a href="Insert?kind=${kind }&page=${page}">글쓰기</a></td>
-		</tr>
-	
+		<c:if test="${kind=='qna'||pname=='admin' }">
+			<tr>
+				<td colspan="7"><a href="Insert?kind=${kind }&page=${page}">글쓰기</a></td>
+			</tr>
+		</c:if>
 	</table>
 </div>
 
 </body>
+<script src="/SemiQuiz/jsb/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/SemiQuiz/jsb/bootstrap.js"></script>
 </html>
