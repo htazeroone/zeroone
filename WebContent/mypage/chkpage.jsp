@@ -142,11 +142,12 @@ function allChk(){
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
 <!-- res : id, ox, answer, input 을 가지고있다   -->
-	<c:if test="${!empty res }">
+	<c:if test="${!empty res}">
 		<div>pid:<%=session.getAttribute("pid") %></div>
 		<div>페이지번호:${page } 총페이지번호:${totalPage }</div>
-		<div> <번호> <체크> <정오답 결과> <정답> <내가 틀렸던 답> </div>
-		<c:forEach var="a" items="${res }">
+		<div> <번호> <체크> <정오답 결과> <정답> <예전에 선택한 답> </div>
+		
+		<c:forEach var="a" items="${idAndInput }" varStatus="no">
 			<div>${a.id }<input type="checkbox" name="deleteId" value="${a.id }">
 			<c:choose>
 				<c:when test="${a.input == a.answer }">
@@ -156,7 +157,14 @@ function allChk(){
 				X
 				</c:otherwise>
 			</c:choose>
-			${a.answer } ${a.input }			
+			${a.answer } 
+			
+			<c:forEach var="b" items="${res }" varStatus="num">
+				<c:if test="${num.index == no.index }">
+					${b.input }
+				</c:if>
+			</c:forEach>
+						
 			</div>
 		</c:forEach>
 		<div>확실히 이해한 문제는 이제 오답 노트에서 삭제가능합니다. 페이지번호:${page } 총페이지번호:${totalPage }</div>

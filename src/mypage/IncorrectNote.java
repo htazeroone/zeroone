@@ -65,7 +65,6 @@ public class IncorrectNote implements Action {
 		//totalPage : 최대 페이지 번호
 		int totalPage = 0;
 		
-		
 		//pid의 study_note에 OX가 0인 데이터가 있나 없나 구분 
 		if(dao.isDataInNote(pid) && dao.isOx(pid)) { //있다면
 			
@@ -116,8 +115,6 @@ public class IncorrectNote implements Action {
 		
 				//해당 챕터의 총 문제 수를 다시 센다 
 				oxNum = dao.oxNum(chid, pid);
-				
-
 			}
 			System.out.println("oxNum 챕터의 총 오답 수 : "+oxNum);
 			System.out.println("oxInfo.size():"+oxInfo.size());
@@ -129,8 +126,8 @@ public class IncorrectNote implements Action {
 				request.setAttribute("msg", msg);
 				request.setAttribute("url", url);			
 				request.setAttribute("main", "mypage/alert.jsp");
-			}else {
-				//qInfo: 챕터의 문제 데이터 모두 다시 가져온다 
+			} else {
+				//oxInfo: 해당 챕터의 문제 데이터 중 오답처리된 것들을 가져온다 
 				oxInfo = dao.oxInfo(chid, pid, start, end);
 	
 				if(page == totalPage && oxInfo.size() == 0) {
@@ -177,7 +174,7 @@ public class IncorrectNote implements Action {
 					System.out.println("답 맞춰볼 문제번호 리스트:"+idList.get(i));
 				}
 				
-				//quizRes : 문제 번호와 사용자 입력 답을 입력하여 정오답 결과 및 정답 리턴
+				//incorrectRes : 문제 번호와 사용자 입력 답을 입력하여 정오답 결과 및 정답 리턴
 				//res : id, ox, answer, input 을 가지고있다 
 				res = dao.incorrectRes(pid, chid, idList, input, qLimit);			
 				System.out.println(res);
@@ -190,6 +187,7 @@ public class IncorrectNote implements Action {
 					inputVo.setTotal(oxInfo.get(i).getTotal());
 					inputVo.setId(oxInfo.get(i).getId());
 					inputVo.setInput(input.get(i));
+					inputVo.setAnswer(oxInfo.get(i).getAnswer());
 					inputVo.setS1(oxInfo.get(i).getS1());
 					inputVo.setS2(oxInfo.get(i).getS2());
 					inputVo.setS3(oxInfo.get(i).getS3());

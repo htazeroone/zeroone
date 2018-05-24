@@ -474,24 +474,24 @@ public class DAO {
 	}
 
 	//지아 -회원가입 시 동일 pname 존재 여부 확인 (중복이라면 false 리턴)
-			public boolean pnameChk(String pname) {
-				sql = "select * from member where pname = ?";
-				try {
-					ptmt = con.prepareStatement(sql);
-					ptmt.setString(1, pname);
-					rs = ptmt.executeQuery();
+	public boolean pnameChk(String pname) {
+		sql = "select * from member where pname = ?";
+		try {
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pname);
+			rs = ptmt.executeQuery();
 
-					if(rs.isBeforeFirst()) {
-						System.out.println("pname이 중복된닷");
-						return false;
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return true;
-
+			if(rs.isBeforeFirst()) {
+				System.out.println("pname이 중복된닷");
+				return false;
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+
+	}
 	//지아 -회원가입 시킨다
 	public void join(VO vo) {
 		sql = "insert into member (pid, pname, pw) values (?, ?, ?)";
@@ -895,6 +895,7 @@ public class DAO {
 				VO vo = new VO();
 				vo.setId(rs.getInt("id"));
 				vo.setQuestion(rs.getString("question"));
+				vo.setAnswer(rs.getString("answer"));
 				//정답률 계산용: total, correction
 				vo.setTotal(rs.getInt("total"));
 				vo.setCorrection(rs.getInt("correction"));
@@ -1029,7 +1030,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 
 			//사용자 입력답안과 OX결과를 study_note에 저장
 			for(int i=0; i<qLimit; i++) {
-				sql = "update study_note set input =? where pid=? and chid=? and id=?";
+				sql = "update study_note set input=? where pid=? and chid=? and id=?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, input.get(i));
 				ptmt.setString(2, pid);
@@ -1046,7 +1047,6 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 
 		return null;
 	}
-	
 	//지아 - 학습노트 -- 선택한 문제만 학습노트에서 삭제
 	public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize) {
 		for(int i=0; i<deleteIdSize; i++) {
