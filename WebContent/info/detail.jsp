@@ -9,6 +9,7 @@
     String chk = (String)session.getAttribute("pname");
 %>
 
+
 <script>
 var getout = <%=chk %>
     if(getout==null){
@@ -17,10 +18,12 @@ var getout = <%=chk %>
     }
 
 function re(a){
+	
 	var b = 'rd'+a;
 	
-	rehide();
-	document.getElementById(b).style.display='block';
+ 	rehide();
+ 
+	document.getElementById(b).style.display='inline';
 
 }    
 
@@ -55,63 +58,75 @@ function rehide(){
 <div id="dd">
 	<table class="table">
 		<tr>
-			<td>종류</td>
-			<td>${data.kind }</td>
-		</tr>	
-		<tr>
+		
 			<td>번호</td>
 			<td>${data.id }</td>
-		</tr>	
-		<tr>	
-			<td>제목</td>
-			<td>${data.title }</td>
-		</tr>	
-		<tr>	
+			
+			<td>종류</td>
+			<td>${data.kind }</td>
+		
 			<td>글쓴이</td>
 			<td>${data.pname }</td>
-		</tr>
+			
+			<td>등록일</td>
+			<td>${data.reg_date }</td>
+	
+			<td>추천수</td>
+			<td>${data.rec }</td>
+		
+			<td>조회수</td>
+			<td>${data.cnt }</td>
+	
+		</tr>	
+
 		<c:if test="${data.upfile!='' }">
 			<tr>
 				<td>파일</td>
-				<td>
+				<td colspan="11">
 				<a href="FileDown?file=${data.upfile}&kind=${data.kind }">${data.upfile }</a>
 				</td>
 			</tr>
 		</c:if>
-			
+		
 		<tr>	
-			<td>등록일</td>
-			<td>${data.reg_date }</td>
+			<td>제목</td>
+			<td colspan="10">${data.title }</td>
+			<td>
+				<input type="button" value="추천" onclick="location.href='Rec?id=${data.id}&page=${page }'">
+			</td>
 		</tr>	
-		<tr>	
-			<td>추천수</td>
-			<td>${data.rec }</td>
-		</tr>	
-		<tr>	
-			<td>조회수</td>
-			<td>${data.cnt }</td>
-		</tr>	
-		<tr>	
-			<td colspan="2">${data.content }</td>
+		
+		<tr height="370px">	
+			<td colspan="12">${data.content }</td>
 		</tr>
 	
 		<tr>
-			<td colspan="2">댓글</td>
+			<td colspan="12">댓글</td>
 		</tr>
 	<!-- ========================================================댓글리스트 tr -->	
 		<tr>
 			<c:choose>
 				<c:when test="${reply.size()==0 }">
-					<td colspan="2">댓글이없습니다.</td>
+					<td colspan="12">댓글이없습니다.</td>
 				
 				</c:when>
 			
 				<c:otherwise>
-					<td colspan="2">
+					<td colspan="12">
 					<table border="" width="100%">
 						<c:forEach var="rr" items="${reply }">
 							<tr>
 								<td>
+								
+									<c:if test="${rr.lev>0 }">
+								
+										<c:forEach begin="1" end="${rr.lev }">
+										&nbsp;&nbsp;
+										</c:forEach>
+										
+										
+									</c:if>
+									
 									${rr.content }
 									<button onclick="re(${rr.id})">댓글</button>
 									
@@ -137,7 +152,7 @@ function rehide(){
 	<!-- ========================================================/댓글리스트 tr -->		
 	<!-- ========================================================대댓글숨기기 tr -->							
 						
-							<tr class="rediv" id = "rd${rr.id }">
+					<%-- 		<tr class="rediv" id = "rd${rr.id }">
 								<td>
 									<form action="Rereinsert" id="rrinfrm${rr.id }">
 										<textarea cols="100" name="rrcontent" style="resize: none;"></textarea>
@@ -155,6 +170,34 @@ function rehide(){
 	
 								</td>
 									
+							</tr> --%>
+							<tr>
+								<td colspan="2">
+									<table class="rediv" id = "rd${rr.id }">
+										<tr>
+											<td>
+												<form action="Rereinsert" id="rrinfrm${rr.id }">
+													<textarea cols="100" name="rrcontent" style="resize: none;"></textarea>
+													<input type="hidden" name="orid" value="${data.id }">
+													<input type="hidden" name="id" value = "${rr.id }">
+													<input type="hidden" name="gid" value = "${rr.gid }">
+													<input type="hidden" name="seq" value = "${rr.seq }">
+													<input type="hidden" name="lev" value = "${rr.lev }">
+													<input type="hidden" name="page" value="${page }">
+													<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
+												</form>
+											</td>	
+											
+											
+											<td>
+												<button  onclick="document.getElementById('rrinfrm${rr.id}').submit()">댓글달기</button>
+											</td>
+										</tr>
+									
+									</table>
+				
+									
+								</td>
 							</tr>
 	<!-- ========================================================/대댓글숨기기 tr -->							
 						</c:forEach>		
@@ -166,7 +209,7 @@ function rehide(){
 	<!-- 댓글달수있는 창 -->
 		<tr>
 	
-			<td>
+			<td colspan="11">
 				<form action="Replyinsert" id="rinsert">
 				<textarea cols="100" name="content" style="resize: none;"></textarea>
 				<input type="hidden" name="id" value="${data.id }">
@@ -185,14 +228,14 @@ function rehide(){
 		<tr>
 			<c:if test="${data.pname==pname||pname=='admin' }">
 			
-				<td>
+				<td colspan="6">
 					<a href="Modify?id=${data.id }&kind=${data.kind }&page=${page}">수정</a>
 					<a href="Delete?id=${data.id }&kind=${data.kind}">삭제</a>
 				</td>
 			
 			</c:if>
-			<td>
-					<input type="button" value="추천" onclick="location.href='Rec?id=${data.id}&page=${page }'">
+			<td colspan="6">
+					
 					<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
 					<a href="Cominsert?id=${data.id }&page=${page}">답글</a>
 			</td>

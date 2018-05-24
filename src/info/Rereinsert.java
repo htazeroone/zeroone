@@ -18,7 +18,7 @@ public class Rereinsert implements Action{
 		
 		VO vo = new VO();
 		
-		System.out.println("컨텐트 : " + request.getParameter("rrcontent"));
+
 		
 		int orid = Integer.parseInt(request.getParameter("orid"));
 		int gid = Integer.parseInt(request.getParameter("gid"));
@@ -36,6 +36,7 @@ public class Rereinsert implements Action{
 		
 		DAO dao = new DAO();
 		
+		System.out.println(vo);
 		dao.rereinsert(vo);
 		
 		data.setRedirect(true);

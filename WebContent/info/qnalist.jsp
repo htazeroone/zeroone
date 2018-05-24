@@ -50,10 +50,33 @@
 		
 					
 				<tr>
-				
+					
+					
 					<td>${dd.kind }</td>
 					<td>${no.index+start }</td>
-					<td><a href="Detail?id=${dd.id }&page=${page}">${dd.title}</a></td>
+					<c:choose>
+						<c:when test="${dd.title eq null }">
+							<td>
+								<a href="Detail?id=${dd.id }&page=${page}">　　　</a>
+							</td>
+						</c:when>
+						
+						<c:otherwise>
+							<td>
+								<c:if test="${dd.lev>0 }">
+								
+									<c:forEach begin="1" end="${dd.lev }">
+									&nbsp;&nbsp;
+									</c:forEach>
+									
+									└
+								</c:if>
+								
+								<a href="Detail?id=${dd.id }&page=${page}">${dd.title}</a>
+							</td>	
+						</c:otherwise>
+					</c:choose>
+					
 					<td>${dd.pname}</td>
 					<td>${dd.reg_date}</td>
 					<td>${dd.rec }</td>

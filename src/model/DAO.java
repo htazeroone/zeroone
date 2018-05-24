@@ -1520,7 +1520,7 @@ public class DAO {
 		ArrayList<VO> arr = new ArrayList<>();
 
 		try {
-			sql = "select * from reply where orid = ?";
+			sql = "select * from reply where orid = ? ORDER BY gid,seq";
 			ptmt=con.prepareStatement(sql);
 			ptmt.setInt(1, id);
 
@@ -1623,7 +1623,7 @@ public class DAO {
 
 			ptmt.setInt(1, vo.getOrid());
 			ptmt.setInt(2, id);
-			ptmt.setInt(3, vo.getId());
+			ptmt.setInt(3, vo.getGid());
 			ptmt.setInt(4, vo.getSeq()+1);
 			ptmt.setInt(5, vo.getLev()+1);
 			ptmt.setString(6, vo.getPname());
