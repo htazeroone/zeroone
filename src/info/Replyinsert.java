@@ -19,6 +19,7 @@ public class Replyinsert implements Action{
 		DAO dao = new DAO();
 		VO vo = new VO();
 		
+		System.out.println("댓글 : "+request.getParameter("content"));
 		vo.setContent(request.getParameter("content"));
 		vo.setPname(request.getParameter("pname"));
 		vo.setId(Integer.parseInt(request.getParameter("id")));

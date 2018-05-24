@@ -136,11 +136,11 @@ function rehide(){
 							
 	<!-- ========================================================/댓글리스트 tr -->		
 	<!-- ========================================================대댓글숨기기 tr -->							
-							
+						
 							<tr class="rediv" id = "rd${rr.id }">
 								<td>
-									<form action="Rereinsert" id="rrinfrm">
-										<textarea cols="100" name="content"></textarea>
+									<form action="Rereinsert" id="rrinfrm${rr.id }">
+										<textarea cols="100" name="rrcontent" style="resize: none;"></textarea>
 										<input type="hidden" name="orid" value="${data.id }">
 										<input type="hidden" name="id" value = "${rr.id }">
 										<input type="hidden" name="gid" value = "${rr.gid }">
@@ -151,7 +151,7 @@ function rehide(){
 									</form>
 								</td>				
 								<td>
-									<button  onclick="document.getElementById('rrinfrm').submit()">댓글달기</button>
+									<button  onclick="document.getElementById('rrinfrm${rr.id}').submit()">댓글달기</button>
 	
 								</td>
 									
@@ -168,7 +168,7 @@ function rehide(){
 	
 			<td>
 				<form action="Replyinsert" id="rinsert">
-				<textarea cols="100" name="content"></textarea>
+				<textarea cols="100" name="content" style="resize: none;"></textarea>
 				<input type="hidden" name="id" value="${data.id }">
 				<input type="hidden" name="page" value="${page }">
 				<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">

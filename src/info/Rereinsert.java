@@ -18,6 +18,8 @@ public class Rereinsert implements Action{
 		
 		VO vo = new VO();
 		
+		System.out.println("컨텐트 : " + request.getParameter("rrcontent"));
+		
 		int orid = Integer.parseInt(request.getParameter("orid"));
 		int gid = Integer.parseInt(request.getParameter("gid"));
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -25,7 +27,7 @@ public class Rereinsert implements Action{
 		int lev = Integer.parseInt(request.getParameter("lev"));
 		
 		vo.setPname(request.getParameter("pname"));
-		vo.setContent(request.getParameter("content"));
+		vo.setContent("└"+request.getParameter("rrcontent"));
 		vo.setOrid(orid);
 		vo.setId(id);
 		vo.setGid(gid);
