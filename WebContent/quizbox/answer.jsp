@@ -106,8 +106,8 @@
 	<form action= "ProblemSave" method="post">
 	<c:forEach varStatus="no" items="${problem }" var="qq">
 			<div class="a${no.count }">문제 ${qq.id}번 
-		<input type= "hidden" name="id${no.count }" value="${qq.id }">
-		<input type = "checkbox" name= "save${no.count }" value = ${no.count }><br>
+		<input type= "hidden" name="id${qq.id }" value="${qq.id }">
+		<input type = "checkbox" name= "save${qq.id }" value = ${qq.id }><br>
 			</div>
 	</c:forEach>
 			<div>

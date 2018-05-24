@@ -1231,14 +1231,21 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 		}
 
 		//승진 quiz 문제 출력
-
-		public ArrayList<VO> question(int chid) {
+		
+		public ArrayList<VO> question(int chid, int start, int end) {
 			ArrayList<VO> res = new ArrayList<>();
 
 			try {
-				sql="select * from quiz where chid = ? order by id asc";
+				
+				sql = "select * from " + 
+						"(select rownum rnum, tt.* from " + 
+						"(select * from quiz where chid = ? order by id asc) tt) " + 
+						"where rnum >= ? and rnum <= ?";
+				
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, chid);
+				ptmt.setInt(2, start);
+				ptmt.setInt(3, end);
 				rs = ptmt.executeQuery();
 
 				while(rs.next()) {
@@ -1261,17 +1268,24 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 			}
 			return res;
 		}
-
+		
 		//승진 문제 푼 결과 출력
 
-		public ArrayList<VO> result(String pid, int chid) {
+		public ArrayList<VO> result(String pid, int chid, int start, int end) {
 			ArrayList<VO> res = new ArrayList<>();
 
 			try {
-				sql="select * from study_note where pid = ? and chid = ? order by id asc";
+
+				sql = "select * from " + 
+						"(select rownum rnum, tt.* from " + 
+						"(select * from study_note where pid = ? and chid = ? order by id asc) tt) " + 
+						"where rnum >= ? and rnum <= ?";
+				
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, pid);
 				ptmt.setInt(2, chid);
+				ptmt.setInt(3, start);
+				ptmt.setInt(4, end);
 				rs = ptmt.executeQuery();
 
 				while(rs.next()) {
@@ -1286,7 +1300,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 			}
 			return res;
 		}
-
+		
 		// 승진 문제 결과 저장
 		// select 하고 데이터가 있으면 업데이트하고, 없으면 삽입함
 
@@ -1298,13 +1312,13 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 				ptmt.setInt(2, vo.getChid());
 				ptmt.setInt(3, vo.getId());
 				rs = ptmt.executeQuery();
-
+				
 				if(rs.next()) {
 					sql = "update study_note set chid = ?, id = ?, input = ?, ox = ? where pid = ? and chid = ? and id = ?";
 
 					ptmt = con.prepareStatement(sql);
 					ptmt.setInt(1, vo.getChid());
-					ptmt.setInt(2, vo.getId());
+					ptmt.setInt(2, vo.getId());							
 					ptmt.setString(3, vo.getInput());
 					ptmt.setInt(4, vo.getOx());
 					ptmt.setString(5, vo.getPid());
@@ -1313,29 +1327,29 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 					ptmt.executeUpdate();
 
 				}else {
-
+					
 					sql = "insert into study_note"
-							+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";
+							+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";			
 					ptmt = con.prepareStatement(sql);
 					ptmt.setInt(1, vo.getChid());
-					ptmt.setInt(2, vo.getId());
+					ptmt.setInt(2, vo.getId());							
 					ptmt.setString(3, vo.getInput());
 					ptmt.setInt(4, vo.getOx());
 					ptmt.setString(5, vo.getPid());
 					ptmt.executeUpdate();
-
+					
 				}
-
+				
 			} catch(SQLException e) {
-
+				
 			}
 		}
 
-		//승진 문제 저장
+		//승진 문제 저장 
 		public void problem_save(VO vo) {
 
 			try {
-
+				
 				sql = "update study_note set save = ? where pid = ? and chid = ? and id = ?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, vo.getSave());
@@ -1345,8 +1359,30 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 				ptmt.executeUpdate();
 
 			} catch(SQLException e) {
-
+				
 			}
+		}
+
+		
+		//승진 page
+		
+		public int totalCount(int chid) {
+
+			try {
+				sql = "select count(*) from quiz where chid = ?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, chid);
+				rs = ptmt.executeQuery();
+				
+				rs.next();
+				
+				return rs.getInt(1);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return 0;
 		}
 
 		//ㅊ 답글 입력
