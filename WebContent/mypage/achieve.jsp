@@ -15,11 +15,10 @@
    /*  margin: 0 auto; */
 
   	 position: absolute;
-
-	 left: 37%;
+	 left: 28%;
 	 top: 20%;
  	 margin-left: -250px;
-	 margin-top: -250px; 
+	 margin-top: -250px;
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,14 +29,15 @@
   <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="../../js/jquery-ui.min.js"></script>
   <script type="text/javascript">
- 
+
   google.charts.load("current", {packages:["corechart"]});
   google.charts.setOnLoadCallback(drawChart);
   var arrName = new Array();
   var arrO = new Array();
   var arrX = new Array();
-
-  var arrP = new Array();
+  /* var arrSum = new Array(); */
+  var arrTotal = new Array();
+  var arrQNum = new Array();
 
  	window.onload=function(){
 
@@ -59,40 +59,40 @@
 	  	arrX.push("${x}");
 	  </c:forEach>
 
+	  <c:forEach var="tn" items="${ resultTotalNum}" varStatus="no">
+	  	arrTotal.push("${tn}");
+	  </c:forEach>
+
+	  <c:forEach var="qn" items="${eachQNum}" varStatus="no">
+	  	arrQNum.push("${qn}");
+	  </c:forEach>
+
   };
   function drawChart() {
-/* 	var data = google.visualization.arrayToDataTable([
-          ['Genre', '맞은 개수', '틀린 개수', { role: 'annotation' } ],
-          [arrName[0], Number(arrO[0]), Number(arrX[0]), ''] 
-        ]); 
-      
-	 for(var i = 1; i< ${totalChNum}; i++){
-		data.addRow([arrName[i], Number(arrO[i]),  Number(arrX[i]), '']);
-	 }  */
-	 
-	 var data = new google.visualization.DataTable(); 
-     
+
+	 var data = new google.visualization.DataTable();
+
 	 data.addColumn('string', 'AA');
 	 data.addColumn('number', '맞은 개수');
 	 data.addColumn('number', '틀린 개수');
 	 data.addColumn('string', { role: 'annotation' });
-	 
+
 	 for(var i = 0; i< ${totalChNum}; i++){
  		 if(Number(arrO[i])==0 && Number(arrX[i])==0){
-			data.addRow([arrName[i], null,  null, '']);
+			data.addRow([arrName[i]+'('+arrTotal[i]+'/'+arrQNum[i]+')', null,  null, '']);
 		 }else if(Number(arrO[i])==0){
-			data.addRow([arrName[i], null,  Number(arrX[i]), '']);
-			
+			data.addRow([arrName[i]+'('+arrTotal[i]+'/'+arrQNum[i]+')', null,  Number(arrX[i]), '']);
+
 		 } else if(Number(arrX[i])==0){
-			data.addRow([arrName[i], Number(arrO[i]),  null, '']);
-			
-		 } else{ 
-		 	data.addRow([arrName[i], Number(arrO[i]),  Number(arrX[i]), '']);
+			data.addRow([arrName[i]+'('+arrTotal[i]+'/'+arrQNum[i]+')', Number(arrO[i]),  null, '']);
+
+		 } else{
+		 	data.addRow([arrName[i]+'('+arrTotal[i]+'/'+arrQNum[i]+')', Number(arrO[i]),  Number(arrX[i]), '']);
 		 }
-	 } 		
+	 }
       var view = new google.visualization.DataView(data);
 
-      view.setColumns([0, 
+      view.setColumns([0,
           { calc: "stringify",
             sourceColumn: 1,
             type: "string",
@@ -116,10 +116,12 @@
             },
     	  vAxis: {title:'Chapter'},
     	  hAxis: {title:'Number of Quiz'},
-          width: 990,
+          width: 1300,
           height: 600,
+          /* height : 500,
+          width : '100%',  */
           legend: { position: 'top', maxLines: 5},
-          bar: { groupWidth: '75%' }, 
+          bar: { groupWidth: '75%' },
           isStacked: true
         };
       var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));

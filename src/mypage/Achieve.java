@@ -22,6 +22,9 @@ public class Achieve implements Action {
 		DAO dao = new DAO();
 		VO vo = new VO();
 
+		//모든 챕터 안의 문제 수
+		ArrayList<Integer> eachQNum = dao.eachQNum();
+		request.setAttribute("eachQNum", eachQNum);
 
 		//studyQNum : 지금pid의 chid마다의 푼 문제 개수
 		//ArrayList<Integer> studyQNum = dao.studyQNum(pid);
@@ -76,6 +79,7 @@ public class Achieve implements Action {
 
 					if(temp==total) {
 						System.out.println("찾았다! total:"+total+" temp:"+temp+", chSeq"+chSeq);
+
 						for(int i=0; i<eachONum.size(); i++) {
 							if(temp==eachONum.get(i).getChid()) {
 								System.out.println("studyQNum.get(chSeq).getOx():"+studyQNum.get(chSeq).getOx());
@@ -96,26 +100,6 @@ public class Achieve implements Action {
 								}
 							}
 						}
-/*						for(int i=0; i<eachONum.size(); i++) {
-							if(temp==eachONum.get(i).getChid()) {
-								System.out.println("studyQNum.get(chSeq).getOx():"+studyQNum.get(chSeq).getOx());
-								System.out.println("eachONum.get(chSeq).getOx():"+eachONum.get(chSeq).getOx());
-								resultONum.add(eachONum.get(chSeq).getOx());
-								if(studyQNum.get(chSeq).getOx()==eachONum.get(i).getOx()) {
-									resultXNum.add(0);
-								}
-							}
-						}
-						for(int i=0; i<eachXNum.size(); i++) {
-							if(temp==eachXNum.get(i).getChid()) {
-								System.out.println("studyQNum.get(chSeq).getOx():"+studyQNum.get(chSeq).getOx());
-								System.out.println("eachXNum.get(chSeq).getOx():"+eachXNum.get(chSeq).getOx());
-								resultXNum.add(eachXNum.get(chSeq).getOx());
-								if(studyQNum.get(chSeq).getOx()==eachXNum.get(i).getOx()) {
-									resultONum.add(0);
-								}
-							}
-						}*/
 						//break;
 					}else {
 						System.out.println("아니얌");
@@ -126,7 +110,7 @@ public class Achieve implements Action {
 							resultONum.add(0);
 							resultXNum.add(0);
 						}
-						
+
 					}
 				}
 				nono=0;
@@ -139,10 +123,15 @@ public class Achieve implements Action {
 				System.out.println("ch마다의 틀린 개수  resultXNum:"+ii);
 			}
 
+			ArrayList<Integer> resultTotalNum = new ArrayList();
+			for(int i=0; i<totalChNum; i++) {
+				resultTotalNum.add(resultONum.get(i)+resultXNum.get(i));
+			}
+
 
 			request.setAttribute("resultONum", resultONum);
 			request.setAttribute("resultXNum", resultXNum);
-
+			request.setAttribute("resultTotalNum", resultTotalNum);
 			request.setAttribute("main", "mypage/achieve.jsp");
 		}else {
 			//사용자가 문제를 한번도 안풀어본 경우 수행

@@ -606,22 +606,21 @@ public class DAO {
 	}
 
 
-	//지아 -학습성취도 -- 각 챕터 안의 문제 수
-	public ArrayList<Double> eachQNum() {
-		ArrayList<Double> res = new ArrayList();
+	//학습성취도 -- 퀴즈 테이블에서 각 챕터 안의 문제 수
+	public ArrayList<Integer> eachQNum() {
+		ArrayList<Integer> res = new ArrayList();
 		sql = "select count(distinct id) count from quiz group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				System.out.println("각 챕터 안의 문제 수:"+rs.getInt(1));
-				res.add(rs.getDouble(1));
+				res.add(rs.getInt(1));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("eachQNum() 종료");
 		return res;
 	}
 
@@ -742,13 +741,13 @@ public class DAO {
 	}
 
 	public boolean isOx(String pid) {
-		
+
 		try {
 			sql = "select ox from study_note where pid=?";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			rs = ptmt.executeQuery();
-			
+
 			while(rs.next()) {
 				if(rs.getInt(1) == 0) {
 					return true;
@@ -759,7 +758,7 @@ public class DAO {
 		}
 		return false;
 	}
-	
+
 
 	//지아 - 학습노트 왼쪽 메뉴 -- 사용자가 학습노트에 저장해둔 챕터 번호와 챕터명을 리턴
 	public ArrayList<VO> getChidList(String pid){
@@ -784,19 +783,19 @@ public class DAO {
 		return null;
 	}
 	public ArrayList<VO> getOxList(String pid) {
-		
+
 		ArrayList<VO> oxList = new ArrayList<>();
 		try {
 			sql = "select * from chname where chid in (select distinct chid from study_note where pid=? and ox=0) order by chid";
-			
+
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			rs = ptmt.executeQuery();
-			
+
 			while(rs.next()) {
 				VO vo = new VO();
 				vo.setChid(rs.getInt("chid"));
-				vo.setChname(rs.getString("chname"));	
+				vo.setChname(rs.getString("chname"));
 				oxList.add(vo);
 			}
 		} catch(Exception e) {
@@ -804,7 +803,7 @@ public class DAO {
 		}
 		return oxList;
 	}
-	
+
 	//지아 - 학습노트 -- 사용자가 학습노트에 저장해둔 챕터 마다의 총 문제 수 들 리턴
 	public int qNum(int chid, String pid) {
 		sql = "select count(*) count from study_note where chid=? and pid=? and save=1";
@@ -825,16 +824,16 @@ public class DAO {
 	public int oxNum(int chid, String pid) {
 		int oxNum = 0;
 		try {
-			
+
 			sql = "select count(*) from study_note where pid=? and chid=? and ox=0";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			ptmt.setInt(2, chid);
 			rs = ptmt.executeQuery();
-			
+
 			rs.next();
 			oxNum = rs.getInt(1);
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -876,14 +875,14 @@ public class DAO {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<VO> oxInfo(int chid, String pid, int start, int end){
 		ArrayList<VO> res = new ArrayList<>();
-		
-		sql = "select * from (select rownum rnum, tt.* from " + 
-				"(select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? and ox=0) order by id) tt) " + 
+
+		sql = "select * from (select rownum rnum, tt.* from " +
+				"(select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? and ox=0) order by id) tt) " +
 				"where rnum>=? and rnum<= ?";
-		
+
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, chid);
@@ -891,7 +890,7 @@ public class DAO {
 			ptmt.setInt(3, start);
 			ptmt.setInt(4, end);
 			rs = ptmt.executeQuery();
-			
+
 			while(rs.next()) {
 				VO vo = new VO();
 				vo.setId(rs.getInt("id"));
@@ -915,12 +914,12 @@ public class DAO {
 	}
 
 public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
-		
+
 		for(int id : deleteId) {
-			
+
 			try {
 				sql = "update study_note set ox=1 where pid=? and chid=? and id=?";
-				
+
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, pid);
 				ptmt.setInt(2, chid);
@@ -928,11 +927,11 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 				ptmt.executeUpdate();
 			} catch(Exception e) {
 				e.printStackTrace();
-			}		
+			}
 		}
 	}
 
-	
+
 	//지아 - 학습노트 -- 사용자 입력답에 대한 정답과 OX결과 리턴 +  study_note에 맞춘 문제 update
 	public ArrayList<VO> quizRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit){
 		ArrayList<VO> res = new ArrayList();
@@ -1232,7 +1231,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 		}
 
 		//승진 quiz 문제 출력
-		
+
 		public ArrayList<VO> question(int chid) {
 			ArrayList<VO> res = new ArrayList<>();
 
@@ -1262,7 +1261,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 			}
 			return res;
 		}
-		
+
 		//승진 문제 푼 결과 출력
 
 		public ArrayList<VO> result(String pid, int chid) {
@@ -1287,7 +1286,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 			}
 			return res;
 		}
-		
+
 		// 승진 문제 결과 저장
 		// select 하고 데이터가 있으면 업데이트하고, 없으면 삽입함
 
@@ -1299,13 +1298,13 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 				ptmt.setInt(2, vo.getChid());
 				ptmt.setInt(3, vo.getId());
 				rs = ptmt.executeQuery();
-				
+
 				if(rs.next()) {
 					sql = "update study_note set chid = ?, id = ?, input = ?, ox = ? where pid = ? and chid = ? and id = ?";
 
 					ptmt = con.prepareStatement(sql);
 					ptmt.setInt(1, vo.getChid());
-					ptmt.setInt(2, vo.getId());							
+					ptmt.setInt(2, vo.getId());
 					ptmt.setString(3, vo.getInput());
 					ptmt.setInt(4, vo.getOx());
 					ptmt.setString(5, vo.getPid());
@@ -1314,29 +1313,29 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 					ptmt.executeUpdate();
 
 				}else {
-					
+
 					sql = "insert into study_note"
-							+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";			
+							+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";
 					ptmt = con.prepareStatement(sql);
 					ptmt.setInt(1, vo.getChid());
-					ptmt.setInt(2, vo.getId());							
+					ptmt.setInt(2, vo.getId());
 					ptmt.setString(3, vo.getInput());
 					ptmt.setInt(4, vo.getOx());
 					ptmt.setString(5, vo.getPid());
 					ptmt.executeUpdate();
-					
+
 				}
-				
+
 			} catch(SQLException e) {
-				
+
 			}
 		}
 
-		//승진 문제 저장 
+		//승진 문제 저장
 		public void problem_save(VO vo) {
 
 			try {
-				
+
 				sql = "update study_note set save = ? where pid = ? and chid = ? and id = ?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, vo.getSave());
@@ -1346,7 +1345,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 				ptmt.executeUpdate();
 
 			} catch(SQLException e) {
-				
+
 			}
 		}
 
