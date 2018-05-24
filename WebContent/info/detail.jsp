@@ -69,7 +69,16 @@ function rehide(){
 		<tr>	
 			<td>글쓴이</td>
 			<td>${data.pname }</td>
-		</tr>	
+		</tr>
+		<c:if test="${data.upfile!='' }">
+			<tr>
+				<td>파일</td>
+				<td>
+				<a href="FileDown?file=${data.upfile}&kind=${data.kind }">${data.upfile }</a>
+				</td>
+			</tr>
+		</c:if>
+			
 		<tr>	
 			<td>등록일</td>
 			<td>${data.reg_date }</td>
@@ -131,7 +140,7 @@ function rehide(){
 							<tr class="rediv" id = "rd${rr.id }">
 								<td>
 									<form action="Rereinsert" id="rrinfrm">
-										<textarea cols="100" name="content" style="resize: none;"></textarea>
+										<textarea cols="100" name="content"></textarea>
 										<input type="hidden" name="orid" value="${data.id }">
 										<input type="hidden" name="id" value = "${rr.id }">
 										<input type="hidden" name="gid" value = "${rr.gid }">
@@ -159,7 +168,7 @@ function rehide(){
 	
 			<td>
 				<form action="Replyinsert" id="rinsert">
-				<textarea cols="100" name="content" style="resize: none;"></textarea>
+				<textarea cols="100" name="content"></textarea>
 				<input type="hidden" name="id" value="${data.id }">
 				<input type="hidden" name="page" value="${page }">
 				<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
