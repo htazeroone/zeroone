@@ -104,16 +104,44 @@ $(document).ready(function(){
 <%
 	if(session.getAttribute("pname")!=null){
 		%>
-		<!-- <li><a href="#">마이페이지</a> -->
+	<!-- <li><a href="#">마이페이지</a> -->
 		<li><a href="#"><%=session.getAttribute("pname")%>님 페이지</a>
 			<ul>
 				<li><a href="../login/Logout">로그아웃</a></li>
-				<li><a href="../mypage/Achieve" >학습성취도</a></li>
-				<li><a href="../mypage/Note" >학습노트</a></li>
-				<li><a href="../mypage/IncorrectNote" >오답노트</a></li>
+				<li><a href="../mypage/Achieve">학습성취도</a>
+						<ul>
+				<%
+					for(int i = 0; i<subjects.size(); i++) { %>
+						<li><a href="../mypage/Achieve?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+				<% }%>
+						</ul>
+				
+				
+				</li>
+				<li><a href="#">학습노트</a>
+					<ul>
+				<%
+					for(int i = 0; i<subjects.size(); i++) { %>
+						<li><a href="../mypage/Note?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+				<% }%>
+					</ul>
+				</li>
+				<li><a href="#" >오답노트</a>
+					<ul>
+				<%
+					for(int i = 0; i<subjects.size(); i++) { %>
+						<li><a href="../mypage/IncorrectNote?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+				<% }%>
+					</ul>
+				
+				</li>
 
 				<li><a href="../mypage/ModifyPwForm">비밀번호변경</a></li>
 				<li><a href="../mypage/OutForm">회원탈퇴</a></li>
+				
+				
+				
+				
 			</ul>
 		</li>
 

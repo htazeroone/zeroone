@@ -607,11 +607,12 @@ public class DAO {
 
 
 	//학습성취도 -- 퀴즈 테이블에서 각 챕터 안의 문제 수
-	public ArrayList<Integer> eachQNum() {
+	public ArrayList<Integer> eachQNum(String subject) {
 		ArrayList<Integer> res = new ArrayList();
-		sql = "select count(distinct id) count from quiz group by chid order by chid";
+		sql = "select count(distinct id) count from quiz where subject=? group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, subject);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				System.out.println("각 챕터 안의 문제 수:"+rs.getInt(1));
@@ -625,13 +626,14 @@ public class DAO {
 	}
 
 	//학습성취도 -- 학습노트 테이블에서 각 챕터 마다 사용자가 푼 문제수
-	public ArrayList<VO> studyQNum(String pid){
+	public ArrayList<VO> studyQNum(String pid, String subject){
 		//ArrayList<Integer> res = new ArrayList();
 		ArrayList<VO> res = new ArrayList<VO>();
-		sql = "select chid, count(*) count from study_note where pid=? group by chid order by chid";
+		sql = "select chid, count(*) count from study_note where pid=? and subject=? group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				VO vo = new VO();
@@ -650,13 +652,14 @@ public class DAO {
 	}
 
 	//학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
-	public ArrayList<VO> eachOXNum(String pid) {
+	public ArrayList<VO> eachOXNum(String pid, String subject) {
 		ArrayList<VO> res = new ArrayList<VO>();
 		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
-		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='1' group by chid order by chid";
+		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='1' and subject=? group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				VO vo = new VO();
@@ -673,13 +676,14 @@ public class DAO {
 	}
 
 	//학습성취도 -- 지금pid의 chid마다의 ox==1인 문제 개수
-	public ArrayList<VO> eachONum(String pid) {
+	public ArrayList<VO> eachONum(String pid, String subject) {
 		ArrayList<VO> res = new ArrayList<VO>();
 		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
-		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='1' group by chid order by chid";
+		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='1' and subject=? group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				VO vo = new VO();
@@ -696,13 +700,14 @@ public class DAO {
 	}
 
 	//학습성취도 -- 지금pid의 chid마다의 ox==0인 문제 개수
-	public ArrayList<VO> eachXNum(String pid) {
+	public ArrayList<VO> eachXNum(String pid, String subject) {
 		ArrayList<VO> res = new ArrayList<VO>();
 		//sql = "select count(ox) ox from study_note where pid = ? and ox='1' group by chid";
-		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='0' group by chid order by chid";
+		sql = "select chid, count(ox) ox from study_note where pid = ? and ox='0' and subject=? group by chid order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				VO vo = new VO();
@@ -721,11 +726,12 @@ public class DAO {
 
 
 	//지아 - 학습노트 진입 -- 사용자의 study_note에 데이터가 있는지 없는지 구분
-	public boolean isDataInNote(String pid) {
-		sql = "select * from study_note where pid = ? and save=1";
+	public boolean isDataInNote(String pid, String subject) {
+		sql = "select * from study_note where pid = ? and save=1 and subject=?";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 
 			if(rs.next()) {
@@ -740,12 +746,13 @@ public class DAO {
 		return false;
 	}
 
-	public boolean isOx(String pid) {
+	public boolean isOx(String pid, String subject) {
 
 		try {
-			sql = "select ox from study_note where pid=?";
+			sql = "select ox from study_note where pid=? and subject=?";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 
 			while(rs.next()) {
@@ -761,13 +768,14 @@ public class DAO {
 
 
 	//지아 - 학습노트 왼쪽 메뉴 -- 사용자가 학습노트에 저장해둔 챕터 번호와 챕터명을 리턴
-	public ArrayList<VO> getChidList(String pid){
+	public ArrayList<VO> getChidList(String pid, String subject){
 		ArrayList<VO> chList = new ArrayList();
 
-		sql = "select * from chname where chid in (select distinct chid from study_note where pid = ? and save=1) order by chid";
+		sql = "select * from chname where chid in (select distinct chid from study_note where pid = ? and save=1 and subject=?) order by chid";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				VO vo = new VO();
@@ -782,14 +790,15 @@ public class DAO {
 		}
 		return null;
 	}
-	public ArrayList<VO> getOxList(String pid) {
+	public ArrayList<VO> getOxList(String pid, String subject) {
 
 		ArrayList<VO> oxList = new ArrayList<>();
 		try {
-			sql = "select * from chname where chid in (select distinct chid from study_note where pid=? and ox=0) order by chid";
+			sql = "select * from chname where chid in (select distinct chid from study_note where pid=? and ox=0 and subject=?) order by chid";
 
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
+			ptmt.setString(2, subject);
 			rs = ptmt.executeQuery();
 
 			while(rs.next()) {
@@ -805,12 +814,13 @@ public class DAO {
 	}
 
 	//지아 - 학습노트 -- 사용자가 학습노트에 저장해둔 챕터 마다의 총 문제 수 들 리턴
-	public int qNum(int chid, String pid) {
-		sql = "select count(*) count from study_note where chid=? and pid=? and save=1";
+	public int qNum(int chid, String pid, String subject) {
+		sql = "select count(*) count from study_note where chid=? and pid=? and save=1 and subject=?";
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, chid);
 			ptmt.setString(2, pid);
+			ptmt.setString(3, subject);
 			rs = ptmt.executeQuery();
 			if(rs.next()) {
 				return rs.getInt(1);
@@ -821,14 +831,15 @@ public class DAO {
 		}
 		return 0;
 	}
-	public int oxNum(int chid, String pid) {
+	public int oxNum(int chid, String pid, String subject) {
 		int oxNum = 0;
 		try {
 
-			sql = "select count(*) from study_note where pid=? and chid=? and ox=0";
+			sql = "select count(*) from study_note where pid=? and chid=? and ox=0 and subject=?";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
 			ptmt.setInt(2, chid);
+			ptmt.setString(3, subject);
 			rs = ptmt.executeQuery();
 
 			rs.next();
@@ -840,19 +851,21 @@ public class DAO {
 		return oxNum;
 	}
 	//지아 - 학습노트 -- 사용자가 선택한 챕터의 문제들의 정보 조회(문제 텍스트, 답 등등)
-	public ArrayList<VO> qInfo(int chid, String pid, int start, int end){
+	public ArrayList<VO> qInfo(int chid, String pid, int start, int end, String subject){
 		ArrayList<VO> res = new ArrayList();
 
 		sql = "select * from (select rownum rnum, tt.* from " +
-				"(select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? and save=1) order by id) tt) " +
+				"(select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? and save=1 and subject=?) order by id) tt) " +
 				"where rnum>=? and rnum<= ?";
 
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, chid);
 			ptmt.setString(2, pid);
-			ptmt.setInt(3, start);
-			ptmt.setInt(4, end);
+			ptmt.setString(3,subject);
+			ptmt.setInt(4, start);
+			ptmt.setInt(5, end);
+			
 			rs = ptmt.executeQuery();
 			while(rs.next()) {
 				VO vo = new VO();
@@ -876,19 +889,20 @@ public class DAO {
 		return null;
 	}
 
-	public ArrayList<VO> oxInfo(int chid, String pid, int start, int end){
+	public ArrayList<VO> oxInfo(int chid, String pid, int start, int end, String subject){
 		ArrayList<VO> res = new ArrayList<>();
 
 		sql = "select * from (select rownum rnum, tt.* from " +
-				"(select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? and ox=0) order by id) tt) " +
+				"(select * from quiz where (chid, id) in (select chid, id from study_note where chid= ? and pid= ? and ox=0 and subject=?) order by id) tt) " +
 				"where rnum>=? and rnum<= ?";
 
 		try {
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, chid);
 			ptmt.setString(2, pid);
-			ptmt.setInt(3, start);
-			ptmt.setInt(4, end);
+			ptmt.setString(3, subject);
+			ptmt.setInt(4, start);
+			ptmt.setInt(5, end);
 			rs = ptmt.executeQuery();
 
 			while(rs.next()) {
@@ -914,17 +928,18 @@ public class DAO {
 		return null;
 	}
 
-	public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
+	public void changeOx(String pid, int chid, ArrayList<Integer> deleteId, String subject) {
 
 		for(int id : deleteId) {
 
 			try {
-				sql = "update study_note set ox=1 where pid=? and chid=? and id=?";
+				sql = "update study_note set ox=1 where pid=? and chid=? and id=? and subject=?";
 
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, pid);
 				ptmt.setInt(2, chid);
 				ptmt.setInt(3, id);
+				ptmt.setString(4, subject);
 				ptmt.executeUpdate();
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -934,16 +949,17 @@ public class DAO {
 
 
 	//지아 - 학습노트 -- 사용자 입력답에 대한 정답과 OX결과 리턴 +  study_note에 맞춘 문제 update
-	public ArrayList<VO> quizRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit){
+	public ArrayList<VO> quizRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit, String subject){
 		ArrayList<VO> res = new ArrayList();
 		ArrayList<String> ox = new ArrayList();
 		try {
 			//사용자 입력답에 대한 정답 및 OX여부 조회
 			for(int i=0; i<qLimit; i++) {
-				sql = "select * from quiz where chid=? and id=?";
+				sql = "select * from quiz where chid=? and id=? and subject=?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, chid);
 				ptmt.setInt(2, idList.get(i));
+				ptmt.setString(3, subject);
 				rs = ptmt.executeQuery();
 
 				if(rs.next()) {
@@ -962,11 +978,12 @@ public class DAO {
 					vo.setAnswer(rs.getString("answer"));
 
 					//내가 틀렸던 input 조회
-					sql = "select input from study_note where pid=? and chid=? and id=?";
+					sql = "select input from study_note where pid=? and chid=? and id=? and subject=?";
 					ptmt = con.prepareStatement(sql);
 					ptmt.setString(1, pid);
 					ptmt.setInt(2, chid);
 					ptmt.setInt(3, idList.get(i));
+					ptmt.setString(4, subject);
 					rs = ptmt.executeQuery();
 					rs.next();
 					vo.setInput(rs.getString("input"));
@@ -977,13 +994,14 @@ public class DAO {
 
 			//사용자 입력답안과 OX결과를 study_note에 저장
 			for(int i=0; i<qLimit; i++) {
-				sql = "update study_note set input =?, ox=? where pid=? and chid=? and id=?";
+				sql = "update study_note set input =?, ox=? where pid=? and chid=? and id=? and subject=?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, input.get(i));
 				ptmt.setString(2, ox.get(i));
 				ptmt.setString(3, pid);
 				ptmt.setInt(4, chid);
 				ptmt.setInt(5, idList.get(i));
+				ptmt.setString(6, subject);
 				ptmt.executeUpdate();
 			}
 
@@ -996,15 +1014,16 @@ public class DAO {
 		return null;
 	}
 
-	public ArrayList<VO> incorrectRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit) {
+	public ArrayList<VO> incorrectRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit, String subject) {
 		ArrayList<VO> res = new ArrayList<>();
 		try {
 
 			for(int i=0; i<qLimit; i++) {
-				sql = "select * from quiz where chid=? and id=?";
+				sql = "select * from quiz where chid=? and id=? and subject=?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, chid);
 				ptmt.setInt(2, idList.get(i));
+				ptmt.setString(3, subject);
 				rs = ptmt.executeQuery();
 
 				if(rs.next()) {
@@ -1015,11 +1034,12 @@ public class DAO {
 					vo.setAnswer(rs.getString("answer"));
 
 					//내가 틀렸던 input 조회
-					sql = "select input from study_note where pid=? and chid=? and id=?";
+					sql = "select input from study_note where pid=? and chid=? and id=? and subject=?";
 					ptmt = con.prepareStatement(sql);
 					ptmt.setString(1, pid);
 					ptmt.setInt(2, chid);
 					ptmt.setInt(3, idList.get(i));
+					ptmt.setString(4, subject);
 					rs = ptmt.executeQuery();
 					rs.next();
 					vo.setInput(rs.getString("input"));
@@ -1030,12 +1050,13 @@ public class DAO {
 
 			//사용자 입력답안과 OX결과를 study_note에 저장
 			for(int i=0; i<qLimit; i++) {
-				sql = "update study_note set input=? where pid=? and chid=? and id=?";
+				sql = "update study_note set input=? where pid=? and chid=? and id=? and subject=?";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, input.get(i));
 				ptmt.setString(2, pid);
 				ptmt.setInt(3, chid);
 				ptmt.setInt(4, idList.get(i));
+				ptmt.setString(5, subject);
 				ptmt.executeUpdate();
 			}
 
@@ -1048,15 +1069,16 @@ public class DAO {
 		return null;
 	}
 	//지아 - 학습노트 -- 선택한 문제만 학습노트에서 삭제
-	public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize) {
+	public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize, String subject) {
 		for(int i=0; i<deleteIdSize; i++) {
 			//sql = "delete from study_note where pid=? and chid=? and id=?";
-			sql = "update study_note set save=0 where pid=? and chid=? and id=?";
+			sql = "update study_note set save=0 where pid=? and chid=? and id=? and subject=?";
 			try {
 				ptmt = con.prepareStatement(sql);
 				ptmt.setString(1, pid);
 				ptmt.setInt(2, chid);
 				ptmt.setInt(3, deleteId.get(i));
+				ptmt.setString(4, subject);
 				ptmt.executeQuery();
 
 			} catch (SQLException e) {
@@ -1067,6 +1089,7 @@ public class DAO {
 		System.out.println("DB에서 deleteId() 종료");
 
 	}
+
 
 
 	//찬 qna랑 notice 리스트 종류랑 스타트와 엔드

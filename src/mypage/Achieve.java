@@ -17,7 +17,10 @@ public class Achieve implements Action {
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		/*String pid = (String)request.getParameter("pid");*/
-		
+		String subject = "";
+		if(request.getParameter("subject") != null && !request.getParameter("subject").equals("")) {
+			subject = request.getParameter("subject");
+		}
 		
 		
 		String pid = "";
@@ -35,12 +38,12 @@ public class Achieve implements Action {
 		VO vo = new VO();
 
 		//모든 챕터 안의 문제 수
-		ArrayList<Integer> eachQNum = dao.eachQNum();
+		ArrayList<Integer> eachQNum = dao.eachQNum(subject);
 		request.setAttribute("eachQNum", eachQNum);
 
 		//studyQNum : 지금pid의 chid마다의 푼 문제 개수
 		//ArrayList<Integer> studyQNum = dao.studyQNum(pid);
-		ArrayList<VO> studyQNum = dao.studyQNum(pid);
+		ArrayList<VO> studyQNum = dao.studyQNum(pid, subject);
 
 		//eachONum : 지금pid의 chid마다의 ox==1인 (맞은)문제 개수
 		ArrayList<VO> eachONum = null;
@@ -62,8 +65,8 @@ public class Achieve implements Action {
 			}
 			request.setAttribute("chName", chName);
 
-			eachONum = dao.eachONum(pid);
-			eachXNum = dao.eachXNum(pid);
+			eachONum = dao.eachONum(pid, subject);
+			eachXNum = dao.eachXNum(pid, subject);
 
 			//resultONum : ch마다의 맞은 개수
 			ArrayList<Integer> resultONum = new ArrayList();
@@ -144,6 +147,9 @@ public class Achieve implements Action {
 			request.setAttribute("resultXNum", resultXNum);
 			request.setAttribute("resultTotalNum", resultTotalNum);
 			request.setAttribute("main", "mypage/achieve.jsp");
+			request.setAttribute("subject", subject);
+			
+			
 		}else {
 			//사용자가 문제를 한번도 안풀어본 경우 수행
 			request.setAttribute("main", "mypage/achieve_empty.jsp");

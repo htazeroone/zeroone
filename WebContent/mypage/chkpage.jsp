@@ -24,7 +24,7 @@ function allChk(){
 			return;
 		}		
 	'</c:forEach>'
-		frm.action = "IncorrectNote";
+		frm.action = "IncorrectNote?subject=${subject}";
 		frm.submit();
 }
 </script>
@@ -58,6 +58,7 @@ function allChk(){
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="hidden" value="${chid }" name="chid">
 		<input type="hidden" value="${page }" name="page">
+		<input type="hidden" value="${subject }" name="subject">
 		
 		<c:forEach var="in" items="${idAndInput }">
 			<div>${in.id }.${in.question }<br>
@@ -115,7 +116,8 @@ function allChk(){
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
 	<input type="hidden" value="${page }" name="page">
-		
+	<input type="hidden" value="${subject }" name="subject">
+	
 		<c:if test="${!empty oxInfo }">
 		<c:forEach var="q" items="${oxInfo }">
 			<div>${q.id }.${q.question }<br>
@@ -138,7 +140,7 @@ function allChk(){
 <!-- 정답 확인 결과 부분  -->
 
 <div class="part">
-	<form action="IncorrectNote?page=${page}" method="post">
+	<form action="IncorrectNote?page=${page}&subject=${subject}" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
 <!-- res : id, ox, answer, input 을 가지고있다   -->
@@ -171,7 +173,7 @@ function allChk(){
 		<div><input type="submit" value="오답 노트에서 삭제"></div>
 	</form>	
 	
-	<form action="IncorrectNote?page=${page+1}" method="post">
+	<form action="IncorrectNote?page=${page+1}&subject=${subject}" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
 		<!-- 다음 문제 풀기  -->

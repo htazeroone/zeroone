@@ -17,6 +17,11 @@ public class IncorrectNote implements Action {
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		
+		String subject = "";
+		if(request.getParameter("subject") != null && !request.getParameter("subject").equals("")) {
+			subject = request.getParameter("subject");
+		}
+		
 		/*String pid = (String)request.getParameter("pid");*/
 		String pid ="";
 		if(null!=session.getAttribute("pid")) {
@@ -66,10 +71,10 @@ public class IncorrectNote implements Action {
 		int totalPage = 0;
 		
 		//pid의 study_note에 OX가 0인 데이터가 있나 없나 구분 
-		if(dao.isDataInNote(pid) && dao.isOx(pid)) { //있다면
+		if(dao.isDataInNote(pid, subject) && dao.isOx(pid, subject)) { //있다면
 			
 			//pid의 study_note에 ox가 0인 것을 포함한 chid 들을 가져와 메뉴를 뿌려준다
-			chList = dao.getOxList(pid);		
+			chList = dao.getOxList(pid, subject);		
 			
 			//메뉴에서 챕터를 클릭하지 않았다면, 
 			if(request.getParameter("chid") == null) {
@@ -85,10 +90,10 @@ public class IncorrectNote implements Action {
 			
 			System.out.println("chid:"+chid);
 			//oxNum : 사용자가 선택한 챕터의 총 오답 수 
-			oxNum = dao.oxNum(chid, pid);
+			oxNum = dao.oxNum(chid, pid, subject);
 			System.out.println("oxNum 사용자가 선택한 챕터의 총 문제 수 :"+oxNum);
 			//oxInfo: 챕터의 문제 데이터 
-			oxInfo = dao.oxInfo(chid, pid, start, end);
+			oxInfo = dao.oxInfo(chid, pid, start, end, subject);
 			
 			totalPage = oxNum/qLimit;
 			
@@ -111,10 +116,10 @@ public class IncorrectNote implements Action {
 				}
 				deleteIdSize = deleteId.size();
 				//DB에서 deleteId 들만 study_note에서 삭제 
-				dao.changeOx(pid, chid, deleteId);
+				dao.changeOx(pid, chid, deleteId, subject);
 		
 				//해당 챕터의 총 문제 수를 다시 센다 
-				oxNum = dao.oxNum(chid, pid);
+				oxNum = dao.oxNum(chid, pid, subject);
 			}
 			System.out.println("oxNum 챕터의 총 오답 수 : "+oxNum);
 			System.out.println("oxInfo.size():"+oxInfo.size());
@@ -128,7 +133,7 @@ public class IncorrectNote implements Action {
 				request.setAttribute("main", "mypage/alert.jsp");
 			} else {
 				//oxInfo: 해당 챕터의 문제 데이터 중 오답처리된 것들을 가져온다 
-				oxInfo = dao.oxInfo(chid, pid, start, end);
+				oxInfo = dao.oxInfo(chid, pid, start, end, subject);
 	
 				if(page == totalPage && oxInfo.size() == 0) {
 					//String url = "../mypage/Note?pid="+pid;
@@ -176,7 +181,7 @@ public class IncorrectNote implements Action {
 				
 				//incorrectRes : 문제 번호와 사용자 입력 답을 입력하여 정오답 결과 및 정답 리턴
 				//res : id, ox, answer, input 을 가지고있다 
-				res = dao.incorrectRes(pid, chid, idList, input, qLimit);			
+				res = dao.incorrectRes(pid, chid, idList, input, qLimit, subject);			
 				System.out.println(res);
 				
 				//idAndInput : 문제 번호, 보기, 사용자 입력값만 가진 리스트 
@@ -211,7 +216,7 @@ public class IncorrectNote implements Action {
 			request.setAttribute("chList", chList);
 			request.setAttribute("chid", chid);
 			request.setAttribute("oxInfo", oxInfo);
-			
+			request.setAttribute("subject", subject);
 		}else { //--학습노트에 데이터가 없다면
 			System.out.println("note에 데이터가 없어서 빈 화면 출력");
 			request.setAttribute("main", "mypage/studypage_empty.jsp");

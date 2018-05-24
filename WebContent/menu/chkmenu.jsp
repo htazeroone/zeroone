@@ -16,7 +16,7 @@
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="submit" value="${ch.chname }">
 	</form> --%>
-	<a href="IncorrectNote?chid=${ch.chid }">${ch.chname }</a><br>
+	<a href="IncorrectNote?chid=${ch.chid }&subject=${subject}">${ch.chname }</a><br>
 </c:forEach>
 
 </body>

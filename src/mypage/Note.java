@@ -17,6 +17,11 @@ public class Note implements Action {
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		
+		String subject = "";
+		if(request.getParameter("subject") != null && !request.getParameter("subject").equals("")) {
+			subject = request.getParameter("subject");
+		}
+		
 		/*String pid = (String)request.getParameter("pid");*/
 		String pid ="";
 		if(null!=session.getAttribute("pid")) {
@@ -65,11 +70,10 @@ public class Note implements Action {
 		//totalPage : 최대 페이지 번호
 		int totalPage = 0;
 		
-		
 		//사용자의 study_note에 데이터가 있나 없나  구분 
-		if(dao.isDataInNote(pid)) { //--학습노트에 데이터가 있다면
+		if(dao.isDataInNote(pid, subject)) { //--학습노트에 데이터가 있다면
 			//pid의 study_note에 있는 chid 들을 가져와 메뉴를 뿌려준다
-			chList = dao.getChidList(pid);		
+			chList = dao.getChidList(pid, subject);		
 			
 			//메뉴에서 챕터를 클릭하지 않았다면, 
 			if(null==request.getParameter("chid")) {
@@ -84,10 +88,10 @@ public class Note implements Action {
 			}
 			System.out.println("chid:"+chid);
 			//qNum : 사용자가 선택한 챕터의 총 문제 수 
-			qNum = dao.qNum(chid, pid);
+			qNum = dao.qNum(chid, pid, subject);
 			System.out.println("qNum 사용자가 선택한 챕터의 총 문제 수 :"+qNum);
 			//qInfo: 챕터의 문제 데이터 
-			qInfo = dao.qInfo(chid, pid, start, end);
+			qInfo = dao.qInfo(chid, pid, start, end, subject);
 			
 			totalPage = qNum/qLimit;
 			
@@ -110,10 +114,10 @@ public class Note implements Action {
 				}
 				deleteIdSize = deleteId.size();
 				//DB에서 deleteId 들만 study_note에서 삭제 
-				dao.deleteId(pid, chid, deleteId, deleteIdSize);
+				dao.deleteId(pid, chid, deleteId, deleteIdSize, subject);
 		
 				//해당 챕터의 총 문제 수를 다시 센다 
-				qNum = dao.qNum(chid, pid);
+				qNum = dao.qNum(chid, pid, subject);
 				
 
 			}
@@ -129,7 +133,7 @@ public class Note implements Action {
 				request.setAttribute("main", "mypage/alert.jsp");
 			}else {
 				//qInfo: 챕터의 문제 데이터 모두 다시 가져온다 
-				qInfo = dao.qInfo(chid, pid, start, end);
+				qInfo = dao.qInfo(chid, pid, start, end, subject);
 	
 				if(page==totalPage && qInfo.size()==0) {
 					//String url = "../mypage/Note?pid="+pid;
@@ -177,7 +181,7 @@ public class Note implements Action {
 				
 				//quizRes : 문제 번호와 사용자 입력 답을 입력하여 정오답 결과 및 정답 리턴
 				//res : id, ox, answer, input 을 가지고있다 
-				res = dao.quizRes(pid, chid, idList, input, qLimit);			
+				res = dao.quizRes(pid, chid, idList, input, qLimit, subject);			
 				System.out.println(res);
 				
 				//idAndInput : 문제 번호, 보기, 사용자 입력값만 가진 리스트 
@@ -211,7 +215,7 @@ public class Note implements Action {
 			request.setAttribute("chList", chList);
 			request.setAttribute("chid", chid);
 			request.setAttribute("qInfo", qInfo);
-			
+			request.setAttribute("subject", subject);
 		}else { //--학습노트에 데이터가 없다면
 			System.out.println("note에 데이터가 없어서 빈 화면 출력");
 			request.setAttribute("main", "mypage/studypage_empty.jsp");
