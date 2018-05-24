@@ -378,7 +378,7 @@ public class DAO {
 	}
 
 	public void addNewLecture(String boardName, ArrayList<String> chapNum) {
- 		int nextSubOrder = 0;
+		int nextSubOrder = 0;
 		try {
 
 			sql ="select max(rownum)+1 from (select distinct subject from subjectboard)";
@@ -561,8 +561,8 @@ public class DAO {
 			ptmt.executeUpdate();
 			System.out.println("deleteMember() 회원 탈퇴 완료");
 		} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -914,7 +914,7 @@ public class DAO {
 		return null;
 	}
 
-public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
+	public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 
 		for(int id : deleteId) {
 
@@ -999,7 +999,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 	public ArrayList<VO> incorrectRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit) {
 		ArrayList<VO> res = new ArrayList<>();
 		try {
-			
+
 			for(int i=0; i<qLimit; i++) {
 				sql = "select * from quiz where chid=? and id=?";
 				ptmt = con.prepareStatement(sql);
@@ -1007,10 +1007,10 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 				ptmt.setInt(2, idList.get(i));
 				rs = ptmt.executeQuery();
 
-		 		if(rs.next()) {
+				if(rs.next()) {
 					//id, answer, ox를 담는다
 					VO vo = new VO();
-					
+
 					vo.setId(rs.getInt("id"));
 					vo.setAnswer(rs.getString("answer"));
 
@@ -1023,7 +1023,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 					rs = ptmt.executeQuery();
 					rs.next();
 					vo.setInput(rs.getString("input"));
-					
+
 					res.add(vo);
 				}
 			}
@@ -1069,7 +1069,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 	}
 
 
-//찬 qna랑 notice 리스트 종류랑 스타트와 엔드
+	//찬 qna랑 notice 리스트 종류랑 스타트와 엔드
 
 	public ArrayList<VO> qnlist(String kind, int start, int end){
 
@@ -1123,21 +1123,21 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 
 	public int infototal(String kind) {
 
-			try {
-				sql = "select count(*) from info where kind = ?";
-				ptmt = con.prepareStatement(sql);
+		try {
+			sql = "select count(*) from info where kind = ?";
+			ptmt = con.prepareStatement(sql);
 
-				ptmt.setString(1, kind);
-				rs = ptmt.executeQuery();
+			ptmt.setString(1, kind);
+			rs = ptmt.executeQuery();
 
-				rs.next();
+			rs.next();
 
-				return rs.getInt(1);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+			return rs.getInt(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
-			return 0;
+		return 0;
 	}
 
 	//ㅊ qna 디테일
@@ -1180,7 +1180,7 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 		return null;
 	}
 
-//ㅊ qna 인설트
+	//ㅊ qna 인설트
 	public int qinsert(VO vo) {
 
 		int nextid = 0;
@@ -1218,424 +1218,466 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 	}
 
 	//ㅊ 수정
-		public void modify(VO vo) {
+	public void modify(VO vo) {
 
-			try {
-				sql="update info set pname = ?,upfile = ? , title = ? , content = ? where id=?";
-				ptmt=con.prepareStatement(sql);
+		try {
+			sql="update info set pname = ?,upfile = ? , title = ? , content = ? where id=?";
+			ptmt=con.prepareStatement(sql);
 
-				ptmt.setString(1, vo.getPname());
-				ptmt.setString(2, vo.getUpfile());
-				ptmt.setString(3, vo.getTitle());
-				ptmt.setString(4, vo.getContent());
-				ptmt.setInt(5, vo.getId());
+			ptmt.setString(1, vo.getPname());
+			ptmt.setString(2, vo.getUpfile());
+			ptmt.setString(3, vo.getTitle());
+			ptmt.setString(4, vo.getContent());
+			ptmt.setInt(5, vo.getId());
 
-				ptmt.executeUpdate();
+			ptmt.executeUpdate();
 
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
+
+	}
 
 	//ㅊ 삭제
 
-		public void qdelete(int id) {
+	public void qdelete(int id) {
 
-			System.out.println("qdelete 메소드");
+		System.out.println("qdelete 메소드");
 
-			try {
+		try {
 
-				sql="delete from reply where orid=?";
-				ptmt=con.prepareStatement(sql);
-				ptmt.setInt(1, id);
+			sql="delete from reply where orid=?";
+			ptmt=con.prepareStatement(sql);
+			ptmt.setInt(1, id);
 
+			ptmt.executeUpdate();
+
+
+			sql="select upfile,kind from info where id = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, id);
+
+			rs = ptmt.executeQuery();
+			rs.next();
+
+			String file = rs.getString(1);
+			String kind = rs.getString(2);
+
+			String path = "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\"+kind+"\\"+file;
+
+			sql="delete from info where id = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, id);
+
+			ptmt.executeUpdate();
+
+
+			File ff = new File(path);
+			ff.delete();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+
+	}
+
+	//승진 quiz 문제 출력
+
+	public ArrayList<VO> question(int chid, int start, int end) {
+		ArrayList<VO> res = new ArrayList<>();
+
+		try {
+
+			sql = "select * from " + 
+					"(select rownum rnum, tt.* from " + 
+					"(select * from quiz where chid = ? order by id asc) tt) " + 
+					"where rnum >= ? and rnum <= ?";
+
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, chid);
+			ptmt.setInt(2, start);
+			ptmt.setInt(3, end);
+			rs = ptmt.executeQuery();
+
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setQuestion(rs.getString("question"));
+				vo.setId(rs.getInt("id"));
+				vo.setChid(rs.getInt("chid"));
+				vo.setAnswer(rs.getString("answer"));
+				vo.setS1(rs.getString("s1"));
+				vo.setS2(rs.getString("s2"));
+				vo.setS3(rs.getString("s3"));
+				vo.setS4(rs.getString("s4"));
+				vo.setS5(rs.getString("s5"));
+				res.add(vo);
+			}
+
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return res;
+	}
+
+	//승진 문제 푼 결과 출력
+
+	public ArrayList<VO> result(String pid, int chid, int start, int end) {
+		ArrayList<VO> res = new ArrayList<>();
+
+		try {
+
+			sql = "select * from " + 
+					"(select rownum rnum, tt.* from " + 
+					"(select * from study_note where pid = ? and chid = ? order by id asc) tt) " + 
+					"where rnum >= ? and rnum <= ?";
+
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			ptmt.setInt(2, chid);
+			ptmt.setInt(3, start);
+			ptmt.setInt(4, end);
+			rs = ptmt.executeQuery();
+
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setOx(rs.getInt("ox"));
+				vo.setChid(rs.getInt("chid"));
+				vo.setInput(rs.getString("input"));
+				res.add(vo);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return res;
+	}
+
+	// 승진 문제 결과 저장
+	// select 하고 데이터가 있으면 업데이트하고, 없으면 삽입함
+
+	public void insert_result(VO vo) {
+		try {
+			sql = "select * from study_note where pid = ? and chid = ? and id = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, vo.getPid());
+			ptmt.setInt(2, vo.getChid());
+			ptmt.setInt(3, vo.getId());
+			rs = ptmt.executeQuery();
+
+			if(rs.next()) {
+				sql = "update study_note set chid = ?, id = ?, input = ?, ox = ? where pid = ? and chid = ? and id = ?";
+
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, vo.getChid());
+				ptmt.setInt(2, vo.getId());							
+				ptmt.setString(3, vo.getInput());
+				ptmt.setInt(4, vo.getOx());
+				ptmt.setString(5, vo.getPid());
+				ptmt.setInt(6, vo.getChid());
+				ptmt.setInt(7, vo.getId());
 				ptmt.executeUpdate();
 
+			}else {
 
-				sql="select upfile,kind from info where id = ?";
+				sql = "insert into study_note"
+						+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";			
 				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, id);
-
-				rs = ptmt.executeQuery();
-				rs.next();
-
-				String file = rs.getString(1);
-				String kind = rs.getString(2);
-
-				String path = "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\"+kind+"\\"+file;
-
-				sql="delete from info where id = ?";
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, id);
-
+				ptmt.setInt(1, vo.getChid());
+				ptmt.setInt(2, vo.getId());							
+				ptmt.setString(3, vo.getInput());
+				ptmt.setInt(4, vo.getOx());
+				ptmt.setString(5, vo.getPid());
 				ptmt.executeUpdate();
 
-
-				File ff = new File(path);
-				ff.delete();
-
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println(e);
 			}
 
+		} catch(SQLException e) {
+
+		}
+	}
+
+	//승진 문제 저장 
+	public void problem_save(VO vo) {
+
+		try {
+
+			sql = "update study_note set save = ? where pid = ? and chid = ? and id = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, vo.getSave());
+			ptmt.setString(2, vo.getPid());
+			ptmt.setInt(3, vo.getChid());
+			ptmt.setInt(4, vo.getId());
+			ptmt.executeUpdate();
+
+		} catch(SQLException e) {
+
+		}
+	}
+
+
+	//승진 page
+
+	public int totalCount(int chid) {
+
+		try {
+			sql = "select count(*) from quiz where chid = ?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, chid);
+			rs = ptmt.executeQuery();
+
+			rs.next();
+
+			return rs.getInt(1);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	//ㅊ 답글 입력
+	public int cominsert(VO vo) {
+
+		int nextid=0;
+
+		try {
+
+			sql="select max(id)+1 from info";
+			ptmt=con.prepareStatement(sql);
+			rs = ptmt.executeQuery();
+
+			rs.next();
+
+			nextid=rs.getInt(1);
+
+			VO ori = qdetail(vo.id);
+
+			sql = "update info set seq=seq+1 where gid=? and seq > ?";
+
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, ori.getGid());
+			ptmt.setInt(2, ori.getSeq());
+			ptmt.executeUpdate();
+
+			sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content) "
+					+ "values(?,?,?,?,?,-1,0,sysdate,?,?,?)";
+
+			ptmt = con.prepareStatement(sql);
+
+			ptmt.setString(1,ori.getKind());
+			ptmt.setInt(2, nextid);
+			ptmt.setInt(3, ori.getGid());
+			ptmt.setInt(4, ori.getSeq()+1);
+			ptmt.setInt(5, ori.getLev()+1);
+			ptmt.setString(6, vo.getPname());
+			ptmt.setString(7, vo.getTitle());
+			ptmt.setString(8, vo.getContent());
+
+			ptmt.executeUpdate();
+
+
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
-		//승진 quiz 문제 출력
-		
-		public ArrayList<VO> question(int chid, int start, int end) {
-			ArrayList<VO> res = new ArrayList<>();
+		return nextid;
+	}
 
-			try {
-				
-				sql = "select * from " + 
-						"(select rownum rnum, tt.* from " + 
-						"(select * from quiz where chid = ? order by id asc) tt) " + 
-						"where rnum >= ? and rnum <= ?";
-				
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, chid);
-				ptmt.setInt(2, start);
-				ptmt.setInt(3, end);
-				rs = ptmt.executeQuery();
+	//ㅊ 댓글 삽입
+	public void replyinsert(VO vo) {
 
-				while(rs.next()) {
-					VO vo = new VO();
-					vo.setQuestion(rs.getString("question"));
-					vo.setId(rs.getInt("id"));
-					vo.setChid(rs.getInt("chid"));
-					vo.setAnswer(rs.getString("answer"));
-					vo.setS1(rs.getString("s1"));
-					vo.setS2(rs.getString("s2"));
-					vo.setS3(rs.getString("s3"));
-					vo.setS4(rs.getString("s4"));
-					vo.setS5(rs.getString("s5"));
-					res.add(vo);
-				}
-
-
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			return res;
-		}
-		
-		//승진 문제 푼 결과 출력
-
-		public ArrayList<VO> result(String pid, int chid, int start, int end) {
-			ArrayList<VO> res = new ArrayList<>();
-
-			try {
-
-				sql = "select * from " + 
-						"(select rownum rnum, tt.* from " + 
-						"(select * from study_note where pid = ? and chid = ? order by id asc) tt) " + 
-						"where rnum >= ? and rnum <= ?";
-				
-				ptmt = con.prepareStatement(sql);
-				ptmt.setString(1, pid);
-				ptmt.setInt(2, chid);
-				ptmt.setInt(3, start);
-				ptmt.setInt(4, end);
-				rs = ptmt.executeQuery();
-
-				while(rs.next()) {
-					VO vo = new VO();
-					vo.setOx(rs.getInt("ox"));
-					vo.setChid(rs.getInt("chid"));
-					vo.setInput(rs.getString("input"));
-					res.add(vo);
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			return res;
-		}
-		
-		// 승진 문제 결과 저장
-		// select 하고 데이터가 있으면 업데이트하고, 없으면 삽입함
-
-		public void insert_result(VO vo) {
-			try {
-				sql = "select * from study_note where pid = ? and chid = ? and id = ?";
-				ptmt = con.prepareStatement(sql);
-				ptmt.setString(1, vo.getPid());
-				ptmt.setInt(2, vo.getChid());
-				ptmt.setInt(3, vo.getId());
-				rs = ptmt.executeQuery();
-				
-				if(rs.next()) {
-					sql = "update study_note set chid = ?, id = ?, input = ?, ox = ? where pid = ? and chid = ? and id = ?";
-
-					ptmt = con.prepareStatement(sql);
-					ptmt.setInt(1, vo.getChid());
-					ptmt.setInt(2, vo.getId());							
-					ptmt.setString(3, vo.getInput());
-					ptmt.setInt(4, vo.getOx());
-					ptmt.setString(5, vo.getPid());
-					ptmt.setInt(6, vo.getChid());
-					ptmt.setInt(7, vo.getId());
-					ptmt.executeUpdate();
-
-				}else {
-					
-					sql = "insert into study_note"
-							+"(chid, id, input, ox, pid) values (?, ?, ?, ?, ?)";			
-					ptmt = con.prepareStatement(sql);
-					ptmt.setInt(1, vo.getChid());
-					ptmt.setInt(2, vo.getId());							
-					ptmt.setString(3, vo.getInput());
-					ptmt.setInt(4, vo.getOx());
-					ptmt.setString(5, vo.getPid());
-					ptmt.executeUpdate();
-					
-				}
-				
-			} catch(SQLException e) {
-				
-			}
-		}
-
-		//승진 문제 저장 
-		public void problem_save(VO vo) {
-
-			try {
-				
-				sql = "update study_note set save = ? where pid = ? and chid = ? and id = ?";
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, vo.getSave());
-				ptmt.setString(2, vo.getPid());
-				ptmt.setInt(3, vo.getChid());
-				ptmt.setInt(4, vo.getId());
-				ptmt.executeUpdate();
-
-			} catch(SQLException e) {
-				
-			}
-		}
-
-		
-		//승진 page
-		
-		public int totalCount(int chid) {
-
-			try {
-				sql = "select count(*) from quiz where chid = ?";
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, chid);
-				rs = ptmt.executeQuery();
-				
-				rs.next();
-				
-				return rs.getInt(1);
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return 0;
-		}
-
-		//ㅊ 답글 입력
-		public int cominsert(VO vo) {
-
+		try {
 			int nextid=0;
+			sql="select max(id) from reply";
+			ptmt=con.prepareStatement(sql);
+			rs = ptmt.executeQuery();
 
-			try {
+			rs.next();
 
-				sql="select max(id)+1 from info";
-				ptmt=con.prepareStatement(sql);
-				rs = ptmt.executeQuery();
+			nextid=rs.getInt(1)+1;
 
-				rs.next();
+			sql = "insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
+					+ "values(?,?,?,0,0,?,?,sysdate)";
 
-				nextid=rs.getInt(1);
+			ptmt=con.prepareStatement(sql);
+			ptmt.setInt(1, vo.getId());
+			ptmt.setInt(2, nextid);
+			ptmt.setInt(3, nextid);
+			ptmt.setString(4, vo.getPname());
+			ptmt.setString(5, vo.getContent());
 
-				VO ori = qdetail(vo.id);
+			ptmt.executeUpdate();
 
-				sql = "update info set seq=seq+1 where gid=? and seq > ?";
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, ori.getGid());
-				ptmt.setInt(2, ori.getSeq());
-				ptmt.executeUpdate();
+	//ㅊ 댓글 리스트
+	public ArrayList<VO> replylist(int id){
+		ArrayList<VO> arr = new ArrayList<>();
 
-				sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content) "
-						+ "values(?,?,?,?,?,-1,0,sysdate,?,?,?)";
+		try {
+			sql = "select * from reply where orid = ?";
+			ptmt=con.prepareStatement(sql);
+			ptmt.setInt(1, id);
 
-				ptmt = con.prepareStatement(sql);
+			rs=ptmt.executeQuery();
 
-				ptmt.setString(1,ori.getKind());
-				ptmt.setInt(2, nextid);
-				ptmt.setInt(3, ori.getGid());
-				ptmt.setInt(4, ori.getSeq()+1);
-				ptmt.setInt(5, ori.getLev()+1);
-				ptmt.setString(6, vo.getPname());
-				ptmt.setString(7, vo.getTitle());
-				ptmt.setString(8, vo.getContent());
+			while(rs.next()) {
 
-				ptmt.executeUpdate();
+				VO vo = new VO();
+				vo.setOrid(rs.getInt("orid"));
+				vo.setId(rs.getInt("id"));
+				vo.setGid(rs.getInt("gid"));
+				vo.setSeq(rs.getInt("seq"));
+				vo.setLev(rs.getInt("lev"));
+				vo.setPname(rs.getString("pname"));
+				vo.setContent(rs.getString("content"));
+				vo.setReg_date(rs.getDate("reg_date"));
 
-
-			} catch (Exception e) {
-				// TODO: handle exception
+				arr.add(vo);
 			}
 
-			return nextid;
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
-		//ㅊ 댓글 삽입
-		public void replyinsert(VO vo) {
 
-			try {
-				int nextid=0;
-				sql="select max(id) from reply";
-				ptmt=con.prepareStatement(sql);
-				rs = ptmt.executeQuery();
+		return arr;
+	}
 
-				rs.next();
+	//ㅊ 추천수
+	public void qnrec(int id) {
 
-				nextid=rs.getInt(1)+1;
+		try {
+			sql="update info set rec=rec+1 where id = ?";
+			ptmt=con.prepareStatement(sql);
+			ptmt.setInt(1, id);
 
-				sql = "insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
-						+ "values(?,?,?,0,0,?,?,sysdate)";
+			ptmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
-				ptmt=con.prepareStatement(sql);
-				ptmt.setInt(1, vo.getId());
-				ptmt.setInt(2, nextid);
-				ptmt.setInt(3, nextid);
-				ptmt.setString(4, vo.getPname());
-				ptmt.setString(5, vo.getContent());
+	}
 
-				ptmt.executeUpdate();
+	//ㅊ 조회수
+	public void qncnt(int id) {
 
-			} catch (Exception e) {
-				// TODO: handle exception
+		try {
+			sql="update info set cnt=cnt+1 where id = ?";
+			ptmt=con.prepareStatement(sql);
+			ptmt.setInt(1, id);
+
+			ptmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	//ㅊ 댓글삭제
+
+	public void recdelete(int id) {
+
+		try {
+			sql="delete from reply where id = ?";
+			ptmt=con.prepareStatement(sql);
+			ptmt.setInt(1, id);
+
+			ptmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	//ㅊ 대댓글 입력
+
+	public void rereinsert(VO vo) {
+
+		try {
+
+			sql="select max(id) from reply";
+
+			ptmt=con.prepareStatement(sql);
+			rs = ptmt.executeQuery();
+			rs.next();
+
+			int id = rs.getInt(1)+1;
+
+
+			sql = "update reply set seq=seq+1 where gid=? and seq > ?";
+
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, vo.getGid());
+			ptmt.setInt(2, vo.getSeq());
+			ptmt.executeUpdate();
+
+			sql="insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
+					+ "values(?,?,?,?,?,?,?,sysdate)";
+
+			ptmt=con.prepareStatement(sql);
+
+			ptmt.setInt(1, vo.getOrid());
+			ptmt.setInt(2, id);
+			ptmt.setInt(3, vo.getId());
+			ptmt.setInt(4, vo.getSeq()+1);
+			ptmt.setInt(5, vo.getLev()+1);
+			ptmt.setString(6, vo.getPname());
+			ptmt.setString(7, vo.getContent());
+
+			ptmt.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<VO> getMembers() {
+
+		ArrayList<VO> arr = new ArrayList<>();
+		try {
+
+			sql = "select * from member";
+			ptmt = con.prepareStatement(sql);
+
+			rs = ptmt.executeQuery();
+
+			while(rs.next()) {
+				VO vo = new VO();
+				vo.setPname(rs.getString("pname"));
+				vo.setPid(rs.getString("pid"));
+				arr.add(vo);
 			}
+
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
+		return arr;		
+	}
 
-		//ㅊ 댓글 리스트
-		public ArrayList<VO> replylist(int id){
-			ArrayList<VO> arr = new ArrayList<>();
+	public void kickOutMember(String pid) {
+		try {
 
-			try {
-				sql = "select * from reply where orid = ?";
-				ptmt=con.prepareStatement(sql);
-				ptmt.setInt(1, id);
+			sql = "delete from member where pid=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			ptmt.executeUpdate();
 
-				rs=ptmt.executeQuery();
+			sql = "delete from study_note where pid=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, pid);
+			ptmt.executeUpdate();
 
-				while(rs.next()) {
-
-					VO vo = new VO();
-					vo.setOrid(rs.getInt("orid"));
-					vo.setId(rs.getInt("id"));
-					vo.setGid(rs.getInt("gid"));
-					vo.setSeq(rs.getInt("seq"));
-					vo.setLev(rs.getInt("lev"));
-					vo.setPname(rs.getString("pname"));
-					vo.setContent(rs.getString("content"));
-					vo.setReg_date(rs.getDate("reg_date"));
-
-					arr.add(vo);
-				}
-
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-
-			return arr;
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
+	}
 
-		//ㅊ 추천수
-		public void qnrec(int id) {
-
-			try {
-				sql="update info set rec=rec+1 where id = ?";
-				ptmt=con.prepareStatement(sql);
-				ptmt.setInt(1, id);
-
-				ptmt.executeUpdate();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-		}
-
-		//ㅊ 조회수
-		public void qncnt(int id) {
-
-			try {
-				sql="update info set cnt=cnt+1 where id = ?";
-				ptmt=con.prepareStatement(sql);
-				ptmt.setInt(1, id);
-
-				ptmt.executeUpdate();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-		}
-
-		//ㅊ 댓글삭제
-
-		public void recdelete(int id) {
-
-			try {
-				sql="delete from reply where id = ?";
-				ptmt=con.prepareStatement(sql);
-				ptmt.setInt(1, id);
-
-				ptmt.executeUpdate();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
-
-		//ㅊ 대댓글 입력
-
-		public void rereinsert(VO vo) {
-
-			try {
-
-				sql="select max(id) from reply";
-
-				ptmt=con.prepareStatement(sql);
-				rs = ptmt.executeQuery();
-				rs.next();
-
-				int id = rs.getInt(1)+1;
-
-
-				sql = "update reply set seq=seq+1 where gid=? and seq > ?";
-
-				ptmt = con.prepareStatement(sql);
-				ptmt.setInt(1, vo.getGid());
-				ptmt.setInt(2, vo.getSeq());
-				ptmt.executeUpdate();
-
-				sql="insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
-						+ "values(?,?,?,?,?,?,?,sysdate)";
-
-				ptmt=con.prepareStatement(sql);
-
-				ptmt.setInt(1, vo.getOrid());
-				ptmt.setInt(2, id);
-				ptmt.setInt(3, vo.getId());
-				ptmt.setInt(4, vo.getSeq()+1);
-				ptmt.setInt(5, vo.getLev()+1);
-				ptmt.setString(6, vo.getPname());
-				ptmt.setString(7, vo.getContent());
-
-				ptmt.executeUpdate();
-
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-		}
 
 	public void close() {
 		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}

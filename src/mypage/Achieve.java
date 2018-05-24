@@ -17,7 +17,19 @@ public class Achieve implements Action {
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		/*String pid = (String)request.getParameter("pid");*/
-		String pid = (String)session.getAttribute("pid");
+		
+		
+		
+		String pid = "";
+		if(request.getParameter("pid") != null && !request.getParameter("pid").equals("")) {
+			pid = request.getParameter("pid");
+		} else {
+			pid = (String)session.getAttribute("pid");
+		}
+		
+		
+		
+		//String pid = (String)session.getAttribute("pid");
 		System.out.println("Achieve2 진입 성공! pid:"+pid);
 		DAO dao = new DAO();
 		VO vo = new VO();
@@ -58,7 +70,6 @@ public class Achieve implements Action {
 
 			//resultXNum : ch마다의 틀린 개수
 			ArrayList<Integer> resultXNum = new ArrayList();
-
 
 			request.setAttribute("eachONum", eachONum);
 			System.out.println("eachONum.size():"+eachONum.size());
