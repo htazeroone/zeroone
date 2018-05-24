@@ -9,6 +9,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui.min.js"></script>
+
 <script>
 function allChk(){
 
@@ -26,8 +27,8 @@ function allChk(){
 		frm.action = "IncorrectNote";
 		frm.submit();
 }
-
 </script>
+
 <style type="text/css">
 .part{
 	float:left;
@@ -146,9 +147,9 @@ function allChk(){
 		<div>페이지번호:${page } 총페이지번호:${totalPage }</div>
 		<div> <번호> <체크> <정오답 결과> <정답> <내가 틀렸던 답> </div>
 		<c:forEach var="a" items="${res }">
-			<div>${a.id }<input type="checkbox" name="deleteId" value="${a.id }"> 
+			<div>${a.id }<input type="checkbox" name="deleteId" value="${a.id }">
 			<c:choose>
-				<c:when test="${a.ox eq '1' }">
+				<c:when test="${a.input == a.answer }">
 				O
 				</c:when>
 				<c:otherwise>
@@ -158,8 +159,8 @@ function allChk(){
 			${a.answer } ${a.input }			
 			</div>
 		</c:forEach>
-		<div>체크한 문제를 학습 노트에서 삭제할 수 있습니다. 페이지번호:${page } 총페이지번호:${totalPage }</div>
-		<div><input type="submit" value="학습 노트에서 삭제"></div>
+		<div>확실히 이해한 문제는 이제 오답 노트에서 삭제가능합니다. 페이지번호:${page } 총페이지번호:${totalPage }</div>
+		<div><input type="submit" value="오답 노트에서 삭제"></div>
 	</form>	
 	
 	<form action="IncorrectNote?page=${page+1}" method="post">
@@ -170,7 +171,7 @@ function allChk(){
 		<c:set var="nextPage" value="${page+1 }" />
 		<div>다음페이지번호:${page+1 } 
 		<%-- <a onclick="location.href='Note?page=${nextPage}'" style="cursor:pointer">다음 문제 풀기</a> --%>
-		<input type="submit" value="다음문제풀기">
+		<input type="submit" value="다음 오답문제풀기">
 		</div>
 		</c:if>
 	</c:if>

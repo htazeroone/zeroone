@@ -179,7 +179,7 @@ public class IncorrectNote implements Action {
 				
 				//quizRes : 문제 번호와 사용자 입력 답을 입력하여 정오답 결과 및 정답 리턴
 				//res : id, ox, answer, input 을 가지고있다 
-				res = dao.quizRes(pid, chid, idList, input, qLimit);			
+				res = dao.incorrectRes(pid, chid, idList, input, qLimit);			
 				System.out.println(res);
 				
 				//idAndInput : 문제 번호, 보기, 사용자 입력값만 가진 리스트 

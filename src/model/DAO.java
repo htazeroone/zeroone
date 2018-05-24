@@ -995,6 +995,58 @@ public void changeOx(String pid, int chid, ArrayList<Integer> deleteId) {
 		return null;
 	}
 
+	public ArrayList<VO> incorrectRes(String pid, int chid, ArrayList<Integer> idList, ArrayList<String> input, int qLimit) {
+		ArrayList<VO> res = new ArrayList<>();
+		try {
+			
+			for(int i=0; i<qLimit; i++) {
+				sql = "select * from quiz where chid=? and id=?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, chid);
+				ptmt.setInt(2, idList.get(i));
+				rs = ptmt.executeQuery();
+
+		 		if(rs.next()) {
+					//id, answer, ox를 담는다
+					VO vo = new VO();
+					
+					vo.setId(rs.getInt("id"));
+					vo.setAnswer(rs.getString("answer"));
+
+					//내가 틀렸던 input 조회
+					sql = "select input from study_note where pid=? and chid=? and id=?";
+					ptmt = con.prepareStatement(sql);
+					ptmt.setString(1, pid);
+					ptmt.setInt(2, chid);
+					ptmt.setInt(3, idList.get(i));
+					rs = ptmt.executeQuery();
+					rs.next();
+					vo.setInput(rs.getString("input"));
+					
+					res.add(vo);
+				}
+			}
+
+			//사용자 입력답안과 OX결과를 study_note에 저장
+			for(int i=0; i<qLimit; i++) {
+				sql = "update study_note set input =? where pid=? and chid=? and id=?";
+				ptmt = con.prepareStatement(sql);
+				ptmt.setString(1, input.get(i));
+				ptmt.setString(2, pid);
+				ptmt.setInt(3, chid);
+				ptmt.setInt(4, idList.get(i));
+				ptmt.executeUpdate();
+			}
+
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
 	//지아 - 학습노트 -- 선택한 문제만 학습노트에서 삭제
 	public void deleteId(String pid, int chid, ArrayList<Integer> deleteId, int deleteIdSize) {
 		for(int i=0; i<deleteIdSize; i++) {
