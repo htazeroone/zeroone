@@ -5,10 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/smenu.css" />
 <title>Insert title here</title>
+
 </head>
 <body>
 
+<nav class="link-effect-11" id="link-effect-11">
 <!-- for문  -->
 <c:forEach var="ch" items="${chList }">
 <%-- 	<form action="Note" method="post">
@@ -16,8 +19,12 @@
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="submit" value="${ch.chname }">
 	</form> --%>
-	<a href="IncorrectNote?chid=${ch.chid }&subject=${subject}">${ch.chname }</a><br>
+	<a href="IncorrectNote?chid=${ch.chid }&subject=${subject}"><span>${ch.chname }</span></a><br><br>
 </c:forEach>
+</nav>
 
 </body>
 </html>
+
+
+

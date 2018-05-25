@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/study.css" />
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
@@ -28,30 +29,18 @@ function allChk(){
 		frm.submit();
 }
 </script>
-
 <style type="text/css">
 .part{
 	float:left;
 	width : 50%;
 }
-
-/* #next_out{
-	width:100%;
-	text-align : center;
-}
-
-#next_in{
-	display : inline-block;
-} */
 </style>
-
 </head>
 <body>
 
 <!-- 문제 출력 부분  -->
 <div class="part">
-<div>pid:<%=session.getAttribute("pid") %></div>
-<div>페이지번호:${page } 총페이지번호:${totalPage }</div>
+
 <c:choose>
 	<c:when test="${!empty idAndInput }">
 		<form name="frm" method="post">
@@ -107,11 +96,24 @@ function allChk(){
 			</c:forEach>
 			<div><input type="button" onclick="allChk()" value="정답 확인"></div>
 		</form>
+		
+		<form action="Note?page=${page+1}&subject=${subject}" method="post">
+		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
+		<input type="hidden" value="${chid }" name="chid">
+		<!-- 다음 문제 풀기  -->
+		<c:if test="${page<totalPage }">
+		<c:set var="nextPage" value="${page+1 }" />
+		<div>
+		<input type="submit" value="다음문제풀기" class="myButton">
+		</div>
+		</c:if>
+		</form>		
+		
 	</c:when>
 	
 	<c:otherwise>
 	
-	
+<!-- 문제 출력부분 -->	
 	<form name="frm" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
@@ -120,18 +122,33 @@ function allChk(){
 	
 		<c:if test="${!empty oxInfo }">
 		<c:forEach var="q" items="${oxInfo }">
-			<div>${q.id }.${q.question }<br>
-			정답률:${q.correction/q.total*100 }%</div>
-			<div><input type="radio" name="${q.id }" value="1"> ${q.s1 }</div>
-			<div><input type="radio" name="${q.id }" value="2"> ${q.s2 }</div>
-			<div><input type="radio" name="${q.id }" value="3"> ${q.s3 }</div>
-			<div><input type="radio" name="${q.id }" value="4"> ${q.s4 }</div>
-			<div><input type="radio" name="${q.id }" value="5"> ${q.s5 }</div>
+		
+		<table class="question">
+			<tr id="qheader"><td class="qtd">${q.id }.${q.question }</td></tr>
+			<tr><td>정답률:${q.correction/q.total*100 }%</td></tr>
+			<tr><td><input type="radio" name="${q.id }" value="1"> ${q.s1 }</td></tr>
+			<tr><td><input type="radio" name="${q.id }" value="2"> ${q.s2 }</td></tr>
+			<tr><td><input type="radio" name="${q.id }" value="3"> ${q.s3 }</td></tr>
+			<tr><td><input type="radio" name="${q.id }" value="4"> ${q.s4 }</td></tr>
+			<tr><td><input type="radio" name="${q.id }" value="5"> ${q.s5 }</td></tr>
+		</table>
 		</c:forEach>
-		<div><input type="button" onclick="allChk()" value="정답 확인"></div>
-			</c:if>
+		<div ><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
+		</c:if>
 	</form>
 
+	<form action="IncorrectNote?page=${page+1}&subject=${subject}" method="post">
+	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
+	<input type="hidden" value="${chid }" name="chid">
+		<!-- 다음 문제 풀기  -->
+		<c:if test="${page<totalPage }">
+		<c:set var="nextPage" value="${page+1 }" />
+		<div>
+		<%-- <a onclick="location.href='Note?page=${nextPage}'" style="cursor:pointer">다음 문제 풀기</a> --%>
+		<input type="submit" value="다음문제풀기" class="myButton">
+		</div>
+		</c:if>
+	</form>
 	
 	</c:otherwise>
 </c:choose>
@@ -140,53 +157,69 @@ function allChk(){
 <!-- 정답 확인 결과 부분  -->
 
 <div class="part">
+<div class="checks etrans">
+  <input type="checkbox" id="ex_chk3" name="deleteId" value="${a.id }">
+  <label for="ex_chk3"></label>
+</div>
+
 	<form action="IncorrectNote?page=${page}&subject=${subject}" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
 <!-- res : id, ox, answer, input 을 가지고있다   -->
 	<c:if test="${!empty res}">
-		<div>pid:<%=session.getAttribute("pid") %></div>
-		<div>페이지번호:${page } 총페이지번호:${totalPage }</div>
-		<div> <번호> <체크> <정오답 결과> <정답> <예전에 선택한 답> </div>
+<%-- 		<div>pid:<%=session.getAttribute("pid") %></div>
+		<div>페이지번호:${page } 총페이지번호:${totalPage }</div> --%>
+
+		<table class="answer">
+		<tr id="aheader" class="atr" ><td id="atd_left">번호</td>
+		<td>체크</td><td>정오답 결과</td><td>정답</td><td id="atd_right">내가 틀렸던 답</td></tr>		
 		
-		<c:forEach var="a" items="${idAndInput }" varStatus="no">
-			<div>${a.id }<input type="checkbox" name="deleteId" value="${a.id }">
+		<c:forEach var="a" items="${idAndInput}" varStatus="no">
+			<tr class="atr" ><td>${a.id }</td>
+
+			<td><input type="checkbox" name="deleteId" value="${a.id }"></td>
+
+			<td>
 			<c:choose>
-				<c:when test="${a.input == a.answer }">
+				<c:when test="${a.input == a.answer}">
 				O
 				</c:when>
 				<c:otherwise>
 				X
 				</c:otherwise>
 			</c:choose>
-			${a.answer } 
+			</td>
+			<td>${a.answer }</td>
 			
-			<c:forEach var="b" items="${res }" varStatus="num">
-				<c:if test="${num.index == no.index }">
-					${b.input }
-				</c:if>
-			</c:forEach>
-						
-			</div>
+			<td>
+				<c:forEach var="b" items="${res}" varStatus="num">
+					<c:if test="${num.index == no.index }">
+						${a.input }
+					</c:if>
+				</c:forEach>
+			</td>
+			</tr>
 		</c:forEach>
-		<div>확실히 이해한 문제는 이제 오답 노트에서 삭제가능합니다. 페이지번호:${page } 총페이지번호:${totalPage }</div>
-		<div><input type="submit" value="오답 노트에서 삭제"></div>
+		
+		</table>
+		<p id="delete_msg">이해한 문제는 오답 노트에서 삭제할 수 있습니다.</p>
+		<div><input type="submit" value="오답노트에서 삭제" class="myButton"></div>
 	</form>	
 	
-	<form action="IncorrectNote?page=${page+1}&subject=${subject}" method="post">
+<%-- 	<form action="IncorrectNote?page=${page+1}&subject=${subject}" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
 		<!-- 다음 문제 풀기  -->
 		<c:if test="${page<totalPage }">
 		<c:set var="nextPage" value="${page+1 }" />
 		<div>다음페이지번호:${page+1 } 
-		<%-- <a onclick="location.href='Note?page=${nextPage}'" style="cursor:pointer">다음 문제 풀기</a> --%>
+		<a onclick="location.href='Note?page=${nextPage}'" style="cursor:pointer">다음 문제 풀기</a>
 		<input type="submit" value="다음 오답문제풀기">
 		</div>
 		</c:if>
 	</c:if>
-	</form>
-	
+	</form> --%>
+	</c:if>
 </div>
 
 </body>
