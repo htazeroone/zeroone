@@ -6,13 +6,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
 <script type="text/javascript" src="../../nse_files/js/HuskyEZCreator.js" charset="utf-8">
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <title>이론게시판 글 작성 폼</title>
 </head>
+<style>
+	#dd{
+			margin: 0 auto;
+			width: 800px;
+			height: 500px;
+		
+		}
+
+</style>
 <body>
+<div id="dd">
 <form name="nse" action="InsertReg" method="post" enctype="multipart/form-data">
 <input type="hidden" name="subject" value="${param.subject }">
 
@@ -78,5 +89,8 @@
 	</tr>
 </table>
 </form>
+</div>
+<script src="/SemiQuiz/jsb/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/SemiQuiz/jsb/bootstrap.js"></script>
 </body>
 </html>
