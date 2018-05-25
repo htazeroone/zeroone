@@ -1148,6 +1148,28 @@ public class DAO {
 	}
 
 
+	//ㅊ 댓글 갯수
+	
+	public int recount(Integer orid) {
+		
+		try {
+			sql = "select count(*) from reply where orid = ?";
+			ptmt = con.prepareStatement(sql);
+
+			ptmt.setInt(1, orid);
+			rs = ptmt.executeQuery();
+
+			rs.next();
+			
+			return rs.getInt(1);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return 0;
+	}
+	
 	//ㅊ kind별 게시물 토탈 개수
 
 	public int infototal(String kind) {

@@ -17,6 +17,7 @@ var getout = <%=chk %>
     }
 </script>    
 <style>
+ 
 	#dd{
 		margin: 0 auto;
 		width: 800px;
@@ -24,9 +25,12 @@ var getout = <%=chk %>
 	
 	}
 
+textarea {
+	
+}
 </style>
 <form action="InsertReg" method="post" enctype="multipart/form-data">
-<table id="dd" border="">
+<table id="dd" border="" class="table">
 	<tr>
 		<td>종류</td>
 		<td>
@@ -59,7 +63,7 @@ var getout = <%=chk %>
 	<tr>
 		<td>내용</td>
 		<td>
-		<input type="text" name="content">
+		<textarea rows="" cols="" name="content" style="resize: none;"></textarea>
 		</td>
 	</tr>
 		

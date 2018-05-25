@@ -197,7 +197,7 @@ function rehide(){
 	<!-- 댓글달수있는 창 -->
 		<tr style="border-top: 2px solid #789;">
 	
-			<td colspan="11" bgcolor=#B7F0B1>
+			<td colspan="11" bgcolor=#DAD9FF>
 				<form action="Replyinsert" id="rinsert">
 				<textarea cols="100" name="content" style="resize: none;"></textarea>
 				<input type="hidden" name="id" value="${data.id }">
@@ -205,7 +205,7 @@ function rehide(){
 				<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
 				</form>
 			</td>
-			<td bgcolor=#B7F0B1>	
+			<td bgcolor=#DAD9FF>	
 				<button  onclick="document.getElementById('rinsert').submit()">등록</button>
 			</td>
 			

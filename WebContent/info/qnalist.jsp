@@ -57,7 +57,14 @@
 					<c:choose>
 						<c:when test="${dd.title eq null }">
 							<td>
-								<a href="Detail?id=${dd.id }&page=${page}">　　　</a>
+								<c:choose>
+									<c:when test="${dd.total==0 }">
+										<a href="Detail?id=${dd.id }&page=${page}">　　　</a>
+									</c:when>
+									<c:otherwise>
+										<a href="Detail?id=${dd.id }&page=${page}">　　　(${dd.total })</a>
+									</c:otherwise>
+								</c:choose>
 							</td>
 						</c:when>
 						
@@ -71,8 +78,15 @@
 									
 									└
 								</c:if>
+								<c:choose>
+									<c:when test="${dd.total==0 }">
+										<a href="Detail?id=${dd.id }&page=${page}">${dd.title}</a>
+									</c:when>
+									<c:otherwise>
+										<a href="Detail?id=${dd.id }&page=${page}">${dd.title}(${dd.total })</a>
+									</c:otherwise>
+								</c:choose>
 								
-								<a href="Detail?id=${dd.id }&page=${page}">${dd.title}</a>
 							</td>	
 						</c:otherwise>
 					</c:choose>
