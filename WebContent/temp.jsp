@@ -25,7 +25,6 @@ width: 20%;
 height: 100%;
 margin-top : 12%;
 position: absolute;
-background-color: pink;
 
 }
 
@@ -35,7 +34,6 @@ height: 100%;
 margin-left : 20%;
 margin-top : 12%;
 position: absolute;
-background-color: green;
 }
 
 #smain2{
@@ -44,7 +42,6 @@ height: 100%;
 margin-left : 60%;
 margin-top : 12%;
 position: absolute;
-background-color: skyblue;
 }
 
 #bb{
