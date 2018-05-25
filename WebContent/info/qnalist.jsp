@@ -104,7 +104,7 @@
 				
 				
 				<tr>
-					<td colspan="7"> 
+					<td colspan="7" align="center"> 
 						<a href="List?page=1&kind=${kind }">[처음]</a>
 						<c:if test="${startpage > 1 }">
 							<a href="List?page=${startpage-1 }&kind=${kind }">이전</a>
@@ -125,7 +125,7 @@
 							<a href="List?page=${endpage+1 }&kind=${kind }">다음</a>					
 						</c:if>
 						
-						<a href="List?page=${totalpage }&kind=${kind }">마지막</a>				
+						<a href="List?page=${totalpage }&kind=${kind }">[마지막]</a>				
 						
 					</td>
 				</tr>
@@ -135,7 +135,7 @@
 		
 		<c:if test="${kind=='qna'||pname=='admin' }">
 			<tr>
-				<td colspan="7"><a href="Insert?kind=${kind }&page=${page}">글쓰기</a></td>
+				<td colspan="7" align="right"><a href="Insert?kind=${kind }&page=${page}">글쓰기</a></td>
 			</tr>
 		</c:if>
 	</table>

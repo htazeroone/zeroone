@@ -24,7 +24,7 @@ public class List implements Action{
 		
 		int page = 1;
 		
-		int limit = 3, pagelimit=4;
+		int limit = 10, pagelimit=5;
 
 		
 		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
