@@ -13,7 +13,7 @@
 <script>
 var getout = <%=chk %>
     if(getout==null){
-        alert('getout')
+        alert('로그인해주세요')
         location.href="../main/Main"
     }
 
@@ -116,14 +116,15 @@ function rehide(){
 				</c:when>
 			
 				<c:otherwise>
-					<td colspan="12">
-						<table border="" width="100%">
+					<td colspan="12" bgcolor="#DAD9FF">
+						<table width="100%">
 							<c:forEach var="rr" items="${reply }">
 								<tr>
 								
 									<td bgcolor="#DAD9FF">
 										${rr.pname }
 									</td>
+									
 									<td bgcolor="#DAD9FF">
 									
 										<c:if test="${rr.lev>0 }">
@@ -140,19 +141,19 @@ function rehide(){
 										
 										<!-- <button onclick="rehide()">댓글안보이기</button> -->
 									</td>
-									<td bgcolor="#DAD9FF">
+									
 
 										<c:if test="${rr.pname==pname }">
-										
-											<form action="Recdelete">
-												<input type="hidden" name="id" value="${rr.id }">
-												<input type="hidden" name="orid" value="${data.id }">
-												<input type="hidden" name="page" value="${page }">
-												<input type="submit" value="댓글삭제">
-											</form>
-							
+											<td bgcolor="#DAD9FF">
+												<form action="Recdelete">
+													<input type="hidden" name="id" value="${rr.id }">
+													<input type="hidden" name="orid" value="${data.id }">
+													<input type="hidden" name="page" value="${page }">
+													<input type="submit" value="댓글삭제">
+												</form>
+											</td>
 										</c:if>
-									</td>
+									
 								</tr>
 								
 		<!-- ========================================================/댓글리스트 tr -->		
@@ -164,7 +165,7 @@ function rehide(){
 											<tr>
 												<td bgcolor="#DAD9FF">
 													<form action="Rereinsert" id="rrinfrm${rr.id }">
-														<textarea cols="90px" name="rrcontent" style="resize: none;"></textarea>
+														<textarea cols="85px" name="rrcontent" style="resize: none;"></textarea>
 														<input type="hidden" name="orid" value="${data.id }">
 														<input type="hidden" name="id" value = "${rr.id }">
 														<input type="hidden" name="gid" value = "${rr.gid }">
@@ -194,9 +195,9 @@ function rehide(){
 			</c:choose>
 		</tr>
 	<!-- 댓글달수있는 창 -->
-		<tr>
+		<tr style="border-top: 2px solid #789;">
 	
-			<td colspan="11">
+			<td colspan="11" bgcolor=#B7F0B1>
 				<form action="Replyinsert" id="rinsert">
 				<textarea cols="100" name="content" style="resize: none;"></textarea>
 				<input type="hidden" name="id" value="${data.id }">
@@ -204,7 +205,7 @@ function rehide(){
 				<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
 				</form>
 			</td>
-			<td>	
+			<td bgcolor=#B7F0B1>	
 				<button  onclick="document.getElementById('rinsert').submit()">등록</button>
 			</td>
 			

@@ -4,7 +4,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
+<%
+    String chk = (String)session.getAttribute("pname");
+%>
 
+
+<script>
+var getout = <%=chk %>
+    if(getout==null){
+        alert('로그인해주세요')
+        location.href="../main/Main"
+    }
+</script>    
 <style>
 	#dd{
 		margin: 0 auto;

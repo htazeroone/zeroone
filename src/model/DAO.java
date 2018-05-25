@@ -30,7 +30,7 @@ public class DAO {
 		}
 	}
 
-
+/*=================================경민이형===============================================================================*/	
 	public ArrayList<String> getSubjects() {
 
 		ArrayList<String> arr = new ArrayList<>();
@@ -427,7 +427,9 @@ public class DAO {
 		}
 
 	}
-
+/*=================================//경민이형===============================================================================*/
+	
+/*=================================지아누나===============================================================================*/	
 	//지아 - 로그인 성공시 pname, pid 담은 VO 리턴
 	public VO loginReg(VO vo) {
 
@@ -1094,8 +1096,8 @@ public class DAO {
 
 	}
 
-
-
+/*=================================//지아누나===============================================================================*/	
+/*=================================찬===============================================================================*/
 	//찬 qna랑 notice 리스트 종류랑 스타트와 엔드
 
 	public ArrayList<VO> qnlist(String kind, int start, int end){
@@ -1308,7 +1310,208 @@ public class DAO {
 		}
 
 	}
+	//ㅊ 답글 입력
+		public int cominsert(VO vo) {
 
+			int nextid=0;
+
+			try {
+
+				sql="select max(id)+1 from info";
+				ptmt=con.prepareStatement(sql);
+				rs = ptmt.executeQuery();
+
+				rs.next();
+
+				nextid=rs.getInt(1);
+
+				VO ori = qdetail(vo.id);
+
+				sql = "update info set seq=seq+1 where gid=? and seq > ?";
+
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, ori.getGid());
+				ptmt.setInt(2, ori.getSeq());
+				ptmt.executeUpdate();
+
+				sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content) "
+						+ "values(?,?,?,?,?,-1,0,sysdate,?,?,?)";
+
+				ptmt = con.prepareStatement(sql);
+
+				ptmt.setString(1,ori.getKind());
+				ptmt.setInt(2, nextid);
+				ptmt.setInt(3, ori.getGid());
+				ptmt.setInt(4, ori.getSeq()+1);
+				ptmt.setInt(5, ori.getLev()+1);
+				ptmt.setString(6, vo.getPname());
+				ptmt.setString(7, vo.getTitle());
+				ptmt.setString(8, vo.getContent());
+
+				ptmt.executeUpdate();
+
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			return nextid;
+		}
+
+		//ㅊ 댓글 삽입
+		public void replyinsert(VO vo) {
+
+			try {
+				int nextid=0;
+				sql="select max(id) from reply";
+				ptmt=con.prepareStatement(sql);
+				rs = ptmt.executeQuery();
+
+				rs.next();
+
+				nextid=rs.getInt(1)+1;
+
+				sql = "insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
+						+ "values(?,?,?,0,0,?,?,sysdate)";
+
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, vo.getId());
+				ptmt.setInt(2, nextid);
+				ptmt.setInt(3, nextid);
+				ptmt.setString(4, vo.getPname());
+				ptmt.setString(5, vo.getContent());
+
+				ptmt.executeUpdate();
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+
+		//ㅊ 댓글 리스트
+		public ArrayList<VO> replylist(int id){
+			ArrayList<VO> arr = new ArrayList<>();
+
+			try {
+				sql = "select * from reply where orid = ? ORDER BY gid,seq";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+
+				rs=ptmt.executeQuery();
+
+				while(rs.next()) {
+
+					VO vo = new VO();
+					vo.setOrid(rs.getInt("orid"));
+					vo.setId(rs.getInt("id"));
+					vo.setGid(rs.getInt("gid"));
+					vo.setSeq(rs.getInt("seq"));
+					vo.setLev(rs.getInt("lev"));
+					vo.setPname(rs.getString("pname"));
+					vo.setContent(rs.getString("content"));
+					vo.setReg_date(rs.getDate("reg_date"));
+
+					arr.add(vo);
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+
+			return arr;
+		}
+
+		//ㅊ 추천수
+		public void qnrec(int id) {
+
+			try {
+				sql="update info set rec=rec+1 where id = ?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+		}
+
+		//ㅊ 조회수
+		public void qncnt(int id) {
+
+			try {
+				sql="update info set cnt=cnt+1 where id = ?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+		}
+
+		//ㅊ 댓글삭제
+
+		public void recdelete(int id) {
+
+			try {
+				sql="delete from reply where id = ?";
+				ptmt=con.prepareStatement(sql);
+				ptmt.setInt(1, id);
+
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+
+		//ㅊ 대댓글 입력
+
+		public void rereinsert(VO vo) {
+
+			try {
+
+				sql="select max(id) from reply";
+
+				ptmt=con.prepareStatement(sql);
+				rs = ptmt.executeQuery();
+				rs.next();
+
+				int id = rs.getInt(1)+1;
+
+
+				sql = "update reply set seq=seq+1 where gid=? and seq > ?";
+
+				ptmt = con.prepareStatement(sql);
+				ptmt.setInt(1, vo.getGid());
+				ptmt.setInt(2, vo.getSeq());
+				ptmt.executeUpdate();
+
+				sql="insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
+						+ "values(?,?,?,?,?,?,?,sysdate)";
+
+				ptmt=con.prepareStatement(sql);
+
+				ptmt.setInt(1, vo.getOrid());
+				ptmt.setInt(2, id);
+				ptmt.setInt(3, vo.getGid());
+				ptmt.setInt(4, vo.getSeq()+1);
+				ptmt.setInt(5, vo.getLev()+1);
+				ptmt.setString(6, vo.getPname());
+				ptmt.setString(7, vo.getContent());
+
+				ptmt.executeUpdate();
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}	
+/*=================================//찬===============================================================================*/
+		
+/*=================================승진이형===============================================================================*/		
 	//승진 quiz 문제 출력
 	
 	public ArrayList<VO> question(int chid, int start, int end) {
@@ -1559,205 +1762,6 @@ public class DAO {
 		}
 	}
 
-	//ㅊ 답글 입력
-	public int cominsert(VO vo) {
-
-		int nextid=0;
-
-		try {
-
-			sql="select max(id)+1 from info";
-			ptmt=con.prepareStatement(sql);
-			rs = ptmt.executeQuery();
-
-			rs.next();
-
-			nextid=rs.getInt(1);
-
-			VO ori = qdetail(vo.id);
-
-			sql = "update info set seq=seq+1 where gid=? and seq > ?";
-
-			ptmt = con.prepareStatement(sql);
-			ptmt.setInt(1, ori.getGid());
-			ptmt.setInt(2, ori.getSeq());
-			ptmt.executeUpdate();
-
-			sql="insert into info(kind,id,gid,seq,lev,cnt,rec,reg_date,pname,title,content) "
-					+ "values(?,?,?,?,?,-1,0,sysdate,?,?,?)";
-
-			ptmt = con.prepareStatement(sql);
-
-			ptmt.setString(1,ori.getKind());
-			ptmt.setInt(2, nextid);
-			ptmt.setInt(3, ori.getGid());
-			ptmt.setInt(4, ori.getSeq()+1);
-			ptmt.setInt(5, ori.getLev()+1);
-			ptmt.setString(6, vo.getPname());
-			ptmt.setString(7, vo.getTitle());
-			ptmt.setString(8, vo.getContent());
-
-			ptmt.executeUpdate();
-
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-		return nextid;
-	}
-
-	//ㅊ 댓글 삽입
-	public void replyinsert(VO vo) {
-
-		try {
-			int nextid=0;
-			sql="select max(id) from reply";
-			ptmt=con.prepareStatement(sql);
-			rs = ptmt.executeQuery();
-
-			rs.next();
-
-			nextid=rs.getInt(1)+1;
-
-			sql = "insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
-					+ "values(?,?,?,0,0,?,?,sysdate)";
-
-			ptmt=con.prepareStatement(sql);
-			ptmt.setInt(1, vo.getId());
-			ptmt.setInt(2, nextid);
-			ptmt.setInt(3, nextid);
-			ptmt.setString(4, vo.getPname());
-			ptmt.setString(5, vo.getContent());
-
-			ptmt.executeUpdate();
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	//ㅊ 댓글 리스트
-	public ArrayList<VO> replylist(int id){
-		ArrayList<VO> arr = new ArrayList<>();
-
-		try {
-			sql = "select * from reply where orid = ? ORDER BY gid,seq";
-			ptmt=con.prepareStatement(sql);
-			ptmt.setInt(1, id);
-
-			rs=ptmt.executeQuery();
-
-			while(rs.next()) {
-
-				VO vo = new VO();
-				vo.setOrid(rs.getInt("orid"));
-				vo.setId(rs.getInt("id"));
-				vo.setGid(rs.getInt("gid"));
-				vo.setSeq(rs.getInt("seq"));
-				vo.setLev(rs.getInt("lev"));
-				vo.setPname(rs.getString("pname"));
-				vo.setContent(rs.getString("content"));
-				vo.setReg_date(rs.getDate("reg_date"));
-
-				arr.add(vo);
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-
-		return arr;
-	}
-
-	//ㅊ 추천수
-	public void qnrec(int id) {
-
-		try {
-			sql="update info set rec=rec+1 where id = ?";
-			ptmt=con.prepareStatement(sql);
-			ptmt.setInt(1, id);
-
-			ptmt.executeUpdate();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-	}
-
-	//ㅊ 조회수
-	public void qncnt(int id) {
-
-		try {
-			sql="update info set cnt=cnt+1 where id = ?";
-			ptmt=con.prepareStatement(sql);
-			ptmt.setInt(1, id);
-
-			ptmt.executeUpdate();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-	}
-
-	//ㅊ 댓글삭제
-
-	public void recdelete(int id) {
-
-		try {
-			sql="delete from reply where id = ?";
-			ptmt=con.prepareStatement(sql);
-			ptmt.setInt(1, id);
-
-			ptmt.executeUpdate();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	//ㅊ 대댓글 입력
-
-	public void rereinsert(VO vo) {
-
-		try {
-
-			sql="select max(id) from reply";
-
-			ptmt=con.prepareStatement(sql);
-			rs = ptmt.executeQuery();
-			rs.next();
-
-			int id = rs.getInt(1)+1;
-
-
-			sql = "update reply set seq=seq+1 where gid=? and seq > ?";
-
-			ptmt = con.prepareStatement(sql);
-			ptmt.setInt(1, vo.getGid());
-			ptmt.setInt(2, vo.getSeq());
-			ptmt.executeUpdate();
-
-			sql="insert into reply(orid,id,gid,seq,lev,pname,content,reg_date)"
-					+ "values(?,?,?,?,?,?,?,sysdate)";
-
-			ptmt=con.prepareStatement(sql);
-
-			ptmt.setInt(1, vo.getOrid());
-			ptmt.setInt(2, id);
-			ptmt.setInt(3, vo.getGid());
-			ptmt.setInt(4, vo.getSeq()+1);
-			ptmt.setInt(5, vo.getLev()+1);
-			ptmt.setString(6, vo.getPname());
-			ptmt.setString(7, vo.getContent());
-
-			ptmt.executeUpdate();
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
 
 	public ArrayList<VO> getMembers() {
 
@@ -1807,3 +1811,4 @@ public class DAO {
 		if(con!= null) try {con.close();} catch(Exception e) {e.printStackTrace();}
 	}
 }
+/*=================================//승진이형===============================================================================*/	
