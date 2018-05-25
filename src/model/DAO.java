@@ -53,7 +53,7 @@ public class DAO {
 		int rnum = 0;
 		try {
 
-			if(head != 0) {  
+			if(head != 0) {     
 
 				sql = "select * from "
 						+ "(select rownum rnum, tt.* from "
