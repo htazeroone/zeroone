@@ -186,7 +186,7 @@ function rehide(){
 										
 									</td>
 								</tr>
-		<!-- ========================================================/대댓글숨기기 tr -->							
+		<!-- ==========================================================/대댓글숨기기 tr -->							
 							</c:forEach>		
 						</table>
 					</td>
@@ -227,7 +227,7 @@ function rehide(){
 					<td colspan="10"></td>	
 					
 				</c:otherwise>
-			
+		
 			</c:choose>
 					<td colspan="2" align="right">
 					<a href="List?kind=${data.kind }&page=${page}">목록으로</a>
