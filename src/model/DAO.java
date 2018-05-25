@@ -568,10 +568,11 @@ public class DAO {
 
 
 	//지아 -학습성취도 -- 전체 챕터 수  (quiz테이블 참조)
-	public int totalChNum() {
-		sql = "select count(distinct chid) count from quiz where chid is not null";
+	public int totalChNum(String subject) {
+		sql = "select max(head) from subjectboard where subject = ?";
 		try {
 			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, subject);
 			rs = ptmt.executeQuery();
 			if(rs.next()) {
 				System.out.println("전체 챕터 수:"+rs.getInt(1));
@@ -586,16 +587,19 @@ public class DAO {
 	}
 
 	//지아 -학습성취도 -- 전체 챕터 이름 ArrayList
-	public ArrayList<String> totalChName(){
+	public ArrayList<String> totalChName(String subject){
 		ArrayList<String> res = new ArrayList();
-		sql = "select chname from chname";
+		sql = "select chaptername from subjectboard where subject=?";
 
 		try {
 			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, subject);
 			rs = ptmt.executeQuery();
 
 			while(rs.next()) {
-				res.add(rs.getString(1));
+				if(!rs.getString(1).equals("전체")) {
+					res.add(rs.getString(1));
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

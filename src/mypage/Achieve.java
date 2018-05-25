@@ -54,11 +54,11 @@ public class Achieve implements Action {
 		//사용자가 문제를 풀어본 데이터가 있는 경우 수행
 		if(studyQNum.size()!=0) {
 			//전체 챕터 수
-			int totalChNum = dao.totalChNum();
+			int totalChNum = dao.totalChNum(subject);
 			request.setAttribute("totalChNum", totalChNum);
 
 			//전체 챕터 이름 ArrayList
-			ArrayList<String> chName = dao.totalChName();
+			ArrayList<String> chName = dao.totalChName(subject);
 			System.out.println("전체 챕터 이름 출력");
 			for(String s : chName) {
 				//System.out.println(s);
@@ -69,10 +69,10 @@ public class Achieve implements Action {
 			eachXNum = dao.eachXNum(pid, subject);
 
 			//resultONum : ch마다의 맞은 개수
-			ArrayList<Integer> resultONum = new ArrayList();
+			ArrayList<Integer> resultONum = new ArrayList<>();
 
 			//resultXNum : ch마다의 틀린 개수
-			ArrayList<Integer> resultXNum = new ArrayList();
+			ArrayList<Integer> resultXNum = new ArrayList<>();
 
 			request.setAttribute("eachONum", eachONum);
 			System.out.println("eachONum.size():"+eachONum.size());
@@ -137,7 +137,7 @@ public class Achieve implements Action {
 				System.out.println("ch마다의 틀린 개수  resultXNum:"+ii);
 			}
 
-			ArrayList<Integer> resultTotalNum = new ArrayList();
+			ArrayList<Integer> resultTotalNum = new ArrayList<>();
 			for(int i=0; i<totalChNum; i++) {
 				resultTotalNum.add(resultONum.get(i)+resultXNum.get(i));
 			}
