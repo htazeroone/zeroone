@@ -78,7 +78,7 @@ $(document).ready(function(){
 				DAO dao = new DAO();
 				ArrayList<String> subjects = dao.getSubjects();
 
-				dao.close();
+				/* dao.close(); */
 
 				for(int i = 0; i<subjects.size(); i++) { %>
 
@@ -92,7 +92,22 @@ $(document).ready(function(){
 					</c:if>
 			</ul>
 		</li>
-		<li><a href="../quizbox/QuizMain">퀴즈</a></li>
+		<li><a href="../quizbox/QuizMain">퀴즈</a>
+			<ul>
+			<%
+				
+				dao.close();
+
+				for(int i = 0; i<subjects.size(); i++) { %>
+					<li><a href="../quizbox/QuizMain?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+
+			<% }%>
+			
+			</ul>
+		</li>
+		
+		
+		
 		<li><a href="#">Info</a>
 			<ul>
 				<li><a href="../info/Qna">QnA</a></li>
@@ -144,7 +159,6 @@ $(document).ready(function(){
 				
 			</ul>
 		</li>
-
 
 		<!-- <li><a href="../login/Logout">로그아웃</a></li> -->
 

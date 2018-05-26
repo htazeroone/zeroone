@@ -16,13 +16,10 @@ public class Answer implements Action{
 
 	ActionData data = new ActionData();
 	DAO dao = new DAO();
-	Integer chid = Integer.parseInt((String)request.getSession().getAttribute("num"));
+	Integer chid = Integer.parseInt(request.getParameter("num"));
 	String pid = (String)request.getSession().getAttribute("pid");
-
-	VO vo = new VO(); 	
-	vo.setPid(pid);
-	vo.setChid(chid);
-
+	String subject = request.getParameter("subject");
+	
 	int page = 1;
 	int limit = 4, pageLimit = 1;
 	
@@ -45,45 +42,23 @@ public class Answer implements Action{
 	
 	if(endPage>totalPage)
 		endPage = totalPage;
-
-	if(request.getParameter("id1") != null && !request.getParameter("id1").equals("")) {
-		System.out.println(request.getParameter("id1"));		
-
-		for(int j=1; j<=4; j++) {
-			vo.setId(Integer.parseInt(request.getParameter("id"+j)));
-			vo.setInput(request.getParameter("selection"+j));	
-			if(request.getParameter("selection"+j).equals(dao.question(chid,start,end).get(j-1).getAnswer())) {
-				vo.setOx(1);
-			}else {
-				vo.setOx(0);
-			}
-
-			dao.insert_result(vo);
+	
+	String [] qqids = request.getParameterValues("qqid");
+	VO vo = new VO(); 	
+	vo.setPid(pid);
+	vo.setChid(chid);
+	vo.setSave(0);
+	
+	for(String qq: qqids) {
+		int qid = Integer.parseInt(qq);
+		vo.setId(qid);
+		vo.setInput(request.getParameter("selection"+qid));	
+		if(request.getParameter("selection"+qid).equals(dao.questionDetail(subject, chid,qid).getAnswer())) {
+			vo.setOx(1);
+		}else {
+			vo.setOx(0);
 		}
-	} else if(request.getParameter("id5") != null && !request.getParameter("id5").equals("")) {
-
-		for(int j=5; j<=8; j++) {
-			vo.setId(Integer.parseInt(request.getParameter("id"+j)));
-			vo.setInput(request.getParameter("selection"+j));	
-			if(request.getParameter("selection"+j).equals(dao.question(chid,start,end).get(j-5).getAnswer())) {
-				vo.setOx(1);
-			}else {
-				vo.setOx(0);
-			}
-			dao.insert_result(vo);
-		}
-	} else if(request.getParameter("id9") != null && !request.getParameter("id9").equals("")) {
-		System.out.println(request.getParameter("id9"));		
-		for(int j=9; j<=12; j++) {
-			vo.setId(Integer.parseInt(request.getParameter("id"+j)));
-			vo.setInput(request.getParameter("selection"+j));	
-			if(request.getParameter("selection"+j).equals(dao.question(chid,start,end).get(j-9).getAnswer())) {
-				vo.setOx(1);
-			}else {
-				vo.setOx(0);
-			}
-			dao.insert_result(vo);
-		}
+		dao.insert_result(vo, subject);
 	}
 	
 	request.setAttribute("page", page);
@@ -91,13 +66,18 @@ public class Answer implements Action{
 	request.setAttribute("startPage", startPage);
 	request.setAttribute("endPage", endPage);
 	request.setAttribute("totalPage", totalPage);
-	request.setAttribute("problem", dao.question(chid, start, end));
-	request.setAttribute("result", dao.result(pid, chid, start, end));
+	request.setAttribute("problem", dao.question(subject, chid, start, end));
+	request.setAttribute("result", dao.result(subject, pid, chid, start, end));
+	request.setAttribute("sub", dao.subject(subject));
+	request.setAttribute("subname", subject);
+	request.setAttribute("num", request.getParameter("num"));
+	request.setAttribute("chname", request.getParameter("chname"));
 	request.setAttribute("menu", "quizmenu.jsp");
 	request.setAttribute("main1", "quizbox/problem.jsp");
 	request.setAttribute("main2", "quizbox/answer.jsp");
-	
+
 	dao.close();
+	
 	return data;	
 	
 	}	

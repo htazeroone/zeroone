@@ -83,7 +83,17 @@
  <div class=ox>
 	<div class=section>정답 유무</div>
 	<c:forEach varStatus="no" items="${result }" var="rs">
-		<div class="a${no.count }">정답: ${rs.ox }</div>
+		<div class="a${no.count }">
+		정답: 
+		<c:choose>
+			<c:when test="${rs.ox eq '1' }">
+			O
+			</c:when>
+			<c:otherwise>
+			X
+			</c:otherwise>
+		</c:choose>
+		</div>
 	</c:forEach>
 </div>
 
@@ -104,10 +114,14 @@
 <div class=save>
 	<div class=section>학습노트 저장</div>
 	<form action= "ProblemSave" method="post">
+	<input type="hidden" name="page" value="${param.page }">
+	<input type="hidden" name="num" value="${num }">
+	<input type="hidden" name="subject" value="${subname }">
+	<input type="hidden" name="chname" value="${chname }">
 	<c:forEach varStatus="no" items="${problem }" var="qq">
 			<div class="a${no.count }">문제 ${qq.id}번 
 		<input type= "hidden" name="id${qq.id }" value="${qq.id }">
-		<input type = "checkbox" name= "save${qq.id }" value = ${qq.id }><br>
+		<input type = "checkbox" name= "ssid" value = ${qq.id }><br>
 			</div>
 	</c:forEach>
 			<div>

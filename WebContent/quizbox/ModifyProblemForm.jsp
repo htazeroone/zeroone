@@ -4,8 +4,11 @@
 
 
 <form action ="ModifyProblemReg" method="post">
-	<input type ="hidden" name="chid" value="${problem.chid }">
-	<input type ="hidden" name="id" value="${problem.id }">
+	<input type="hidden" name="page" value="${param.page }">
+	<input type="hidden" name="num" value="${num }">
+	<input type="hidden" name="subject" value="${subname }">
+	<input type="hidden" name="chname" value="${chname }">
+	<input type="hidden" name="id" value="${problem.id }">
 	<table border="">
 		<tr>
 			<td>Question</td>

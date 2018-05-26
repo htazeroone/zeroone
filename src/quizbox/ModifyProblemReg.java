@@ -14,12 +14,9 @@ public class ModifyProblemReg implements Action {
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		ActionData data = new ActionData();
-		Integer chid = Integer.parseInt((String)request.getSession().getAttribute("num"));
-		System.out.println(chid);
-		int id = Integer.parseInt(request.getParameter("id"));
-		System.out.println(id);
 		DAO dao = new DAO();
-
+		Integer chid = Integer.parseInt(request.getParameter("num"));
+		int id = Integer.parseInt(request.getParameter("id"));
 		int page = 1;
 		int limit = 4, pageLimit = 1;
 		
@@ -43,7 +40,6 @@ public class ModifyProblemReg implements Action {
 		
 		if(endPage>totalPage)
 			endPage = totalPage;
-		
 		VO vo = new VO();
 		vo.setChid(chid);
 		vo.setId(id);
@@ -54,21 +50,25 @@ public class ModifyProblemReg implements Action {
 		vo.setS4(request.getParameter("s4"));
 		vo.setS5(request.getParameter("s5"));
 		vo.setAnswer(request.getParameter("answer"));
-	
-		dao.modify_insert(vo);
-//		data.setRedirect(true);
-//		data.setPath("QuizMain");
+		
+		String subject = request.getParameter("subject");
+		dao.modify_insert(vo, subject);
+		
 		
 		request.setAttribute("page", page);
 		request.setAttribute("start", start);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("totalPage", totalPage);
-		request.setAttribute("problem", dao.question(chid, start, end));
+		request.setAttribute("problem", dao.question(subject, chid, start, end));
+		request.setAttribute("subname", subject);
+		request.setAttribute("num", request.getParameter("num"));
+		request.setAttribute("chname", request.getParameter("chname"));
 		request.setAttribute("menu", "quizmenu.jsp");
 		request.setAttribute("main1", "quizbox/problem.jsp");
 		request.setAttribute("main2", "quizbox/quizresult.jsp");
 		
+		dao.close();
 		return data;
 	}
 

@@ -179,6 +179,7 @@ public class VO {
 		this.pid = pid;
 	}
 	public String getInput() {
+
 		return input;
 	}
 	public void setInput(String input) {

@@ -24,10 +24,34 @@ function allChk(){
 			return;
 		}		
 	'</c:forEach>'
-		frm.action = "Note?subject=${subject}";
+		frm.action = "Note?subject=${subject}&chid=${chid}";
 		frm.submit();
 }
 
+function ddQuiz(){
+	var frm = document.delete_quiz;
+	var chkArr = new Array();
+	var msg = "";
+	var size = $('input:checkbox[name=deleteId]').length;
+	
+	'<c:forEach var="a" items="${res }">'
+		
+		var id = ${a.id}; 
+		var chk = $('input:checkbox[id='+${a.id}+']').prop('checked');
+		id += '';
+		
+		if(chk){
+			msg += id+'번 '
+		}
+				
+	'</c:forEach>'
+		msg += '문제를 삭제합니다.'
+	
+	alert(msg)
+	frm.action = "Note?subject=${subject}&chid=${chid}";
+	frm.submit();
+	
+}
 </script>
 <style type="text/css">
 .part{
@@ -35,14 +59,6 @@ function allChk(){
 	width : 50%;
 }
 
-/* #next_out{
-	width:100%;
-	text-align : center;
-}
-
-#next_in{
-	display : inline-block;
-} */
 </style>
 
 </head>
@@ -55,7 +71,6 @@ function allChk(){
 		<form name="frm" method="post">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="hidden" value="${chid }" name="chid">
-		<input type="hidden" value="${page }" name="page">
 		<input type="hidden" value="${subject }" name="subject">
 		
 		<c:forEach var="in" items="${idAndInput }">
@@ -103,31 +118,16 @@ function allChk(){
 					</c:otherwise>
 				</c:choose>			
 			</c:forEach>
-			<div><input type="button" onclick="allChk()" value="정답 확인"></div>
-		</form>
-		
-		<form action="Note?page=${page+1}&subject=${subject}" method="post">
-		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-		<input type="hidden" value="${chid }" name="chid">
-		<!-- 다음 문제 풀기  -->
-		<c:if test="${page<totalPage }">
-		<c:set var="nextPage" value="${page+1 }" />
-		<div>
-		<input type="submit" value="다음문제풀기" class="myButton">
-		</div>
-		</c:if>
+			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
 		</form>
 			
 	</c:when>
 	
 	<c:otherwise>
 
-<!-- 문제 출력부분 -->
-	
 	<form name="frm" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
-	<input type="hidden" value="${page }" name="page">
 	<input type="hidden" value="${subject }" name="subject">
 		<c:if test="${!empty qInfo }">
 		<c:forEach var="q" items="${qInfo }">
@@ -145,19 +145,6 @@ function allChk(){
 			</c:if>
 	</form>
 
-	<form action="Note?page=${page+1}&subject=${subject}" method="post">
-	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-	<input type="hidden" value="${chid }" name="chid">
-		<!-- 다음 문제 풀기  -->
-		<c:if test="${page<totalPage }">
-		<c:set var="nextPage" value="${page+1 }" />
-		<div>
-		<%-- <a onclick="location.href='Note?page=${nextPage}'" style="cursor:pointer">다음 문제 풀기</a> --%>
-		<input type="submit" value="다음문제풀기" class="myButton">
-		</div>
-		</c:if>
-	</form>
-	
 	</c:otherwise>
 </c:choose>
 </div>
@@ -165,27 +152,23 @@ function allChk(){
 <!-- 정답 확인 결과 부분  -->
 
 <div class="part">
-<div class="checks etrans">
-  <input type="checkbox" id="ex_chk3" name="deleteId" value="${a.id }">
-  <label for="ex_chk3"></label>
-</div>
 
-	<form action="Note?page=${page}&subject=${subject}" method="post">
+	<form action="delete_quiz" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
+	<input type="hidden" value="${subject }" name="subject">
+	
 <!-- res : id, ox, answer, input 을 가지고있다   -->
 	<c:if test="${!empty res }">
-<%-- 		<div>pid:<%=session.getAttribute("pid") %></div>
-		<div>페이지번호:${page } 총페이지번호:${totalPage }</div> --%>
-		
 		<table class="answer">
-		<tr id="aheader" class="atr" ><td id="atd_left">번호</td>
+		<tr id="aheader" class="atr" >
+		<td id="atd_left">번호</td>
 		<td>체크</td><td>정오답 결과</td><td>정답</td><td id="atd_right">내가 틀렸던 답</td></tr>
 		
 		<c:forEach var="a" items="${res }">
-			<tr class="atr" ><td>${a.id }</td>
-
-			<td><input type="checkbox" name="deleteId" value="${a.id }"></td>
+			<tr class="atr" >
+			<td>${a.id }</td>
+			<td><input type="checkbox" name="deleteId" value="${a.id }" id="${a.id }"></td>
 
 			<td>
 			<c:choose>
@@ -203,23 +186,10 @@ function allChk(){
 
 		</table>
 
-		<p id="delete_msg">체크한 문제를 학습 노트에서 삭제할 수 있습니다.</p>
-		<div><input type="submit" value="학습 노트에서 삭제" class="myButton"></div>
+		<div>체크한 문제를 학습 노트에서 삭제할 수 있습니다.</div>
+		<div><input type="button" onclick="ddQuiz()" value="선택 문제 삭제" class="myButton"></div>
 	</form>	
-	
-<%-- 	<form action="Note?page=${page+1}&subject=${subject}" method="post">
-	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-	<input type="hidden" value="${chid }" name="chid">
-		<!-- 다음 문제 풀기  -->
-		<c:if test="${page<totalPage }">
-		<c:set var="nextPage" value="${page+1 }" />
-		<div>다음페이지번호:${page+1 } 
-		<a onclick="location.href='Note?page=${nextPage}'" style="cursor:pointer">다음 문제 풀기</a>
-		<input type="submit" value="다음문제풀기">
-		</div>
-		</c:if>
-	</c:if>
-	</form> --%>
+
 	</c:if>
 </div>
 

@@ -1,22 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <form action ="AddProblemReg" method="post">
+	<input type="hidden" name="page" value="${param.page }">
+	<input type="hidden" name="num" value="${num }">
+	<input type="hidden" name="subject" value="${subname }">
+	<input type="hidden" name="chname" value="${chname }">
 	<table border="">
 		<tr>
 			<td>Chapter Number</td>
 			<td>
 				<select name ="chid">
-						<option value = "" selected = "selected"> 챕터 선택하기 </option>				
-						<option value = "1" > Chapter 1. 자바 시작하기 </option>
-						<option value = "2" > Chapter 2. 변수와 타입 </option>
-						<option value = "3" > Chapter 3. 연산자 </option>
-						<option value = "4" > Chapter 4. 조건문과 반복문 </option>
-						<option value = "5" > Chapter 5. 참조타입 </option>
-						<option value = "6" > Chapter 6. 클래스 </option>						
-						<option value = "7" > Chapter 7. 상속 </option>
-						<option value = "8" > Chapter 8. 인터페이스 </option>
-						<option value = "9" > Chapter 9. 예외처리 </option>
-						<option value = "10" > Chapter 10. 기본 API 클래스 </option>
+						<option value = ""> 챕터 선택하기 </option>
+						<c:forEach items="${sub }" var="ss">
+							<c:if test="${ss.head!=0 }">			
+						<option value = "${ss.head}" > Ch.${ss.head } ${ss.title } </option>
+						</c:if>
+						
+						</c:forEach>
 				</select>			
 			</td>
 		</tr>

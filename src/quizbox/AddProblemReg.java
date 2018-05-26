@@ -15,6 +15,19 @@ public class AddProblemReg implements Action {
 		// TODO Auto-generated method stub
 		ActionData data = new ActionData();
 		
+		DAO dao = new DAO();
+		Integer chid = Integer.parseInt(request.getParameter("num"));
+		
+		int page = 1;
+		
+		
+		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		
+		
+		
 		VO vo = new VO();
 		vo.setChid(Integer.parseInt(request.getParameter("chid")));
 		vo.setQuestion(request.getParameter("question"));
@@ -25,9 +38,23 @@ public class AddProblemReg implements Action {
 		vo.setS5(request.getParameter("s5"));
 		vo.setAnswer(request.getParameter("answer"));
 	
-		new DAO().problem_insert(vo);
+		String subject = request.getParameter("subject");
+		request.setAttribute("page", page);
+		
+		
+		
+		request.setAttribute("sub", dao.subject(subject));
+		request.setAttribute("subname", subject);
+		request.setAttribute("num", request.getParameter("num"));
+		request.setAttribute("chname", request.getParameter("chname"));
+		request.setAttribute("menu", "quizmenu.jsp");
+	
+		
+		new DAO().problem_insert(vo,subject);
 		data.setRedirect(true);
 		data.setPath("QuizMain");
+		
+		dao.close();
 		
 		return data;
 	}
