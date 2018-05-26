@@ -1533,17 +1533,16 @@ public class DAO {
 	/*=================================//찬===============================================================================*/
 
 	/*=================================승진이형===============================================================================*/		
-	//승진 quiz 문제 출력
+	// 승진 quiz 문제 출력
 
 	public ArrayList<VO> question(String subject, int chid, int start, int end) {
 		ArrayList<VO> res = new ArrayList<>();
 
 		try {
 
-			sql = "select * from " + 
-					"(select rownum rnum, tt.* from " + 
-					"(select * from quiz where subject = ? and  chid = ? order by id asc) tt) " + 
-					"where rnum >= ? and rnum <= ?";
+			sql = "select * from " + "(select rownum rnum, tt.* from "
+					+ "(select * from quiz where subject = ? and  chid = ? order by id asc) tt) "
+					+ "where rnum >= ? and rnum <= ?";
 
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, subject);
@@ -1552,7 +1551,7 @@ public class DAO {
 			ptmt.setInt(4, end);
 			rs = ptmt.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				VO vo = new VO();
 				vo.setQuestion(rs.getString("question"));
 				vo.setId(rs.getInt("id"));
@@ -1566,19 +1565,18 @@ public class DAO {
 				res.add(vo);
 			}
 
-
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return res;
 	}
-	
+
 	public VO questionDetail(String subject, int chid, int qid) {
-		VO vo =null;
+		VO vo = null;
 
 		try {
 
-			sql = "select * from  quiz where subject=? and chid = ? and id = ?";
+			sql = "select * from quiz where subject = ? and chid = ? and id = ?";
 
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, subject);
@@ -1587,7 +1585,7 @@ public class DAO {
 
 			rs = ptmt.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 				vo = new VO();
 				vo.setQuestion(rs.getString("question"));
 				vo.setId(rs.getInt("id"));
@@ -1598,9 +1596,10 @@ public class DAO {
 				vo.setS3(rs.getString("s3"));
 				vo.setS4(rs.getString("s4"));
 				vo.setS5(rs.getString("s5"));
-
+				vo.setTotal(rs.getInt("TOTAL"));
+				vo.setCorrection(rs.getInt("Correction"));
+				
 			}
-
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -1608,17 +1607,16 @@ public class DAO {
 		return vo;
 	}
 
-	//승진 문제 푼 결과 출력
+	// 승진 문제 푼 결과 출력
 
 	public ArrayList<VO> result(String subject, String pid, int chid, int start, int end) {
 		ArrayList<VO> res = new ArrayList<>();
 
 		try {
 
-			sql = "select * from " + 
-					"(select rownum rnum, tt.* from " + 
-					"(select * from study_note where pid = ? and subject=? and chid = ? order by id asc) tt) " + 
-					"where rnum >= ? and rnum <= ?";
+			sql = "select * from " + "(select rownum rnum, tt.* from "
+					+ "(select * from study_note where pid = ? and subject = ? and chid = ? order by id asc) tt) "
+					+ "where rnum >= ? and rnum <= ?";
 
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, pid);
@@ -1628,7 +1626,7 @@ public class DAO {
 			ptmt.setInt(5, end);
 			rs = ptmt.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				VO vo = new VO();
 				vo.setOx(rs.getInt("ox"));
 				vo.setChid(rs.getInt("chid"));
@@ -1646,6 +1644,16 @@ public class DAO {
 
 	public void insert_result(VO vo, String subject) {
 		try {
+			
+			sql = "update quiz set total=?, correction=? where subject=? and chid=? and id=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setInt(1, vo.getTotal());
+			ptmt.setInt(2, vo.getCorrection());
+			ptmt.setString(3, subject);
+			ptmt.setInt(4, vo.getChid());
+			ptmt.setInt(5, vo.getId());
+			ptmt.executeUpdate();
+			
 			sql = "select * from study_note where pid = ? and subject = ? and chid = ? and id = ?";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setString(1, vo.getPid());
@@ -1653,13 +1661,13 @@ public class DAO {
 			ptmt.setInt(3, vo.getChid());
 			ptmt.setInt(4, vo.getId());
 			rs = ptmt.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				sql = "update study_note set chid = ?, id = ?, input = ?, ox = ?, save = ? where pid = ? and subject = ? and chid = ? and id = ?";
 
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, vo.getChid());
-				ptmt.setInt(2, vo.getId());							
+				ptmt.setInt(2, vo.getId());
 				ptmt.setString(3, vo.getInput());
 				ptmt.setInt(4, vo.getOx());
 				ptmt.setInt(5, vo.getSave());
@@ -1669,33 +1677,33 @@ public class DAO {
 				ptmt.setInt(9, vo.getId());
 				ptmt.executeUpdate();
 
-			}else {
-				
+			} else {
+
 				sql = "insert into study_note"
-						+"(chid, id, input, ox, pid, save, subject) values (?, ?, ?, ?, ?, ?, ?)";			
+						+ "(chid, id, input, ox, pid, save, subject) values (?, ?, ?, ?, ?, ?, ?)";
 				ptmt = con.prepareStatement(sql);
 				ptmt.setInt(1, vo.getChid());
-				ptmt.setInt(2, vo.getId());							
+				ptmt.setInt(2, vo.getId());
 				ptmt.setString(3, vo.getInput());
 				ptmt.setInt(4, vo.getOx());
 				ptmt.setString(5, vo.getPid());
 				ptmt.setInt(6, vo.getSave());
-				ptmt.setString(7,subject);
+				ptmt.setString(7, subject);
 				ptmt.executeUpdate();
-				
+
 			}
-			
-		} catch(SQLException e) {
-			
+
+		} catch (SQLException e) {
+
 		}
 	}
 
 
-	//승진 문제 저장 
+	// 승진 문제 저장
 	public void problem_save(VO vo, String subject) {
 
 		try {
-			
+
 			sql = "update study_note set save = ? where subject = ? and pid = ? and chid = ? and id = ?";
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, vo.getSave());
@@ -1705,12 +1713,12 @@ public class DAO {
 			ptmt.setInt(5, vo.getId());
 			ptmt.executeUpdate();
 
-		} catch(SQLException e) {
-			
+		} catch (SQLException e) {
+
 		}
 	}
 
-	//승진 page
+	// 승진 page
 
 	public int totalCount(int chid) {
 
@@ -1731,25 +1739,23 @@ public class DAO {
 		return 0;
 	}
 
-	//승진 문제 추가
+	// 승진 문제 추가
 
 	public int problem_insert(VO vo, String subject) {
 		int nextId = 0;
-		
+
 		try {
-			sql = "select max(id) from quiz where subject=? and chid = ?";
+			sql = "select max(id) from quiz where subject = ? and chid = ?";
 			ptmt = con.prepareStatement(sql);
-			
 			ptmt.setString(1, subject);
 			ptmt.setInt(2, vo.getChid());
-			
 			rs = ptmt.executeQuery();
 
 			rs.next();
 			nextId = rs.getInt(1) + 1;
 
-			sql = "insert into quiz(chid, id, question, s1, s2, s3, s4, s5, answer, subject) "
-					+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "insert into quiz(chid, id, question, s1, s2, s3, s4, s5, answer, subject, total, correction) "
+					+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)";
 
 			ptmt = con.prepareStatement(sql);
 
@@ -1765,19 +1771,18 @@ public class DAO {
 			ptmt.setString(10, subject);
 			ptmt.executeUpdate();
 
-
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return nextId;
 	}
-	//승진 문제 수정
+	// 승진 문제 수정
 
 	public VO modify_question(String subject, int chid, int id) {
 
 		try {
 
-			sql = "select * from quiz where chid = ? and id = ? and subject=?";
+			sql = "select * from quiz where chid = ? and id = ? and subject = ?";
 
 			ptmt = con.prepareStatement(sql);
 			ptmt.setInt(1, chid);
@@ -1785,7 +1790,7 @@ public class DAO {
 			ptmt.setString(3, subject);
 			rs = ptmt.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 				VO vo = new VO();
 				vo.setQuestion(rs.getString("question"));
 				vo.setId(rs.getInt("id"));
@@ -1799,7 +1804,6 @@ public class DAO {
 				return vo;
 			}
 
-
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -1810,15 +1814,15 @@ public class DAO {
 
 	public void modify_insert(VO vo, String subject) {
 		try {
-			sql = "update quiz set question = ?, s1 = ?, s2 = ?, s3 = ?, s4 = ?, s5 = ?, answer = ? where subject=? and chid = ? and id = ?";
+			sql = "update quiz set question = ?, s1 = ?, s2 = ?, s3 = ?, s4 = ?, s5 = ?, answer = ? where subject = ? and chid = ? and id = ?";
 
 			ptmt = con.prepareStatement(sql);
-			ptmt.setString(1,  vo.getQuestion());
+			ptmt.setString(1, vo.getQuestion());
 			ptmt.setString(2, vo.getS1());
 			ptmt.setString(3, vo.getS2());
 			ptmt.setString(4, vo.getS3());
 			ptmt.setString(5, vo.getS4());
-			ptmt.setString(6, vo.getS5());	
+			ptmt.setString(6, vo.getS5());
 			ptmt.setString(7, vo.getAnswer());
 			ptmt.setString(8, subject);
 			ptmt.setInt(9, vo.getChid());
@@ -1842,15 +1846,15 @@ public class DAO {
 			ptmt.setString(1, subject);
 			rs = ptmt.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				VO vo = new VO();
 				vo.setTitle(rs.getString("chaptername"));
 				vo.setHead(rs.getInt("head"));
 				vo.setKind(rs.getString("subject"));
 				arr.add(vo);
 			}
-		} catch(Exception e) {
-			
+		} catch (Exception e) {
+
 		}
 		return arr;
 	}
@@ -1865,17 +1869,17 @@ public class DAO {
 
 			rs = ptmt.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				VO vo = new VO();
 				vo.setPname(rs.getString("pname"));
 				vo.setPid(rs.getString("pid"));
 				arr.add(vo);
 			}
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return arr;		
+		return arr;
 	}
 
 	public void kickOutMember(String pid) {
@@ -1891,15 +1895,31 @@ public class DAO {
 			ptmt.setString(1, pid);
 			ptmt.executeUpdate();
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void close() {
-		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
-		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}
-		if(con!= null) try {con.close();} catch(Exception e) {e.printStackTrace();}
+		if (rs != null)
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		if (ptmt != null)
+			try {
+				ptmt.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		if (con != null)
+			try {
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 }
+
 /*=================================//승진이형===============================================================================*/	

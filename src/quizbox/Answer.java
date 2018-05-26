@@ -51,15 +51,27 @@ public class Answer implements Action{
 	
 	for(String qq: qqids) {
 		int qid = Integer.parseInt(qq);
+
 		vo.setId(qid);
-		vo.setInput(request.getParameter("selection"+qid));	
-		if(request.getParameter("selection"+qid).equals(dao.questionDetail(subject, chid,qid).getAnswer())) {
+		vo.setInput(request.getParameter("selection"+qid));
+		
+		VO res = dao.questionDetail(subject, chid,qid);
+		
+		if(request.getParameter("selection"+qid).equals(res.getAnswer())) {
 			vo.setOx(1);
+			
+			vo.setCorrection(res.getCorrection()+1);
+			vo.setTotal(res.getTotal()+1);			
 		}else {
 			vo.setOx(0);
+
+			vo.setCorrection(res.getCorrection());
+			vo.setTotal(res.getTotal()+1);
 		}
 		dao.insert_result(vo, subject);
+		
 	}
+	
 	
 	request.setAttribute("page", page);
 	request.setAttribute("start", start);
