@@ -5,7 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/study.css" />
+
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/studylist.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/toggle.css" />
+
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
@@ -24,7 +27,7 @@ function allChk(){
 			return;
 		}		
 	'</c:forEach>'
-		frm.action = "Note?subject=${subject}&chid=${chid}";
+		frm.action = "Note";
 		frm.submit();
 }
 
@@ -48,34 +51,65 @@ function ddQuiz(){
 		msg += '문제를 삭제합니다.'
 	
 	alert(msg)
-	frm.action = "Note?subject=${subject}&chid=${chid}";
+	frm.action = "Note";
 	frm.submit();
 	
 }
-</script>
-<style type="text/css">
-.part{
-	float:left;
-	width : 50%;
-}
 
-</style>
+</script>
 
 </head>
 <body>
 
 <!-- 문제 출력 부분  -->
-<div class="part">
+
 <c:choose>
-	<c:when test="${!empty idAndInput }">
+	<c:when test="${!empty idAndInput && !empty res }">
+	<form name="delete_quiz" method="post">
+		<input type="hidden" value="${chid }" name="chid">
+	
+	
+	
+	
 		<form name="frm" method="post">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="hidden" value="${chid }" name="chid">
-		<input type="hidden" value="${subject }" name="subject">
+
 		
 		<c:forEach var="in" items="${idAndInput }">
-			<div>${in.id }.${in.question }<br>
-			정답률:${in.correction/in.total*100 }%</div>
+			<c:forEach var="a" items="${res }">
+			
+			<c:if test="${a.id==in.id }">
+			
+			
+
+			
+			
+			
+		<div class="contest-stream" style="width:978px;min-height:378px; *min-height:1500px; margin-bottom:47px; display:inline-block; zoom:1; *display:inline;">
+
+	<div class="new_list_item " style="border-left: 3px solid #ff9557;padding-left:12px;">
+		
+		<div class="new_list_left inline">
+		
+			<div class="new_list_sub inline">
+			
+				<div class="new_list_sub_top">
+        			<div class="new_list_cate inline">
+        				문제${in.id }. &nbsp;|&nbsp;
+        			</div>
+					<strong>${in.question }</strong>
+        		</div>
+				
+				<div class="new_list_sub_bot">
+        			<div class="new_list_id inline">
+        				정답률    												
+					</div>
+        			<div class="new_list_count inline">
+        				<strong>${in.correction/in.total*100 }%</strong>
+        			</div><br/><br/>
+			
+			
 			
 				<c:choose>
 					<c:when test="${in.input==(no.index+1) }">
@@ -116,82 +150,133 @@ function ddQuiz(){
 					<c:otherwise>
 					<div><input type="radio" name="${in.id }" value="5"> ${in.s5 }</div>
 					</c:otherwise>
-				</c:choose>			
+				</c:choose>	
+				
+							
+				</div>
+			
+			</div>
+		</div>
+		
+		
+		
+		<div class="new_list_right inline">
+			<div>
+				<div class="new_list_pay" style="float:left;">
+					학습노트에서 제거	
+				</div>
+				
+
+
+				<div class="onoffswitch" style="float:left; margin-bottom:10px; margin-left:5px;">		
+					<input type="checkbox" name="deleteId" value="${a.id }" class="onoffswitch-checkbox" id="${a.id }">											
+					<label class="onoffswitch-label" for="${a.id }">
+					<span class="onoffswitch-inner"></span>
+					<span class="onoffswitch-switch"></span>
+					</label>
+				</div>
+
+			
+			</div>
+			<div>
+				<div class="new_list_pay_twice" style="margin-top:37px;">
+					결과: 
+					<c:choose>
+						<c:when test="${a.ox eq '1' }">
+						O
+						</c:when>
+						<c:otherwise>
+						X
+						</c:otherwise>
+					</c:choose>
+
+				</div>
+			</div>
+			<div>
+				<div class="new_list_pay_twice ">
+					정답: ${a.answer }
+				</div>
+			</div>
+			<div>
+				<div class="new_list_pay_twice ">
+					이전 선택답: ${a.input }
+				</div>
+			</div>
+
+        </div>	
+	</div>
+</div>	
+			
+				
+				
+				
+				
+				
+				</c:if>
+				</c:forEach>		
 			</c:forEach>
 			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
+		</form>	
+				
+				<div><input type="button" onclick="ddQuiz()" value="선택 문제 삭제" class="myButton"></div>	
 		</form>
-			
+				
 	</c:when>
 	
 	<c:otherwise>
-
+		
 	<form name="frm" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
-	<input type="hidden" value="${subject }" name="subject">
+
 		<c:if test="${!empty qInfo }">
 		<c:forEach var="q" items="${qInfo }">
-		<table class="question">
-			<tr id="qheader"><td class="qtd">${q.id }.${q.question }</td></tr>
-			<tr><td>정답률:${q.correction/q.total*100 }%</td></tr>
-			<tr><td><input type="radio" name="${q.id }" value="1"> ${q.s1 }</td></tr>
-			<tr><td><input type="radio" name="${q.id }" value="2"> ${q.s2 }</td></tr>
-			<tr><td><input type="radio" name="${q.id }" value="3"> ${q.s3 }</td></tr>
-			<tr><td><input type="radio" name="${q.id }" value="4"> ${q.s4 }</td></tr>
-			<tr><td><input type="radio" name="${q.id }" value="5"> ${q.s5 }</td></tr>
-		</table>
-		</c:forEach>
-		<div ><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
-			</c:if>
-	</form>
 
+<div class="contest-stream" style="width:978px;min-height:378px; *min-height:1500px; margin-bottom:47px; display:inline-block; zoom:1; *display:inline;">
+
+	<div class="new_list_item " style="border-left: 3px solid #ff9557;padding-left:12px;">
+		
+		<div class="new_list_left inline">
+		
+			<div class="new_list_sub inline">
+			
+				<div class="new_list_sub_top">
+        			<div class="new_list_cate inline">
+        				문제${q.id }. &nbsp;|&nbsp;
+        			</div>
+					<strong>${q.question }</strong>
+        		</div>
+				
+				<div class="new_list_sub_bot">
+        			<div class="new_list_id inline">
+        				정답률    												
+					</div>
+        			<div class="new_list_count inline">
+        				<strong>${q.correction/q.total*100 }%</strong>
+        			</div><br/><br/>
+						1. <input type="radio" name="${q.id }" value="1"> ${q.s1 }<br/>
+						2. <input type="radio" name="${q.id }" value="2"> ${q.s2 }<br/>
+						3. <input type="radio" name="${q.id }" value="3"> ${q.s3 }<br/>
+						4. <input type="radio" name="${q.id }" value="4"> ${q.s4 }<br/>
+						5. <input type="radio" name="${q.id }" value="5"> ${q.s5 }<br/>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+</div>	
+
+
+		</c:forEach>
+		<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
+		</c:if>
+		
+	</form>
+		
 	</c:otherwise>
 </c:choose>
-</div>
 
-<!-- 정답 확인 결과 부분  -->
 
-<div class="part">
-
-	<form action="delete_quiz" method="post">
-	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-	<input type="hidden" value="${chid }" name="chid">
-	<input type="hidden" value="${subject }" name="subject">
-	
-<!-- res : id, ox, answer, input 을 가지고있다   -->
-	<c:if test="${!empty res }">
-		<table class="answer">
-		<tr id="aheader" class="atr" >
-		<td id="atd_left">번호</td>
-		<td>체크</td><td>정오답 결과</td><td>정답</td><td id="atd_right">내가 틀렸던 답</td></tr>
-		
-		<c:forEach var="a" items="${res }">
-			<tr class="atr" >
-			<td>${a.id }</td>
-			<td><input type="checkbox" name="deleteId" value="${a.id }" id="${a.id }"></td>
-
-			<td>
-			<c:choose>
-				<c:when test="${a.ox eq '1' }">
-				O
-				</c:when>
-				<c:otherwise>
-				X
-				</c:otherwise>
-			</c:choose>
-			</td>
-			<td>${a.answer }</td><td>${a.input }</td>
-			</tr>
-		</c:forEach>
-
-		</table>
-
-		<div>체크한 문제를 학습 노트에서 삭제할 수 있습니다.</div>
-		<div><input type="button" onclick="ddQuiz()" value="선택 문제 삭제" class="myButton"></div>
-	</form>	
-
-	</c:if>
-</div>
 
 </body>
 </html>
