@@ -52,26 +52,25 @@
     <div class="grid__container">
 	
 	<form name="frm" method="post"  class="form form--login">
-	<input type="hidden" name="pid" value="<%=session.getAttribute("pid") %>" />
         
         <div class="form__field">
           <label class="fontawesome-user" for="login__username"><span class="hidden">ID</span></label>
-          <inputname="pid" type="text" class="form__input" placeholder="ID" required>
+          <input name="pid" type="text" class="form__input" placeholder="ID">
         </div>
         
          <div class="form__field">
           <label class="fontawesome-user" for="login__username"><span class="hidden">Name</span></label>
-          <input name="pname" type="text" class="form__input" placeholder="Username" required>
+          <input name="pname" type="text" class="form__input" placeholder="Username">
         </div>
         
          <div class="form__field">
           <label class="fontawesome-lock" for="login__password"><span class="hidden">PW</span></label>
-          <input name="pw1" type="password" class="form__input" placeholder="Password" required>
+          <input name="pw1" type="password" class="form__input" placeholder="Password">
         </div>
         
          <div class="form__field">
           <label class="fontawesome-lock" for="login__password"><span class="hidden">PW</span></label>
-          <input name="pw2" type="password" class="form__input" placeholder="Password 확인" required>
+          <input name="pw2" type="password" class="form__input" placeholder="Password 확인">
         </div>
 
         <div class="form__field">
