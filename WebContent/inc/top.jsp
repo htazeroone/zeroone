@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/top.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/top2.css" />
 <title>Insert title here</title>
 
 <!-- <style type="text/css">

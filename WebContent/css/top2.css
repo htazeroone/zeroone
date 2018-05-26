@@ -9,8 +9,10 @@ body {
 }
 
 nav {
+	/* margin: 100px auto;  */
 	margin: 76px auto;
 	text-align: center;
+	/*position: relative;*/
 }
 
 nav ul ul {
@@ -23,7 +25,7 @@ nav ul ul {
 
 
 nav ul {
-	background: #efefef;
+	/* background: #efefef; */
 	background: linear-gradient(top, #efefef 0%, #bbbbbb 100%);
 	background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%);
 	background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%);
