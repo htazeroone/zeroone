@@ -1,11 +1,14 @@
 package info;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Action;
 import model.ActionData;
 import model.DAO;
+import model.VO;
 
 public class List implements Action{
 	
@@ -21,7 +24,7 @@ public class List implements Action{
 		
 		int page = 1;
 		
-		int limit = 3, pagelimit=4;
+		int limit = 10, pagelimit=5;
 
 		
 		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
@@ -50,9 +53,14 @@ public class List implements Action{
 			endpage=totalpage;
 		}
 		
+		ArrayList<VO> arr = dao.qnlist(kind, start, end);
+		
+		for (VO vo : arr) {
+			vo.setTotal(dao.recount(vo.getId()));
+		}
 		request.setAttribute("kind", kind);
 		
-		request.setAttribute("data", dao.qnlist(kind, start, end));
+		request.setAttribute("data", arr);
 		
 		request.setAttribute("main", "info/qnalist.jsp");
 		

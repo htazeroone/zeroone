@@ -40,6 +40,7 @@ function rehide(){
 
 <style>
 
+
 	.rediv{
 	
 		background-color: gray;
@@ -52,10 +53,48 @@ function rehide(){
 		height: 500px;
 	
 	}
-	
-	textarea {
-		margin: 10px
-}
+
+	.rebutton {
+		-moz-box-shadow:inset 0px 1px 0px 0px #8300cf;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #8300cf;
+		box-shadow:inset 0px 1px 0px 0px #8300cf;
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c123de), color-stop(1, #a20dbd));
+		background:-moz-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+		background:-webkit-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+		background:-o-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+		background:-ms-linear-gradient(top, #c123de 5%, #a20dbd 100%);
+		background:linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c123de', endColorstr='#a20dbd',GradientType=0);
+		background-color:#c123de;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border:1px solid #a511c0;
+		display:inline-block;
+		cursor:pointer;
+		color:#ffffff;
+		font-family:Arial;
+		font-size:13px;  
+		font-weight:bold; 
+		padding:1px 3px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #9b14b3;
+		margin: 5px;
+	}
+	.rebutton:hover {
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a20dbd), color-stop(1, #c123de));
+		background:-moz-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+		background:-webkit-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+		background:-o-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+		background:-ms-linear-gradient(top, #a20dbd 5%, #c123de 100%);
+		background:linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a20dbd', endColorstr='#c123de',GradientType=0);
+		background-color:#a20dbd;
+	}
+	.rebutton:active {
+		position:relative;
+		top:1px;
+	}
 </style>
 
 
@@ -96,7 +135,11 @@ function rehide(){
 			<td>제목</td>
 			<td colspan="10">${data.title }</td>
 			<td>
-				<input type="button" value="추천" onclick="location.href='Rec?id=${data.id}&page=${page }'">
+				<a href='Rec?id=${data.id}&page=${page }'>
+				<img src="/SemiQuiz/cssb/like.png" height="20px"> 
+				</a>
+				
+		<%-- 		<input type="button" value="추천" onclick="location.href='Rec?id=${data.id}&page=${page }'"> --%>
 			</td>
 		</tr>	
 		
@@ -137,19 +180,19 @@ function rehide(){
 										</c:if>
 										
 										${rr.content }
-										<button onclick="re(${rr.id})">댓글</button>
+										<button onclick="re(${rr.id})" class="rebutton">댓글</button>
 										
 										<!-- <button onclick="rehide()">댓글안보이기</button> -->
 									</td>
 									
 
 										<c:if test="${rr.pname==pname }">
-											<td bgcolor="#DAD9FF">
+											<td bgcolor="#DAD9FF" align="right">
 												<form action="Recdelete">
 													<input type="hidden" name="id" value="${rr.id }">
 													<input type="hidden" name="orid" value="${data.id }">
 													<input type="hidden" name="page" value="${page }">
-													<input type="submit" value="댓글삭제">
+													<input class="rebutton" type="submit" value="댓글삭제">
 												</form>
 											</td>
 										</c:if>
@@ -178,7 +221,7 @@ function rehide(){
 												
 												
 												<td bgcolor="#DAD9FF">
-													<button style="width: 100%" onclick="document.getElementById('rrinfrm${rr.id}').submit()">댓글달기</button>
+													<button class="rebutton" onclick="document.getElementById('rrinfrm${rr.id}').submit()">댓글달기</button>
 												</td>
 											</tr>
 										
@@ -197,7 +240,7 @@ function rehide(){
 	<!-- 댓글달수있는 창 -->
 		<tr style="border-top: 2px solid #789;">
 	
-			<td colspan="11" bgcolor=#B7F0B1>
+			<td colspan="11" bgcolor=#DAD9FF>
 				<form action="Replyinsert" id="rinsert">
 				<textarea cols="100" name="content" style="resize: none;"></textarea>
 				<input type="hidden" name="id" value="${data.id }">
@@ -205,8 +248,8 @@ function rehide(){
 				<input type="hidden" name="pname" value="<%=session.getAttribute("pname")%>">
 				</form>
 			</td>
-			<td bgcolor=#B7F0B1>	
-				<button  onclick="document.getElementById('rinsert').submit()">등록</button>
+			<td bgcolor=#DAD9FF>	
+				<button class="rebutton" onclick="document.getElementById('rinsert').submit()">등록</button>
 			</td>
 			
 			
