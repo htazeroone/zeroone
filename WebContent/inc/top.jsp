@@ -123,7 +123,7 @@ $(document).ready(function(){
 		<li><a href="#"><%=session.getAttribute("pname")%>님 페이지</a>
 			<ul>
 				<li><a href="../login/Logout">로그아웃</a></li>
-				<li><a href="../mypage/Achieve">학습성취도</a>
+				<li><a href="#">학습성취도</a>
 						<ul>
 				<%
 					for(int i = 0; i<subjects.size(); i++) { %>
