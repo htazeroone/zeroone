@@ -56,22 +56,22 @@
         
         <div class="form__field">
           <label class="fontawesome-user" for="login__username"><span class="hidden">ID</span></label>
-          <input id="login__username" name="pid" type="text" class="form__input" placeholder="ID" required>
+          <inputname="pid" type="text" class="form__input" placeholder="ID" required>
         </div>
         
          <div class="form__field">
           <label class="fontawesome-user" for="login__username"><span class="hidden">Name</span></label>
-          <input id="login__username" name="pname" type="text" class="form__input" placeholder="Username" required>
+          <input name="pname" type="text" class="form__input" placeholder="Username" required>
         </div>
         
          <div class="form__field">
           <label class="fontawesome-lock" for="login__password"><span class="hidden">PW</span></label>
-          <input id="login__password" name="pw1" type="password" class="form__input" placeholder="Password" required>
+          <input name="pw1" type="password" class="form__input" placeholder="Password" required>
         </div>
         
          <div class="form__field">
           <label class="fontawesome-lock" for="login__password"><span class="hidden">PW</span></label>
-          <input id="login__password" name="pw2" type="password" class="form__input" placeholder="Password 확인" required>
+          <input name="pw2" type="password" class="form__input" placeholder="Password 확인" required>
         </div>
 
         <div class="form__field">
