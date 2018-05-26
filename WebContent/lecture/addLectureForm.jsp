@@ -3,7 +3,7 @@
 <%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css"> --%>
 
-<script>
+<script> 
 var cnt =4;
 
 function view(){
