@@ -27,7 +27,7 @@ function allChk(){
 			return;
 		}		
 	'</c:forEach>'
-		frm.action = "Note";
+		frm.action = "Note?subject=${subject}&chid=${chid}";
 		frm.submit();
 }
 
@@ -51,7 +51,7 @@ function ddQuiz(){
 		msg += '문제를 삭제합니다.'
 	
 	alert(msg)
-	frm.action = "Note";
+	frm.action = "Note?subject=${subject}&chid=${chid}";
 	frm.submit();
 	
 }
@@ -67,6 +67,7 @@ function ddQuiz(){
 	<c:when test="${!empty idAndInput && !empty res }">
 	<form name="delete_quiz" method="post">
 		<input type="hidden" value="${chid }" name="chid">
+		<input type="hidden" value="${subject }" name="subject">
 	
 	
 	
@@ -74,6 +75,7 @@ function ddQuiz(){
 		<form name="frm" method="post">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="hidden" value="${chid }" name="chid">
+		<input type="hidden" value="${subject }" name="subject">
 
 		
 		<c:forEach var="in" items="${idAndInput }">
@@ -225,9 +227,13 @@ function ddQuiz(){
 	
 	<c:otherwise>
 		
+		
+<!-- 문제 푸는 부분  -->	
+		
 	<form name="frm" method="post">
 	<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 	<input type="hidden" value="${chid }" name="chid">
+	<input type="hidden" value="${subject }" name="subject">
 
 		<c:if test="${!empty qInfo }">
 		<c:forEach var="q" items="${qInfo }">

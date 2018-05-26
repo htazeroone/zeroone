@@ -98,7 +98,7 @@ public class Note implements Action {
 			System.out.println("qInfo.size():"+qInfo.size());
 			
 			if(qNum==0) {
-				String url = "../mypage/Note";
+				String url = "../mypage/Note?subject="+subject;
 				String msg = "해당 Chapter의 모든 문제를 삭제했습니다.";
 
 				request.setAttribute("msg", msg);
