@@ -166,7 +166,7 @@ public class Note implements Action {
 		}else { //--학습노트에 데이터가 없다면
 			System.out.println("study_note에 관련 데이터가 없어서 빈 화면 출력");
 			String url = "../main/Main";
-			String msg = "추가문제가 있을 때만 사용가능합니다.";
+			String msg = "학습노트의 문제가 모두 삭제되었습니다.";
 			request.setAttribute("msg", msg);
 			request.setAttribute("url", url);			
 			request.setAttribute("main", "mypage/alert.jsp");
