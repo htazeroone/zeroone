@@ -9,21 +9,29 @@
 * {
   box-sizing: border-box;
 }
-
+ 
 html {
   /*height: 100%;*/
-}
+} 
 
 body {
 /*   background-color: #2c3338;
-  color: #606468;
+  color: #606468; 
   font: 400 0.875rem/1.5 "Open Sans", sans-serif; */
    margin: 0;
-  /*min-height: 20%;
+  /*min-height: 20%;  
   height: 0;*/
 
 }
 
+a {
+  color: #eee;
+  outline: 0;
+  text-decoration: none;
+}
+a:focus, a:hover {
+  text-decoration: underline;
+}
 
 input {
   border: 0;
@@ -74,22 +82,22 @@ input {
   background-color: #434A52;
 }
 .form--login input[type="submit"] {
-  background-color: #ea4c88;
+  background-color: #efae1a;
   color: #eee;
   font-weight: bold;
   text-transform: uppercase;
 }
 .form--login input[type="button"] {
-  background-color: #ea4c88;
+  background-color: #efae1a;
   color: #eee;
   font-weight: bold;
   text-transform: uppercase;
 }
 .form--login input[type="submit"]:focus, .form--login input[type="submit"]:hover {
-  background-color: #d44179;
+  background-color: #ffc84c;
 }
 .form--login input[type="button"]:focus, .form--login input[type="button"]:hover {
-  background-color: #d44179;
+  background-color: #ffc84c;
 }
 .form__field {
   display: -webkit-box;
@@ -111,7 +119,7 @@ input {
       -ms-flex-align: center;
           align-items: center;
   display: -webkit-box;
-  display: -webkit-flex;
+  display: -webkit-flex; 
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
