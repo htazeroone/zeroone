@@ -78,26 +78,18 @@ $(document).ready(function(){
 				DAO dao = new DAO();
 				ArrayList<String> subjects = dao.getSubjects();
 
-				/* dao.close(); */
-
 				for(int i = 0; i<subjects.size(); i++) { %>
 
 					<li><a href="../lecture/List?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
 
 
 			<% }%>
-					<c:if test="${sessionScope.pid == 'admin'}">
-					<li><a href="../lecture/AddLectureForm">과목 추가하기</a></li>
-					<li><a href="../lecture/DeleteLectureForm">과목 삭제하기</a></li>
-					</c:if>
+
 			</ul>
 		</li>
 		<li><a href="../quizbox/QuizMain">퀴즈</a>
 			<ul>
 			<%
-				
-				dao.close();
-
 				for(int i = 0; i<subjects.size(); i++) { %>
 					<li><a href="../quizbox/QuizMain?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
 
@@ -136,27 +128,35 @@ $(document).ready(function(){
 				<li><a href="#">학습노트</a>
 					<ul>
 				<%
-					for(int i = 0; i<subjects.size(); i++) { %>
-						<li><a href="../mypage/Note?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+					ArrayList<String> studyLec = dao.getStudyChapters(session);
+					for(int i = 0; i<studyLec.size(); i++) { %>
+						<li><a href="../mypage/Note?subject=<%=studyLec.get(i)%>"><%=studyLec.get(i)%></a></li>
 				<% }%>
 					</ul>
 				</li>
 				<li><a href="#" >오답노트</a>
 					<ul>
 				<%
-					for(int i = 0; i<subjects.size(); i++) { %>
-						<li><a href="../mypage/IncorrectNote?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+					ArrayList<String> oxLec = dao.getOxChapter(session);
+					dao.close();
+					for(int i = 0; i<oxLec.size(); i++) { %>
+						<li><a href="../mypage/IncorrectNote?subject=<%=oxLec.get(i)%>"><%=oxLec.get(i)%></a></li>
 				<% }%>
 					</ul>
 				
 				</li>
-
 				<li><a href="../mypage/ModifyPwForm">비밀번호변경</a></li>
-				<li><a href="../mypage/OutForm">회원탈퇴</a></li>
 				
+				<c:if test="${sessionScope.pid == 'admin'}">
+					<li><a href="../lecture/AddLectureForm">과목 추가하기</a></li>
+					<li><a href="../lecture/DeleteLectureForm">과목 삭제하기</a></li>
+					
+				</c:if>
 				
-				
-				
+				<c:if test="${sessionScope.pid != 'admin'}">
+					<li><a href="../mypage/OutForm">회원탈퇴</a></li>
+				</c:if>
+
 			</ul>
 		</li>
 
@@ -176,6 +176,7 @@ $(document).ready(function(){
 
 
 </body>
+</html>
 
 <%-- <table border="" width="100%" height="100%">
 	<tr>
@@ -245,3 +246,5 @@ $(document).ready(function(){
 </td>
 </tr>
 </table> --%>
+
+

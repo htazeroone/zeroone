@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 public class DAO {
@@ -1095,6 +1096,47 @@ public class DAO {
 
 	}
 
+	public ArrayList<String> getStudyChapters(HttpSession session) {
+		ArrayList<String> arr = new ArrayList<>();
+		try {
+			
+			sql = "select distinct subject from study_note where save = 1 and pid=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, (String)session.getAttribute("pid"));
+			rs = ptmt.executeQuery();
+			
+			while(rs.next()) {
+				String chapter = rs.getString("SUBJECT");
+				arr.add(chapter);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
+	public ArrayList<String> getOxChapter(HttpSession session) {
+		ArrayList<String> arr = new ArrayList<>();
+		try {
+			
+			sql = "select distinct subject from study_note where ox=0 and pid=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, (String)session.getAttribute("pid"));
+			rs = ptmt.executeQuery();
+			
+			while(rs.next()) {
+				String chapter = rs.getString("SUBJECT");
+				arr.add(chapter);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
+	
 	/*=================================//지아누나===============================================================================*/	
 	/*=================================찬===============================================================================*/
 	//찬 qna랑 notice 리스트 종류랑 스타트와 엔드
@@ -1901,24 +1943,9 @@ public class DAO {
 	}
 
 	public void close() {
-		if (rs != null)
-			try {
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		if (ptmt != null)
-			try {
-				ptmt.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		if (con != null)
-			try {
-				con.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if(rs!= null) try {rs.close();} catch(Exception e) {e.printStackTrace();}
+		if(ptmt!= null) try {ptmt.close();} catch(Exception e) {e.printStackTrace();}
+		if(con!= null) try {con.close();} catch(Exception e) {e.printStackTrace();}
 	}
 }
 

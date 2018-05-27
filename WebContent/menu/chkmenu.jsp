@@ -19,7 +19,7 @@
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
 		<input type="submit" value="${ch.chname }">
 	</form> --%>
-	<a href="IncorrectNote?chid=${ch.chid }&subject=${subject}"><span>${ch.chname }</span></a><br><br>
+	<a href="IncorrectNote?chid=${ch.chid }&subject=${subject}"><span>Ch.${ch.chid} ${ch.chname }</span></a><br><br>
 </c:forEach>
 </nav>
 
