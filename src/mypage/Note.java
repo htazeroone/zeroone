@@ -76,7 +76,7 @@ public class Note implements Action {
 			qInfo = dao.qInfo(chid, pid, subject);
 			
 			
-			if(null!=request.getParameterValues("deleteId")) {
+			if(null!=request.getParameterValues("deleteId")&&null!=request.getParameter("delete")) {
 				System.out.println("삭제를 시작해볼까 ...2");
 				String [] deleteInput = request.getParameterValues("deleteId");
 				

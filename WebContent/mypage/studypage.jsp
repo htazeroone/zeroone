@@ -51,7 +51,7 @@ function ddQuiz(){
 		msg += '문제를 삭제합니다.'
 	
 	alert(msg)
-	ddfrm.action = "Note?subject=${subject}&chid=${chid}";
+	ddfrm.action = "Note?subject=${subject}&chid=${chid}&delete=delete";
 	ddfrm.submit();
 	
 }
