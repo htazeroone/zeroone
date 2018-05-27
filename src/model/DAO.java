@@ -1096,6 +1096,26 @@ public class DAO {
 
 	}
 
+	public ArrayList<String> getAchieveChapters(HttpSession session) {
+		ArrayList<String> arr = new ArrayList<>();
+		try {
+			
+			sql = "select distinct subject from study_note where pid=?";
+			ptmt = con.prepareStatement(sql);
+			ptmt.setString(1, (String)session.getAttribute("pid"));
+			rs = ptmt.executeQuery();
+			
+			while(rs.next()) {
+				String chapter = rs.getString("SUBJECT");
+				arr.add(chapter);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
 	public ArrayList<String> getStudyChapters(HttpSession session) {
 		ArrayList<String> arr = new ArrayList<>();
 		try {

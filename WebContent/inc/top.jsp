@@ -118,8 +118,9 @@ $(document).ready(function(){
 				<li><a href="#">학습성취도</a>
 						<ul>
 				<%
-					for(int i = 0; i<subjects.size(); i++) { %>
-						<li><a href="../mypage/Achieve?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+					ArrayList<String> achieveLec = dao.getAchieveChapters(session);
+					for(int i = 0; i<achieveLec.size(); i++) { %>
+						<li><a href="../mypage/Achieve?subject=<%=achieveLec.get(i)%>"><%=achieveLec.get(i)%></a></li>
 				<% }%>
 						</ul>
 				
