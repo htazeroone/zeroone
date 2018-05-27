@@ -32,7 +32,7 @@ function allChk(){
 }
 
 function ddQuiz(){
-	var frm = document.frm;
+	var ddfrm = document.frm;
 	var chkArr = new Array();
 	var msg = "";
 	var size = $('input:checkbox[name=deleteId]').length;
@@ -51,8 +51,8 @@ function ddQuiz(){
 		msg += '문제를 삭제합니다.'
 	
 	alert(msg)
-	frm.action = "Note?subject=${subject}&chid=${chid}";
-	frm.submit();
+	ddfrm.action = "Note?subject=${subject}&chid=${chid}";
+	ddfrm.submit();
 	
 }
 
