@@ -38,6 +38,7 @@
   /* var arrSum = new Array(); */
   var arrTotal = new Array();
   var arrQNum = new Array();
+  var subject = '${subject}';
 
  	window.onload=function(){
 
@@ -107,7 +108,7 @@
           ]);
 
       var options = {
-    	  title: 'JAVA 문제 정오답 결과',
+    	  title: ''+subject+' 문제 정오답 결과',
     	  fontSize: 15,
     	  backgroundColor: '#d9e1e8',
     	  series: {
