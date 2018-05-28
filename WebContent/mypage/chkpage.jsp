@@ -100,53 +100,53 @@ function ddQuiz(){
 
 					<c:choose>
 					<c:when test="${in.input==(no.index+1) }">
-					<div>1.<input type="radio" name="${in.id }" value="1" checked="checked" id="${in.s1 }">
+					<div><input type="radio" name="${in.id }" value="1" checked="checked" id="${in.s1 }">
 					<label for="${in.s1 }"><span></span>${in.s1 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div>1.<input type="radio" name="${in.id }" value="1" id="${in.s1 }">
+					<div><input type="radio" name="${in.id }" value="1" id="${in.s1 }">
 					<label for="${in.s1 }"><span></span>${in.s1 }</label></div>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${in.input==(no.index+2) }">
-					<div>2.<input type="radio" name="${in.id }" value="2" checked="checked" id="${in.s2 }">
+					<div><input type="radio" name="${in.id }" value="2" checked="checked" id="${in.s2 }">
 					<label for="${in.s2 }"><span></span>${in.s2 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div>2.<input type="radio" name="${in.id }" value="2" id="${in.s2 }">
+					<div><input type="radio" name="${in.id }" value="2" id="${in.s2 }">
 					<label for="${in.s2 }"><span></span>${in.s2 }</label></div>
 					</c:otherwise>
 				</c:choose>
 								<c:choose>
 					<c:when test="${in.input==(no.index+3) }">
-					<div>3.<input type="radio" name="${in.id }" value="3" checked="checked" id="${in.s3 }">
+					<div><input type="radio" name="${in.id }" value="3" checked="checked" id="${in.s3 }">
 					<label for="${in.s3 }"><span></span>${in.s3 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div>3.<input type="radio" name="${in.id }" value="3" id="${in.s3 }">
+					<div><input type="radio" name="${in.id }" value="3" id="${in.s3 }">
 					<label for="${in.s3 }"><span></span>${in.s3 }</label></div>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${in.input==(no.index+4) }">
-					<div>4.<input type="radio" name="${in.id }" value="4" checked="checked" id="${in.s4 }">
+					<div><input type="radio" name="${in.id }" value="4" checked="checked" id="${in.s4 }">
 					<label for="${in.s4 }"><span></span>${in.s4 }</label></div>
 
 					</c:when>
 					<c:otherwise>
-					<div>4.<input type="radio" name="${in.id }" value="4" id="${in.s4 }">
+					<div><input type="radio" name="${in.id }" value="4" id="${in.s4 }">
 					<label for="${in.s4 }"><span></span>${in.s4 }</label></div>
 
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${in.input==(no.index+5) }">
-					<div>5.<input type="radio" name="${in.id }" value="5" checked="checked" id="${in.s5 }">
+					<div><input type="radio" name="${in.id }" value="5" checked="checked" id="${in.s5 }">
 					<label for="${in.s5 }"><span></span>${in.s5 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div>5.<input type="radio" name="${in.id }" value="5" id="${in.s5 }">
+					<div><input type="radio" name="${in.id }" value="5" id="${in.s5 }">
 					<label for="${in.s5 }"><span></span>${in.s5 }</label></div>
 					</c:otherwise>
 				</c:choose>
@@ -244,19 +244,19 @@ function ddQuiz(){
         			<strong><fmt:formatNumber value="${q.correction/q.total*100 }" pattern=".0" />%</strong>
         			</div><br/><br/>
 
-						1. <input type="radio" name="${q.id }" value="1" id="${q.s1 }">
+						<input type="radio" name="${q.id }" value="1" id="${q.s1 }">
 						<label for="${q.s1 }"><span></span>${q.s1 }</label><br/>
 
-						2. <input type="radio" name="${q.id }" value="2" id="${q.s2 }">
+						<input type="radio" name="${q.id }" value="2" id="${q.s2 }">
 						<label for="${q.s2 }"><span></span>${q.s2 }</label><br/>
 
-						3. <input type="radio" name="${q.id }" value="3" id="${q.s3 }">
+						<input type="radio" name="${q.id }" value="3" id="${q.s3 }">
 						<label for="${q.s3 }"><span></span>${q.s3 }</label><br/>
 
-						4. <input type="radio" name="${q.id }" value="4" id="${q.s4 }">
+						<input type="radio" name="${q.id }" value="4" id="${q.s4 }">
 						<label for="${q.s4 }"><span></span>${q.s4 }</label><br/>
 
-						5. <input type="radio" name="${q.id }" value="5" id="${q.s5 }">
+						<input type="radio" name="${q.id }" value="5" id="${q.s5 }">
 						<label for="${q.s5 }"><span></span>${q.s5 }</label><br/>
 				</div>
 
