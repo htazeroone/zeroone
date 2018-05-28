@@ -5,7 +5,7 @@
 	location.href="${url}";
 </script>
 <%
-	if(request.getAttribute("out")!=null){
+	if(request.getAttribute("logout")!=null){
 		session.removeAttribute("pname");
 		session.removeAttribute("pid");
 	}

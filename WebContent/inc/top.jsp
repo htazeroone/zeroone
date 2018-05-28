@@ -90,10 +90,12 @@ $(document).ready(function(){
 		<li><a href="../quizbox/QuizMain">퀴즈</a>
 			<ul>
 			<%
-				for(int i = 0; i<subjects.size(); i++) { %>
-					<li><a href="../quizbox/QuizMain?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
+				if(session.getAttribute("pname")!=null){
+					for(int i = 0; i<subjects.size(); i++) { %>
+						<li><a href="../quizbox/QuizMain?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
 
-			<% }%>
+			<% 		}
+				}%>
 			
 			</ul>
 		</li>
@@ -178,74 +180,3 @@ $(document).ready(function(){
 
 </body>
 </html>
-
-<%-- <table border="" width="100%" height="100%">
-	<tr>
-		<td>
-			<div class="lec">
-				<div class="main">
-					이론게시판
-					<%
-						DAO dao = new DAO();
-						ArrayList<String> subjects = dao.getSubjects();
-
-						dao.close();
-
-						for(int i = 0; i<subjects.size(); i++) { %>
-							<div class="sub">
-								<a href="../lecture/List?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a>
-							</div>
-					<% }%>
-
-				</div>
-				<div class="add">
-					<c:if test="${sessionScope.pid == 'admin'}">
-						<a href="../lecture/AddLectureForm">과목 추가하기</a>
-						<a href="../lecture/DeleteLectureForm">과목 삭제하기</a>
-					</c:if>
-				</div>
-			</div>
-		</td>
-<td>
-<a href="../quizbox/QuizMain">퀴즈</a>
-</td>
-
-<td>
-<a href="../info/Qna">QnA</a>
-<a href="../info/Notice">Notice</a>
-<a href="../info/About">About us</a>
-</td>
-
-<td>
-<%
-	if(session.getAttribute("pname")!=null){
-		%>
-		<%=session.getAttribute("pname") %>님 오늘도 즐코!<br>
-		<a href="../login/Logout">로그아웃</a><br>
-
-		<form action="../mypage/Achieve" method="post">
-		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-		<input type="submit" value="학습성취도">
-		</form>
-		<form action="../mypage/Note" method="post">
-		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
-		<input type="submit" value="학습노트">
-		</form>
-		<a href="../mypage/Achieve" >학습성취도</a><br>
-		<a href="../mypage/Note" >학습노트</a><br>
-
-		<a href="../mypage/ModifyPwForm">비밀번호변경</a><br>
-		<a href="../mypage/OutForm">회원탈퇴</a><br>
-		<%
-	}else{
-		%>
-		<a href="../login/LoginForm">로그인</a>
-		<a href="../login/JoinForm">회원가입</a>
-		<%
-	}
-%>
-</td>
-</tr>
-</table> --%>
-
-
