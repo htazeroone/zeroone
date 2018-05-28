@@ -14,13 +14,12 @@ public class FileDown implements Action{
 
 	@Override
 	public ActionData execute(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-		ActionData data = new ActionData();
-		
+		// TODO Auto-generated method stub		
 		String filename = request.getParameter("file");
 		String kind = request.getParameter("kind");
-		String path = "F:\\chan\\semi\\SemiQuiz\\WebContent\\up\\"+kind;
+		String path = request.getRealPath("up")+"\\"+kind;
+		
+		path = "C:\\Users\\85jbb\\workspaces\\semi\\SemiQuiz\\WebContent\\up\\"+kind;
 
 		try {
 
@@ -47,6 +46,6 @@ public class FileDown implements Action{
 			// TODO: handle exception
 		}
 		
-		return data;
+		return null;
 	}
 }

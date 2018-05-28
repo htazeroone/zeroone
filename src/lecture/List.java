@@ -19,7 +19,7 @@ public class List implements Action {
 		if(request.getParameter("subject") != null && !request.getParameter("subject").equals("")) {
 			subject = request.getParameter("subject");
 		}
-		int page=1, limit = 7, pageLimit = 3;
+		int page=1, limit = 4, pageLimit = 3;
 		
 		DAO dao = new DAO();
 		
