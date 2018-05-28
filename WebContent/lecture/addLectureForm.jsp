@@ -2,21 +2,28 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+<link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
+
 <script> 
 var cnt =4;
 
 function view(){
 
+	
 	var id = 'chapNum'+cnt;
-	document.getElementById(id).style.display='block';
+	var dd = document.getElementById(id);
+	dd.style.display='block';
+
 	cnt++;
 }
 </script>
 
+
 <style>
 
 
-.hide{
+.hhh{
 
 	display: none;
 }
@@ -30,11 +37,14 @@ function view(){
 
 <div id ="dd">
 <form action="AddLectureReg" method="post"> 
+<center>
 <table border="" style="width: 70%;" class="table">
 	<tr>
 		<td>새로운 과목명: 
 		<input type="text" name="boardName"></td>
-	</tr>	
+	</tr>
+	<tr><td>
+	<table>
 	<c:forEach var="i" begin="1" end="3">
 		<tr>
 			<td>챕터 ${i } 이름: 
@@ -42,12 +52,13 @@ function view(){
 		</tr>
 	</c:forEach>	
 	<c:forEach var="i" begin="4" end="20">
-		<tr class="hide" id="chapNum${i }">
+		<tr class="hhh" id="chapNum${i }">
 			<td>챕터 ${i } 이름: 
 			<input type="text" name="chapNum${i }"></td>
 		</tr>
 	</c:forEach>	
-
+	</table>
+	</td></tr>	
 	<tr>
 		<td colspan="2">
 			<input type="submit" value="새 게시판 만들기">
@@ -55,6 +66,7 @@ function view(){
 		</td>
 	</tr>
 </table>
+<center>
 </form>
 </div>
 <script src="/SemiQuiz/jsb/jquery-3.3.1.js"></script>
