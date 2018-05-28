@@ -65,7 +65,7 @@
 			<td colspan="2" align="center">
 				<input type="submit" value="수정" onclick="submitContents(this)" />
 				<input type ="reset" value="초기화" />
-				<a href="QuizMain">[돌아가기]</a>
+				<a href="Chapter?num=${num}&page=${page }&subject=${subname }&chname=${chname}">[돌아가기]</a>
 			</td>			
 		</tr>				
 	</table>

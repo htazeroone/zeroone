@@ -1692,6 +1692,7 @@ public class DAO {
 				VO vo = new VO();
 				vo.setOx(rs.getInt("ox"));
 				vo.setChid(rs.getInt("chid"));
+				vo.setId(rs.getInt("id"));
 				vo.setInput(rs.getString("input"));
 				res.add(vo);
 			}

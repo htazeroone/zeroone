@@ -193,12 +193,6 @@ function ssQuiz(){
 					정답: ${in.answer }
 				</div>
 			</div>
-<%-- 			<div>
-				<div class="new_list_pay_twice ">
-					선택한 답: ${rs.input }
-				</div>
-			</div> --%>
-
         </div>
 	</div>
 </div>	
@@ -207,8 +201,8 @@ function ssQuiz(){
 			</c:forEach>		
 			</c:forEach>			
 								
-			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
-			<div><input type="button" onclick="ssQuiz()" value="선택 문제 저장" class="myButton"></div>	
+			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton" style="float:left"></div>
+			<div><input type="button" onclick="ssQuiz()" value="선택 문제 저장" class="myButton" style="margin-left: 100px; float:left"></div>	
 
 			<div>
 				<c:if test="${startPage > 1 }">
@@ -305,7 +299,7 @@ function ssQuiz(){
 </div>	
 				</c:forEach>
 					
-			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
+			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton" style="float:left"></div>
 		
 						<div>
 				<c:if test="${startPage > 1 }">
