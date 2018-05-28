@@ -82,7 +82,7 @@ function ddQuiz(){
 
 	<div class="contest-stream" style="width:978px;min-height:378px; *min-height:1500px; margin-bottom:47px; display:inline-block; zoom:1; *display:inline;">
 
-	<div class="new_list_item " style="border-left: 3px solid #ff9557;padding-left:12px;">
+	<div class="new_list_item " style="border-left: 5px solid #ff9557;padding-left:12px;">
 
 		<div class="new_list_left inline">
 
@@ -240,7 +240,7 @@ function ddQuiz(){
 
 <div class="contest-stream" style="width:978px;min-height:378px; *min-height:1500px; margin-bottom:47px; display:inline-block; zoom:1; *display:inline;">
 
-	<div class="new_list_item " style="border-left: 3px solid #ff9557;padding-left:12px;">
+	<div class="new_list_item " style="border-left: 5px solid #ff9557;padding-left:12px;">
 
 		<div class="new_list_left inline">
 
