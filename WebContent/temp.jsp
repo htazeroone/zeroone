@@ -64,7 +64,7 @@ z-index: 100;
 	margin-top : 52%;
 	position: absolute;
 	z-index: 100;
-} 
+}
 
 </style>
 </head>
@@ -105,17 +105,24 @@ z-index: 100;
 		<div id="smenu">
 			<jsp:include page="menu/${menu }"/>
 		</div>
+<<<<<<< HEAD
 		
 		<div id="smain1">
 			<jsp:include page="${main1 }"/>
 		</div>
+=======
+		<div id="smain1">
+			<jsp:include page="${main1 }"/>
+		</div>
+
+>>>>>>> branch 'master' of https://github.com/htazeroone/zeroone.git
 	</c:when>
 
 	<c:otherwise>
 		<div id="main">
 			<jsp:include page="${main }"/>
 		</div>
-	</c:otherwise>	
+	</c:otherwise>
 </c:choose>
 	<div id = "footer">
 		안녕하세요 저는 뿌터에여~~ 내용을 입력해주세요 뀨루뀨뀨~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
