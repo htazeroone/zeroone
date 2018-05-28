@@ -58,9 +58,7 @@
 		
 					
 				<tr>
-					
-					
-					<td>${dd.kind }</td>
+
 					<td>${no.index+start }</td>
 					<c:choose>
 						<c:when test="${dd.title eq null }">

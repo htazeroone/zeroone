@@ -16,7 +16,7 @@ public class FileDown implements Action{
 		String kind = request.getParameter("kind");
 		String path = request.getRealPath("up")+"\\"+kind;
 		System.out.println(request.getRealPath("up")+"\\"+kind);
-		//path = "C:\\Users\\85jbb\\workspaces\\semi\\SemiQuiz\\WebContent\\up\\"+kind;
+		path = "C:\\Users\\JHTA\\git\\zeroone\\WebContent\\up\\"+kind;
 
 		try {
 
