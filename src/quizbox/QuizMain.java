@@ -22,7 +22,7 @@ public class QuizMain implements Action{
 		request.setAttribute("num", request.getParameter("num"));
 		request.setAttribute("chname", request.getParameter("chname"));
 		request.setAttribute("menu", "quizmenu.jsp");
-		request.setAttribute("main1", "quizbox/problem.jsp");
+		request.setAttribute("main1", "quizbox/quizproblem.jsp");
 		
 		dao.close();
 		return data;
