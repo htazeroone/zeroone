@@ -36,14 +36,6 @@ margin-top : 12%;
 position: absolute;
 }
 
-#smain2{
-width: 40%;
-height: 80%;
-margin-left : 60%;
-margin-top : 12%;
-position: absolute;
-}
-
 #bb{
 
 margin-top: 10px;
