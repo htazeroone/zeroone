@@ -206,8 +206,8 @@ function ddQuiz(){
 				</c:forEach>
 			</c:forEach>
 
-			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
-			<div><input type="button" onclick="ddQuiz()" value="선택 문제 삭제" class="myButton"></div>
+			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton" style="float:left"></div>
+			<div><input type="button" onclick="ddQuiz()" value="선택 문제 삭제" class="myButton" style="margin-left: 100px; float:left"></div>
 		</form>
 				
 	</c:when>
