@@ -1,7 +1,3 @@
-@charset "UTF-8";
-
-
-
 * {
 	margin: 0;
 	padding: 0;
@@ -13,32 +9,18 @@ html, body {
 }
 
 .tot {
-	margin: 50px auto;
-	width: 700px;
-	height: 300px;
-	padding: 100px;
+	margin: 10px auto;
+	width: 750px;
+	height: 480px;
+	padding: 50px;
 	border: 1px solid white;
-}
-
-.btns {
-	width: 100%;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-}
-
-button {
-	width: 100px;
-	height: 40px;
-	background: #224;
-	color: #0f0;
 }
 
 .big {
 	position: relative;
-	width: 600px;
-	height: 250px;
-	background-color: green;
+	width: 750px;
+	height: 480px;
+	background-color: pink;
 	float: left;
 	overflow: hidden;
 }
@@ -46,31 +28,13 @@ button {
 #imgs {
 	left: 0px;
 	position: absolute;
-	width: 1200%;
-	height: 250px;
-	background-color: #00f;
-}
-
-img {
-	width: 600px;
-	height: 250px;
-	float: left;
-}
-
-.aside {
-	position: absolute;
-	width: 100px;
-	height: 250px;
-	display: inline;
-	float: right;
+	width: 400%; /* 12개면 1300% */
+	height: 500px;
 	background-color: green;
 }
 
-.nav {
-	width: 10px;
-	height: 10px;
-	background: #fff;
-	/* display: inline; */
-	border-radius: 5px;
-	margin: 10px auto;
+img {
+	width: 750px;
+	height: 480px;
+	float: left;
 }
