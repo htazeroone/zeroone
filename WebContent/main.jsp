@@ -50,7 +50,7 @@ h1 {
 		<div class="big">
 			<div id="imgs">
 				<script type="text/javascript">
-					for(var i=0; i<3; i++){
+					for(var i=0; i<6; i++){
 		 				document.write("<img src='../../imgs/"+i+".jpg'>");
 					}
 				</script>
@@ -65,9 +65,9 @@ h1 {
 	function moveImg(pos){
 
 		currIndex = pos;
-		currIndex %= 3; /* 사진 총 개수로 나눈 나머지 구하기 */
+		currIndex %= 6; /* 사진 총 개수로 나눈 나머지 구하기 */
 		
-		if(currIndex<0) currIndex=2; /* 맨 마지막 사진 파일명으로 전환 */
+		if(currIndex<0) currIndex=5; /* 맨 마지막 사진 파일명으로 전환 */
 		
 		imgs = document.getElementById("imgs");
 		imgs.style.left= -currIndex*100+"%";
