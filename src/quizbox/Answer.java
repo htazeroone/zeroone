@@ -86,7 +86,6 @@ public class Answer implements Action{
 	request.setAttribute("chname", request.getParameter("chname"));
 	request.setAttribute("menu", "quizmenu.jsp");
 	request.setAttribute("main1", "quizbox/problem.jsp");
-	request.setAttribute("main2", "quizbox/answer.jsp");
 
 	dao.close();
 	

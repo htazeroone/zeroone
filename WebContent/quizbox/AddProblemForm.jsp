@@ -51,23 +51,23 @@
 		</tr>	
 		<tr>
 			<td>선택지 1</td>
-			<td><textarea name="s1" rows="1" cols="80">1. </textarea></td>
+			<td><textarea name="s1" rows="1" cols="80"> </textarea></td>
 		</tr>
 		<tr>
 			<td>선택지 2</td>
-			<td><textarea name="s2" rows="1" cols="80">2. </textarea></td>
+			<td><textarea name="s2" rows="1" cols="80"> </textarea></td>
 		</tr>
 		<tr>
 			<td>선택지 3</td>
-			<td><textarea name="s3" rows="1" cols="80">3. </textarea></td>
+			<td><textarea name="s3" rows="1" cols="80"> </textarea></td>
 		</tr>
 		<tr>
 			<td>선택지 4</td>
-			<td><textarea name="s4" rows="1" cols="80">4. </textarea></td>
+			<td><textarea name="s4" rows="1" cols="80"> </textarea></td>
 		</tr>
 		<tr>
 			<td>선택지 5</td>
-			<td><textarea name="s5" rows="1" cols="80">5. </textarea></td>
+			<td><textarea name="s5" rows="1" cols="80"> </textarea></td>
 		</tr>
 		<tr>
 			<td>정답</td>

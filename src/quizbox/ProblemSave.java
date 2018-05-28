@@ -44,14 +44,15 @@ public class ProblemSave implements Action {
 		if (endPage > totalPage)
 			endPage = totalPage;
 
-		String[] ssids = request.getParameterValues("ssid");
+		String[] ssids = request.getParameterValues("saveId");
+		
 		VO vo = new VO();
 		vo.setChid(chid);
 		vo.setPid(pid);
 
 		for (String ss : ssids) {
 			int sid = Integer.parseInt(ss);
-			vo.setId(Integer.parseInt(request.getParameter("id" + sid)));
+			vo.setId(Integer.parseInt(request.getParameter("qqid"+sid)));
 			vo.setSave(1);
 			dao.problem_save(vo, subject);
 
@@ -70,8 +71,7 @@ public class ProblemSave implements Action {
 		request.setAttribute("num", request.getParameter("num"));
 		request.setAttribute("chname", request.getParameter("chname"));
 		request.setAttribute("menu", "quizmenu.jsp");
-		request.setAttribute("main1", "quizbox/problem.jsp");
-		request.setAttribute("main2", "quizbox/answer.jsp");
+		request.setAttribute("main1", "quizbox/quizproblem.jsp");
 
 		dao.close();
 

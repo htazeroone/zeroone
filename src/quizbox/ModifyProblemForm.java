@@ -31,7 +31,6 @@ public class ModifyProblemForm implements Action {
 		request.setAttribute("chname", request.getParameter("chname"));
 		request.setAttribute("menu", "quizmenu.jsp");
 		request.setAttribute("main1", "quizbox/ModifyProblemForm.jsp");
-		request.setAttribute("main2", "quizbox/quizresult.jsp");
 		
 		
 		dao.close();
