@@ -105,17 +105,10 @@ z-index: 100;
 		<div id="smenu">
 			<jsp:include page="menu/${menu }"/>
 		</div>
-<<<<<<< HEAD
 		
 		<div id="smain1">
 			<jsp:include page="${main1 }"/>
 		</div>
-=======
-		<div id="smain1">
-			<jsp:include page="${main1 }"/>
-		</div>
-
->>>>>>> branch 'master' of https://github.com/htazeroone/zeroone.git
 	</c:when>
 
 	<c:otherwise>
