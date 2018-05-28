@@ -25,9 +25,17 @@
 <body>
 
 <div id="dd">
+	<c:choose>
+		<c:when test="${param.kind eq qna }">
+			Q&A
+		</c:when>
+		
+		<c:otherwise>
+			<h1>Notice</h1>
+		</c:otherwise>
+	</c:choose>
 	<table class="table">
 		<tr>
-			<th>종류</th>
 			<th>번호</th>
 			<th>제목</th>
 			<th>글쓴이</th>
