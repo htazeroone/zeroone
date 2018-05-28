@@ -26,8 +26,8 @@
 
 <div id="dd">
 	<c:choose>
-		<c:when test="${param.kind eq qna }">
-			Q&A
+		<c:when test="${param.kind eq 'qna' }">
+			<h1>Q&A</h1>
 		</c:when>
 		
 		<c:otherwise>
