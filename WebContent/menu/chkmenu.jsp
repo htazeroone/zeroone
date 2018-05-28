@@ -10,7 +10,7 @@
 
 </head>
 <body>
-
+<center><h3 style="color:green;">${subject } 오답노트</h3></center>
 <nav class="link-effect-11" id="link-effect-11">
 <!-- for문  -->
 <c:forEach var="ch" items="${chList }">
