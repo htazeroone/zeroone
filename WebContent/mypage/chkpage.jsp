@@ -17,7 +17,7 @@
 function allChk(){
 
 	var frm = document.frm;	
-	'<c:forEach var="q" items="${qInfo}" varStatus="no">'
+	'<c:forEach var="q" items="${oxInfo}" varStatus="no">'
 
 		var id = ${q.id};
 		var chk = $('input:radio[name='+${q.id}+']').is(':checked');
@@ -32,7 +32,7 @@ function allChk(){
 }
 
 function ddQuiz(){
-	var ddfrm = document.delete_quiz;
+	var ddfrm = document.frm;
 	var chkArr = new Array();
 	var msg = "";
 	var size = $('input:checkbox[name=deleteId]').length;
@@ -51,7 +51,7 @@ function ddQuiz(){
 		msg += '문제를 삭제합니다.'
 	
 	alert(msg)
-	ddfrm.action = "IncorrectNote?subject=${subject}&chid=${chid}";
+	ddfrm.action = "IncorrectNote?subject=${subject}&chid=${chid}&delete=delete";
 	ddfrm.submit();
 	
 }
