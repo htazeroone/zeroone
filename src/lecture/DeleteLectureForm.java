@@ -15,8 +15,7 @@ public class DeleteLectureForm implements Action {
 		DAO dao = new DAO();
 		request.setAttribute("subjects", dao.getSubjects());
 		request.setAttribute("main", "lecture/deleteLectureForm.jsp");
-		
+		dao.close();
 		return new ActionData();
 	}
-
 }
