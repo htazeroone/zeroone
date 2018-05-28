@@ -79,7 +79,6 @@ public class IncorrectNote implements Action {
 			//oxInfo: 해당 챕터의 오답문제 데이터들
 			oxInfo = dao.oxInfo(chid, pid, subject);
 
-
 			//오답노트에서 삭제할 문제id 들을 보낸경우, 
 			if(null!=request.getParameterValues("deleteId") && request.getParameter("delete") != null) {
 				System.out.println("삭제를 시작해볼까 ...2");

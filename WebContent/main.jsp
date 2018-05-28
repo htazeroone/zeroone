@@ -77,14 +77,14 @@ h1 {
 		moveImg(currIndex+1);
 	}
 
-	var roll=setInterval(next, 1000);
+	var roll=setInterval(next, 2500);
 	
 	imgs.onmouseover=function(){
 		clearInterval(roll);
 	}
 	
 	imgs.onmouseout=function(){
-		roll =setInterval(next, 1000);
+		roll =setInterval(next, 2500);
 	}
 
 	//슬라이드멈춤
