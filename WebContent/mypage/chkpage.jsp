@@ -5,8 +5,8 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/toggle2.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/studylist2.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/chk_toggle.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/chklist.css" />
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
@@ -75,7 +75,7 @@ function ddQuiz(){
 
 		<div class="contest-stream" style="width:978px;min-height:378px; *min-height:1500px; margin-bottom:47px; display:inline-block; zoom:1; *display:inline;">
 
-	<div class="new_list_item " style="border-left: 3px solid #ff9557;padding-left:12px;">
+	<div class="new_list_item " style="border-left: 3px solid #00680f;padding-left:12px;">
 
 		<div class="new_list_left inline">
 
@@ -223,7 +223,7 @@ function ddQuiz(){
 
 <div class="contest-stream" style="width:978px;min-height:378px; *min-height:1500px; margin-bottom:47px; display:inline-block; zoom:1; *display:inline;">
 
-	<div class="new_list_item " style="border-left: 3px solid #ff9557;padding-left:12px;">
+	<div class="new_list_item " style="border-left: 5px solid #00680f;padding-left:12px;">
 
 		<div class="new_list_left inline">
 
