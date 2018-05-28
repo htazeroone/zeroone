@@ -42,115 +42,39 @@ h1 {
 }
 </style>
 
-
 </head>
-
-
 <body>
 
-
-<center><h1>Welcome to QuizLover Home! Meet JAVA and JSP With Us.</h1></center>
-
-<br><br>
-<center><h6>지아: 타이핑 효과 테스트해봅니다.</h6></center>
-
+<center><h1>Welcome to QuizLover Home! Meet Lecture and Quiz With Us.</h1></center>
 	<div class="tot">
-
-		<div class="btns">
-
-			<button onclick="back()">뒤로</button>
-			<button onclick="next()">다음</button>
-	
-		</div>
-
 		<div class="big">
-
 			<div id="imgs">
-
 				<script type="text/javascript">
-			for(var i=0;i<12;i++){
-		 		document.write("<img src='../../imgs/"+i+".jpg'>");
-
-			}
-
-		</script>
-
+					for(var i=0; i<3; i++){
+		 				document.write("<img src='../../imgs/"+i+".jpg'>");
+					}
+				</script>
 			</div>
-
-
-
 		</div>
-
-		<div class="aside">
-
-			<script type="text/javascript">
-
-			for(var i=0;i<12;i++){
-
-		 		document.write("<div class='nav' onclick='moveImg("+i+")'></div>");
-
-			}
-
-		</script>
-
-		</div>
-
-
-
 	</div>
-
-
-
-
-
+	
 	<script type="text/javascript">
 
 	var currIndex =0;
-
-	
-
+	var pos = 0;
 	function moveImg(pos){
 
-		currIndex=pos;
-
-		currIndex%=12;
-
-		if(currIndex<0) currIndex=11;
-
+		currIndex = pos;
+		currIndex %= 3; /* 사진 총 개수로 나눈 나머지 구하기 */
 		
-
+		if(currIndex<0) currIndex=2; /* 맨 마지막 사진 파일명으로 전환 */
+		
 		imgs = document.getElementById("imgs");
-
-		imgs.style.left=-currIndex*100+"%";
-
-		
-
-		var navArr = document.getElementsByClassName("nav");
-
-		for(k in navArr){
-
-			navArr.item(k).style.background='#fff';
-
-		}
-
-		navArr.item(currIndex).style.background='#0f0';
-
+		imgs.style.left= -currIndex*100+"%";
 	}
-
-	
-
-	function back(){
-
-		moveImg(currIndex-1);
-
-	}
-
-	
 
 	function next(){
-
 		moveImg(currIndex+1);
-
 	}
 
 	var roll=setInterval(next, 1000);
@@ -160,33 +84,15 @@ h1 {
 	}
 	
 	imgs.onmouseout=function(){
-		roll =setInterval(next,1000);
+		roll =setInterval(next, 1000);
 	}
-	
-	
-	//슬라이드
-		var pos = 0;
-		function move(){
-			m = setInterval(function(){
-			pos--;
-			imgs.style.left=pos*1+'%';
-			}, 50);
-		} 
-		//슬라이드멈춤
-		function movestop(){
-			clearInterval(m)
-		}
-	
-	
-	
-	moveImg(5);
 
-
-
-
+	//슬라이드멈춤
+	function movestop(){
+		clearInterval(m)
+	}
+	moveImg(0);
 
 </script>
-
 </body>
-
 </html>

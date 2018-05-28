@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/studylist.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/toggle.css" />
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/toggle2.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/studylist2.css" />
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
@@ -32,7 +32,7 @@ function allChk(){
 }
 
 function ddQuiz(){
-	var frm = document.delete_quiz;
+	var ddfrm = document.delete_quiz;
 	var chkArr = new Array();
 	var msg = "";
 	var size = $('input:checkbox[name=deleteId]').length;
@@ -51,8 +51,8 @@ function ddQuiz(){
 		msg += '문제를 삭제합니다.'
 	
 	alert(msg)
-	frm.action = "IncorrectNote?subject=${subject}&chid=${chid}";
-	frm.submit();
+	ddfrm.action = "IncorrectNote?subject=${subject}&chid=${chid}";
+	ddfrm.submit();
 	
 }
 
@@ -65,9 +65,6 @@ function ddQuiz(){
 
 <c:choose>
 	<c:when test="${!empty idAndInput && !empty res }">
-	<form name="delete_quiz" method="post">
-		<input type="hidden" value="${chid }" name="chid">
-		<input type="hidden" value="${subject }" name="subject">
 	
 		<form name="frm" method="post">
 		<input type="hidden" value="<%=session.getAttribute("pid") %>" name="pid">
@@ -100,48 +97,64 @@ function ddQuiz(){
         				정답률    												
 					</div>
         			<div class="new_list_count inline">
-        				<strong>${in.correction/in.total*100 }%</strong>
+			<strong><fmt:formatNumber value="${in.correction/in.total*100 }" pattern=".0" />%</strong>
         			</div><br/><br/>
-				<c:choose>
+        			
+        			
+        			
+					<c:choose>
 					<c:when test="${in.input==(no.index+1) }">
-					<div><input type="radio" name="${in.id }" value="1"checked="checked" > ${in.s1 }</div>
+					<div>1.<input type="radio" name="${in.id }" value="1" checked="checked" id="${in.s1 }">
+					<label for="${in.s1 }"><span></span>${in.s1 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div><input type="radio" name="${in.id }" value="1"> ${in.s1 }</div>
+					<div>1.<input type="radio" name="${in.id }" value="1" id="${in.s1 }">
+					<label for="${in.s1 }"><span></span>${in.s1 }</label></div>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${in.input==(no.index+2) }">
-					<div><input type="radio" name="${in.id }" value="2" checked="checked" > ${in.s2 }</div>
+					<div>2.<input type="radio" name="${in.id }" value="2" checked="checked" id="${in.s2 }">
+					<label for="${in.s2 }"><span></span>${in.s2 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div><input type="radio" name="${in.id }" value="2"> ${in.s2 }</div>
+					<div>2.<input type="radio" name="${in.id }" value="2" id="${in.s2 }">
+					<label for="${in.s2 }"><span></span>${in.s2 }</label></div>
 					</c:otherwise>
 				</c:choose>
 								<c:choose>
 					<c:when test="${in.input==(no.index+3) }">
-					<div><input type="radio" name="${in.id }" value="3" checked="checked" > ${in.s3 }</div>
+					<div>3.<input type="radio" name="${in.id }" value="3" checked="checked" id="${in.s3 }">
+					<label for="${in.s3 }"><span></span>${in.s3 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div><input type="radio" name="${in.id }" value="3"> ${in.s3 }</div>
+					<div>3.<input type="radio" name="${in.id }" value="3" id="${in.s3 }">
+					<label for="${in.s3 }"><span></span>${in.s3 }</label></div>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${in.input==(no.index+4) }">
-					<div><input type="radio" name="${in.id }" value="4" checked="checked" > ${in.s4 }</div>
+					<div>4.<input type="radio" name="${in.id }" value="4" checked="checked" id="${in.s4 }">
+					<label for="${in.s4 }"><span></span>${in.s4 }</label></div>
+
 					</c:when>
 					<c:otherwise>
-					<div><input type="radio" name="${in.id }" value="4"> ${in.s4 }</div>
+					<div>4.<input type="radio" name="${in.id }" value="4" id="${in.s4 }">
+					<label for="${in.s4 }"><span></span>${in.s4 }</label></div>
+
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${in.input==(no.index+5) }">
-					<div><input type="radio" name="${in.id }" value="5" checked="checked" > ${in.s5 }</div>
+					<div>5.<input type="radio" name="${in.id }" value="5" checked="checked" id="${in.s5 }">
+					<label for="${in.s5 }"><span></span>${in.s5 }</label></div>
 					</c:when>
 					<c:otherwise>
-					<div><input type="radio" name="${in.id }" value="5"> ${in.s5 }</div>
+					<div>5.<input type="radio" name="${in.id }" value="5" id="${in.s5 }">
+					<label for="${in.s5 }"><span></span>${in.s5 }</label></div>
 					</c:otherwise>
-				</c:choose>	
+				</c:choose>
+
 				</div>
 			
 			</div>
@@ -190,12 +203,11 @@ function ddQuiz(){
 	</div>
 </div>	
 				</c:if>
-				</c:forEach>		
+				</c:forEach>
 			</c:forEach>
+
 			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
-		</form>	
-				
-				<div><input type="button" onclick="ddQuiz()" value="선택 문제 삭제" class="myButton"></div>	
+			<div><input type="button" onclick="ddQuiz()" value="선택 문제 삭제" class="myButton"></div>
 		</form>
 				
 	</c:when>
@@ -216,42 +228,51 @@ function ddQuiz(){
 <div class="contest-stream" style="width:978px;min-height:378px; *min-height:1500px; margin-bottom:47px; display:inline-block; zoom:1; *display:inline;">
 
 	<div class="new_list_item " style="border-left: 3px solid #ff9557;padding-left:12px;">
-		
+
 		<div class="new_list_left inline">
-		
+
 			<div class="new_list_sub inline">
-			
+
 				<div class="new_list_sub_top">
         			<div class="new_list_cate inline">
         				문제${q.id }. &nbsp;|&nbsp;
         			</div>
 					<strong>${q.question }</strong>
         		</div>
-				
+
 				<div class="new_list_sub_bot">
         			<div class="new_list_id inline">
-        				정답률    												
+        				정답률
 					</div>
         			<div class="new_list_count inline">
-        				<strong>${q.correction/q.total*100 }%</strong>
+        			<strong><fmt:formatNumber value="${q.correction/q.total*100 }" pattern=".0" />%</strong>
         			</div><br/><br/>
-						1. <input type="radio" name="${q.id }" value="1"> ${q.s1 }<br/>
-						2. <input type="radio" name="${q.id }" value="2"> ${q.s2 }<br/>
-						3. <input type="radio" name="${q.id }" value="3"> ${q.s3 }<br/>
-						4. <input type="radio" name="${q.id }" value="4"> ${q.s4 }<br/>
-						5. <input type="radio" name="${q.id }" value="5"> ${q.s5 }<br/>
+
+						1. <input type="radio" name="${q.id }" value="1" id="${q.s1 }">
+						<label for="${q.s1 }"><span></span>${q.s1 }</label><br/>
+
+						2. <input type="radio" name="${q.id }" value="2" id="${q.s2 }">
+						<label for="${q.s2 }"><span></span>${q.s2 }</label><br/>
+
+						3. <input type="radio" name="${q.id }" value="3" id="${q.s3 }">
+						<label for="${q.s3 }"><span></span>${q.s3 }</label><br/>
+
+						4. <input type="radio" name="${q.id }" value="4" id="${q.s4 }">
+						<label for="${q.s4 }"><span></span>${q.s4 }</label><br/>
+
+						5. <input type="radio" name="${q.id }" value="5" id="${q.s5 }">
+						<label for="${q.s5 }"><span></span>${q.s5 }</label><br/>
 				</div>
-			
+
 			</div>
 		</div>
 	</div>
-</div>	
-
+</div>
 
 		</c:forEach>
 		<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></div>
 		</c:if>
-		
+
 	</form>
 		
 	</c:otherwise>
