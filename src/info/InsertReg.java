@@ -74,7 +74,7 @@ public class InsertReg implements Action{
 		String exp = filename.substring(pos);
 		
 		String path = request.getRealPath("up")+"\\"+request.getParameter("kind")+"\\";
-		path = "C:\\Users\\JHTA\\git\\zeroone\\WebContent\\up\\"+request.getParameter("kind")+"\\";
+		//path = "C:\\Users\\JHTA\\git\\zeroone\\WebContent\\up\\"+request.getParameter("kind")+"\\";
 		
 		int cnt=0;
 		File ff = new File(path+filename);

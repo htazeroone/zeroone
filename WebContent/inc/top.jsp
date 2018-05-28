@@ -117,6 +117,9 @@ $(document).ready(function(){
 		<li><a href="#"><%=session.getAttribute("pname")%>님 페이지</a>
 			<ul>
 				<li><a href="../login/Logout">로그아웃</a></li>
+				
+			<c:if test="${sessionScope.pid != 'admin' }">
+				
 				<li><a href="#">학습성취도</a>
 						<ul>
 				<%
@@ -148,6 +151,8 @@ $(document).ready(function(){
 					</ul>
 				
 				</li>
+			</c:if>
+				
 				<li><a href="../mypage/ModifyPwForm">비밀번호변경</a></li>
 				
 				<c:if test="${sessionScope.pid == 'admin'}">
