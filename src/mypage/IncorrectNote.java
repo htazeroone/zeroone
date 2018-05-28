@@ -51,8 +51,6 @@ public class IncorrectNote implements Action {
 		ArrayList<VO> res = null;
 		//학습노트에서 삭제하고 싶은 문제 번호 뭉탱이 
 		ArrayList<Integer> deleteId = new ArrayList<Integer>();
-		//삭제할 문제 개수
-		int deleteIdSize = 0;
 		
 		//pid의 study_note에 OX가 0인 데이터가 있나 없나 구분 
 		if(dao.isOx(pid, subject)) { //있다면
@@ -103,7 +101,7 @@ public class IncorrectNote implements Action {
 			System.out.println("oxInfo.size():"+oxInfo.size());
 			
 			if(oxNum == 0) {
-				String url = "../mypage/IncorrectNote";
+				String url = "../mypage/IncorrectNote?subject="+subject;
 				String msg = "해당 Chapter의 모든 오답문제를 삭제했습니다.";
 
 				request.setAttribute("msg", msg);
@@ -160,11 +158,7 @@ public class IncorrectNote implements Action {
 				request.setAttribute("page", page);
 				request.setAttribute("totalPage", totalPage); */
 			}//사용자가 정답을 찍어서 보낸경우
-			
-			//다음문제 풀기 버튼
-//			request.setAttribute("page", page);
-//			request.setAttribute("totalPage", totalPage); 
-			
+	
 			request.setAttribute("res", res);
 			request.setAttribute("chList", chList);
 			request.setAttribute("chid", chid);

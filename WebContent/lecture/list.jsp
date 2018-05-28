@@ -13,24 +13,30 @@
 
 </script>
 <style>
-	#dd{
-			margin: 0 auto;
-			width: 800px;
-			height: 500px;
-		
-		}
+table {
+	text-align: center;
+}
+#mal {
+	text-align: left;
+}
+#dd{
+	margin: 0 auto;
+	width: 800px;
+	height: 500px;
+}
+
 
 </style>
 <div id="dd">
-	<table border="" class="table">
+	<table class="table">
 		<tr>
 			<td colspan="6" align="center">
-				${subject}게시판
+				<h3><b>${subject}게시판</b></h3>
 			</td>
 		</tr>
 		<tr>
 			<td>말머리</td>
-			<td colspan="6">
+			<td colspan="6" id="mal">
 				<form name="frm" action="?">
 					<select name="head" onchange="listCate()">
 						<c:forEach var="i" items="${chapList}" varStatus="no">
@@ -50,7 +56,7 @@
 		
 		</tr>
 		<tr>
-			<th>번호</th><th>제목</th><th>글쓴이</th><th>등록일</th><th>조회수</th><th>내 학습여부</th>
+			<td>번호</td><td>제목</td><td>글쓴이</td><td>등록일</td><td>조회수</td><td>내 학습여부</td>
 		</tr>
 		
 	<c:choose>
@@ -65,16 +71,16 @@
 				<td>${no.index + start }</td>
 				<td>
 					
-					<a href="Detail?id=${i.id}&page=${page}&subject=${subject}">${i.title}</a>
+					<a href="Detail?id=${i.id}&head=${param.head}&page=${page}&subject=${subject}">${i.title}</a>
 				</td>
 				
 				<td>${i.pname }</td>
 				<td><fmt:formatDate value="${i.reg_date }" pattern="yyyy-MM-dd(EE)"/></td>
 				<td>${i.cnt}</td>
 				
-				
-			<c:if test="${readList.size() != 0}">
 				<td>
+			<c:if test="${readList.size() != 0}">
+				
 					<c:forEach var="num" items="${readList }">
 						<c:choose>
 						<c:when test="${num == i.id}">
@@ -84,8 +90,9 @@
 						</c:otherwise>
 						</c:choose>
 					</c:forEach>
-				</td>	
+				
 			</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 		<tr>

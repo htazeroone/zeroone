@@ -5,49 +5,53 @@
 
 <link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
 <style>
-	#dd{
-			margin: 0 auto;
-			width: 800px;
-			height: 500px;
-		
-		}
+#dd{
+	margin: 0 auto;
+	width: 800px;
+	height: 500px;	
+}
+
+.kind {
+	width: 60px;
+	text-align:center;
+}
 
 </style>
 <div id="dd">
 	<table border="" style="width: 100%; height: 50%">
 		<tr>
-			<td>챕터</td>
+			<td class="kind">챕터</td>
 			<td>${chapName }</td>
 		</tr>
 		<tr>
-			<td>제목</td>
+			<td class="kind">제목</td>
 			<td>${data.title}</td>
 		</tr>
 		<tr>
-			<td>작성자</td>
+			<td class="kind">작성자</td>
 			<td>${data.pname}</td>
 		</tr>
 		<tr>
-			<td>등록일</td>
+			<td class="kind">등록일</td>
 			<td><fmt:formatDate value="${data.reg_date }" pattern="yyyy-MM-dd(E) HH:mm"/></td>
 		</tr>
 		<tr>
-			<td>조회수</td>
+			<td class="kind">조회수</td>
 			<td>${data.cnt}</td>
 		</tr>
 		
 		<tr>
-			<td>이론내용</td>
+			<td class="kind">이론내용</td>
 			<td>${data.content}</td>
 			
 		</tr>	
 		<tr>
 			<td colspan="2" align="right">
 			 <c:choose>
-			 	<c:when test="${param.head != 0}"> <!--말머리로 들어왔을 때-->
+			 	<c:when test="${param.head != 0}"> <!--말머리로 들어왔을 때 목록으로를 누르면 그냥 처음으로 넘어간다-->
 			 		<a href="List?subject=${param.subject }">목록으로</a>
 			 	</c:when>
-			 	<c:otherwise>
+			 	<c:otherwise> <!-- '전체'인 상태에서 들어왔을 때 목록을 누르면 그 페이지로 돌아가야 한다-->
 			 		<a href="List?id=${data.id}&page=${param.page}&subject=${param.subject }">목록으로</a>
 			 	</c:otherwise>
 			 </c:choose>
@@ -60,7 +64,7 @@
 		</tr>
 		
 		<tr>
-			<td colspan="2">
+			<td colspan="2" align="right">
 				<a href="Detail?pid=${sessionScope.pid }&id=${data.id }&page=${param.page }&head=${data.head}&subject=${param.subject}">학습완료 체크</a>
 			</td>
 		</tr>

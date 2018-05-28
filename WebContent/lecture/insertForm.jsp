@@ -14,12 +14,12 @@
 <title>이론게시판 글 작성 폼</title>
 </head>
 <style>
-	#dd{
-			margin: 0 auto;
-			width: 800px;
-			height: 500px;
+#dd{
+	margin: 0 auto;
+	width: 800px;
+	height: 500px;
 		
-		}
+}
 
 </style>
 <body>
@@ -53,7 +53,7 @@
 	</tr>
 	<tr>
 		<td>글쓴이</td>
-		<td><input type="text" name="pname" value="관리자"></td>
+		<td><input type="text" name="pname" value="${sessionScope.pname}"></td>
 	</tr>
 
 	<tr>
