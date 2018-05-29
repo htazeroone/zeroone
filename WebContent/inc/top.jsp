@@ -112,7 +112,7 @@ $(document).ready(function(){
 			<ul>
 				<li><a href="../info/Qna">QnA</a></li>
 				<li><a href="../info/Notice">Notice</a></li>
-
+				<li><a href="../info/About">About us</a></li>
 			</ul>
 		</li>
 
@@ -123,7 +123,6 @@ $(document).ready(function(){
 		<li><a href="#"><%=session.getAttribute("pname")%>님 페이지</a>
 			<ul>
 				<li><a href="../login/Logout">로그아웃</a></li>
-				<c:if test="${sessionScope.pid != 'admin' }">
 				<li><a href="#">학습성취도</a>
 						<ul>
 				<%
@@ -141,7 +140,7 @@ $(document).ready(function(){
 				<li><a href="#">학습노트</a>
 					<ul>
 				<%
-					dao = new DAO();
+				dao = new DAO();
 					ArrayList<String> studyLec = dao.getStudyChapters(session);
 					for(int i = 0; i<studyLec.size(); i++) { %>
 						<li><a href="../mypage/Note?subject=<%=studyLec.get(i)%>"><%=studyLec.get(i)%></a></li>
@@ -153,7 +152,7 @@ $(document).ready(function(){
 				<li><a href="#" >오답노트</a>
 					<ul>
 				<%
-					dao = new DAO();
+				dao = new DAO();
 					ArrayList<String> oxLec = dao.getOxChapter(session);
 					dao.close();
 					for(int i = 0; i<oxLec.size(); i++) { %>
@@ -164,7 +163,6 @@ $(document).ready(function(){
 					</ul>
 				
 				</li>
-				</c:if>
 				<li><a href="../mypage/ModifyPwForm">비밀번호변경</a></li>
 				
 				<c:if test="${sessionScope.pid == 'admin'}">
