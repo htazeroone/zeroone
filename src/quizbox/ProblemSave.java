@@ -23,24 +23,19 @@ public class ProblemSave implements Action {
 
 		int page = 1;
 		int limit = 4, pageLimit = 1;
-
 		if (request.getParameter("page") != null && !request.getParameter("page").equals("")) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 
 		int start = (page - 1) * limit + 1;
 		int end = page * limit;
-
 		int startPage = (page - 1) / pageLimit * pageLimit + 1;
 		int endPage = startPage + pageLimit - 1;
-
 		int total = dao.totalCount(chid);
-
 		int totalPage = total / limit;
 
 		if (total % limit != 0)
 			totalPage++;
-
 		if (endPage > totalPage)
 			endPage = totalPage;
 
@@ -55,10 +50,7 @@ public class ProblemSave implements Action {
 			vo.setId(Integer.parseInt(request.getParameter("qqid"+sid)));
 			vo.setSave(1);
 			dao.problem_save(vo, subject);
-
 		}
-
-
 		request.setAttribute("page", page);
 		request.setAttribute("start", start);
 		request.setAttribute("startPage", startPage);
@@ -74,8 +66,6 @@ public class ProblemSave implements Action {
 		request.setAttribute("main1", "quizbox/quizproblem.jsp");
 
 		dao.close();
-
 		return data;
 	}
-
 }

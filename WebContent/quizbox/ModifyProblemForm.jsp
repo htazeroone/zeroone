@@ -5,7 +5,7 @@
 <script type="text/javascript" src="../../nse_files/js/HuskyEZCreator.js" charset="utf-8">
 </script>   
 
-<form name = "nse" action ="ModifyProblemReg" method="post"  enctype="multipart/form-data">
+<form name = "nse" action ="ModifyProblemReg?num=${num}&page=${page }&subject=${subname }&chname=${chname}" method="post"  enctype="multipart/form-data">
 	<input type="hidden" name="page" value="${param.page }">
 	<input type="hidden" name="num" value="${num }">
 	<input type="hidden" name="subject" value="${subname }">

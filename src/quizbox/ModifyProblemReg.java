@@ -17,29 +17,26 @@ public class ModifyProblemReg implements Action {
 		DAO dao = new DAO();
 		Integer chid = Integer.parseInt(request.getParameter("num"));
 		int id = Integer.parseInt(request.getParameter("id"));
+		String subject = request.getParameter("subject");
+
 		int page = 1;
 		int limit = 4, pageLimit = 1;
-		
 		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		
 		int start = (page -1) * limit + 1;
 		int end = page*limit;
-		System.out.println(end - start);
-		
 		int startPage = (page-1)/pageLimit*pageLimit + 1;
 		int endPage = startPage + pageLimit - 1;
-		
 		int total = dao.totalCount(chid);
-		
 		int totalPage = total/limit;
 		
 		if(total%limit!=0)
 			totalPage++;
-		
 		if(endPage>totalPage)
 			endPage = totalPage;
+
 		VO vo = new VO();
 		vo.setChid(chid);
 		vo.setId(id);
@@ -51,9 +48,7 @@ public class ModifyProblemReg implements Action {
 		vo.setS5(request.getParameter("s5"));
 		vo.setAnswer(request.getParameter("answer"));
 		
-		String subject = request.getParameter("subject");
 		dao.modify_insert(vo, subject);
-		
 		
 		request.setAttribute("page", page);
 		request.setAttribute("start", start);

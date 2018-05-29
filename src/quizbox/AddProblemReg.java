@@ -19,14 +19,9 @@ public class AddProblemReg implements Action {
 		Integer chid = Integer.parseInt(request.getParameter("num"));
 		
 		int page = 1;
-		
-		
 		if(request.getParameter("page")!=null && !request.getParameter("page").equals("")) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
-		
-		
-		
 		
 		VO vo = new VO();
 		vo.setChid(Integer.parseInt(request.getParameter("chid")));
@@ -40,9 +35,6 @@ public class AddProblemReg implements Action {
 	
 		String subject = request.getParameter("subject");
 		request.setAttribute("page", page);
-		
-		
-		
 		request.setAttribute("sub", dao.subject(subject));
 		request.setAttribute("subname", subject);
 		request.setAttribute("num", request.getParameter("num"));

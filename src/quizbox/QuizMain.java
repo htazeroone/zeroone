@@ -15,14 +15,14 @@ public class QuizMain implements Action{
 		System.out.println(data);
 		DAO dao = new DAO();
 		System.out.println(dao);
-//		Integer chid = Integer.parseInt(request.getParameter("num"));
+		Integer chid = Integer.parseInt(request.getParameter("num"));
 		String subject = request.getParameter("subject");
 		request.setAttribute("sub", dao.subject(subject));
 		request.setAttribute("subname", subject);
 		request.setAttribute("num", request.getParameter("num"));
 		request.setAttribute("chname", request.getParameter("chname"));
 		request.setAttribute("menu", "quizmenu.jsp");
-		request.setAttribute("main1", "quizbox/quizproblem.jsp");
+		request.setAttribute("main1", "quizbox/problem.jsp");
 		
 		dao.close();
 		return data;

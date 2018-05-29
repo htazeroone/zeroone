@@ -15,6 +15,11 @@
 <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui.min.js"></script>
 <script>
+function chkchk(){
+
+	location.href='Chapter?num=${num}&page=${endPage+1 }&subject=${subname }&chname=${chname}';
+}
+
 function allChk(){
 
 	var frm = document.frm;	
@@ -62,6 +67,9 @@ function ssQuiz(){
 </head>
 
 <div class="new_list_cate inline"><h3><strong>chapter${num }.${chname }&nbsp;|&nbsp;</strong></h3></div>
+			<c:if test="${sessionScope.pid == 'admin'}">
+				<a href="../quizbox/AddProblemForm?num=${num}&page=${page+1 }&subject=${subname }&chname=${chname}">[문제 추가]</a>
+			</c:if>
 
 
  <c:choose>
@@ -200,37 +208,26 @@ function ssQuiz(){
 
 			</c:forEach>		
 			</c:forEach>			
-								
-			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton" style="float:left"></div>
-			<div><input type="button" onclick="ssQuiz()" value="선택 문제 저장" class="myButton" style="margin-left: 100px; float:left"></div>	
 
-			<div>
+		<table>
+			<tr>
+				<td><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></td>
 				<c:if test="${startPage > 1 }">
-					<a
-						href="Chapter?num=${num}&page=${startPage-1 }&subject=${subname }&chname=${chname}">[이전
-						페이지]</a>
+				<td><input type="button" onclick="location.href='Chapter?num=${num}&page=${startPage-1 }&subject=${subname }&chname=${chname}'" value="이전 페이지" class="myButton"></td>
 				</c:if>
 				<c:forEach var="i" begin="${startPage }" end="${endPage }">
 					<c:choose>
 						<c:when test="${i!=page }">
-							<a
-								href="Chapter?num=${num}&page=${i }&subject=${subname }&chname=${chname}">[다음
-								페이지]</a>
+						<td><input type="button" onclick="Location.href='Chapter?num=${num}&page=${i }&subject=${subname }&chname=${chname}'" value="다음 페이지" class="myButton"></td>						
 						</c:when>
 					</c:choose>
 				</c:forEach>
 				<c:if test="${endPage < totalPage }">
-					<a
-						href="Chapter?num=${num}&page=${endPage+1 }&subject=${subname }&chname=${chname}">[다음
-						페이지]</a>
+				<td><input type="button" onclick="chkchk()" value="다음 페이지" class="myButton"></td>				
 				</c:if>
-				<c:if test="${sessionScope.pid == 'admin'}">
-				<a href="../quizbox/AddProblemForm?num=${num}&page=${page+1 }&subject=${subname }&chname=${chname}">[문제 추가]</a>
-				</c:if>
-			</div>
-			
-
-	
+				<td><input type="button" onclick="ssQuiz()" value="선택 문제 저장" class="myButton"></td>
+			</tr>
+		</table>				
 			</form>
 	</c:when>
 	
@@ -246,9 +243,6 @@ function ssQuiz(){
 			<c:choose>
 			<c:when test="${problem.size()==0 }">
     			<strong>학습할 문제가 없습니다.</strong>
-   				<c:if test="${sessionScope.pid == 'admin'}">
-				<a href="../quizbox/AddProblemForm?num=${num}&page=${page+1 }&subject=${subname }&chname=${chname}">[문제 추가]</a>
-				</c:if>
     		</c:when>
 		<c:otherwise>
 		<c:forEach varStatus="no" var="qq" items="${problem }">
@@ -298,33 +292,33 @@ function ssQuiz(){
 			</div>
 </div>	
 				</c:forEach>
-					
-			<div><input type="button" onclick="allChk()" value="정답 확인" class="myButton" style="float:left"></div>
-		
-						<div>
+			
+			
+		<table>
+			<tr>
+				<td><input type="button" onclick="allChk()" value="정답 확인" class="myButton"></td>
+				
 				<c:if test="${startPage > 1 }">
-					<a
-						href="Chapter?num=${num}&page=${startPage-1 }&subject=${subname }&chname=${chname}">[이전
-						페이지]</a>
+				<td>
+				<input type="button" onclick="location.href='Chapter?num=${num}&page=${startPage-1 }&subject=${subname }&chname=${chname}'" value="이전 페이지" class="myButton">
+				</td>
 				</c:if>
+				
 				<c:forEach var="i" begin="${startPage }" end="${endPage }">
 					<c:choose>
 						<c:when test="${i!=page }">
-							<a
-								href="Chapter?num=${num}&page=${i }&subject=${subname }&chname=${chname}">[다음
-								페이지]</a>
+						<td>
+							<input type="button" onclick="Location.href='Chapter?num=${num}&page=${i }&subject=${subname }&chname=${chname}'" value="다음 페이지" class="myButton">						
+						</td>
 						</c:when>
 					</c:choose>
 				</c:forEach>
 				<c:if test="${endPage < totalPage }">
-					<a
-						href="Chapter?num=${num}&page=${endPage+1 }&subject=${subname }&chname=${chname}">[다음
-						페이지]</a>
+					<td><input type="button" onclick="chkchk()" value="다음 페이지" class="myButton"></td>			
 				</c:if>
-				<c:if test="${sessionScope.pid == 'admin'}">
-				<a href="../quizbox/AddProblemForm?num=${num}&page=${page+1 }&subject=${subname }&chname=${chname}">[문제 추가]</a>
-				</c:if>
-			</div>
+				
+			</tr>
+		</table>
 			</c:otherwise>
 			</c:choose>
 		</form>	
