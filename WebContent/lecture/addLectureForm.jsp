@@ -10,7 +10,6 @@ var cnt =4;
 
 function view(){
 
-	
 	var id = 'chapNum'+cnt;
 	var dd = document.getElementById(id);
 	dd.style.display='block';
