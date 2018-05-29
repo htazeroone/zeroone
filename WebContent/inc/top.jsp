@@ -141,7 +141,7 @@ $(document).ready(function(){
 				<li><a href="#">학습노트</a>
 					<ul>
 				<%
-				dao = new DAO();
+					dao = new DAO();
 					ArrayList<String> studyLec = dao.getStudyChapters(session);
 					for(int i = 0; i<studyLec.size(); i++) { %>
 						<li><a href="../mypage/Note?subject=<%=studyLec.get(i)%>"><%=studyLec.get(i)%></a></li>
@@ -153,7 +153,7 @@ $(document).ready(function(){
 				<li><a href="#" >오답노트</a>
 					<ul>
 				<%
-				dao = new DAO();
+					dao = new DAO();
 					ArrayList<String> oxLec = dao.getOxChapter(session);
 					dao.close();
 					for(int i = 0; i<oxLec.size(); i++) { %>
