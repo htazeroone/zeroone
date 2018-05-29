@@ -5,6 +5,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+<%
+	DAO dao;
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -75,7 +79,7 @@ $(document).ready(function(){
 		<li><a href="#">이론게시판</a>
 			<ul>
 			<%
-				DAO dao = new DAO();
+				dao = new DAO();
 				ArrayList<String> subjects = dao.getSubjects();
 
 				for(int i = 0; i<subjects.size(); i++) { %>
@@ -83,7 +87,9 @@ $(document).ready(function(){
 					<li><a href="../lecture/List?subject=<%=subjects.get(i)%>"><%=subjects.get(i)%></a></li>
 
 
-			<% }%>
+			<% }
+				dao.close();
+			%>
 
 			</ul>
 		</li>
@@ -117,16 +123,17 @@ $(document).ready(function(){
 		<li><a href="#"><%=session.getAttribute("pname")%>님 페이지</a>
 			<ul>
 				<li><a href="../login/Logout">로그아웃</a></li>
-				
-			<c:if test="${sessionScope.pid != 'admin' }">
-				
+				<c:if test="${sessionScope.pid != 'admin' }">
 				<li><a href="#">학습성취도</a>
 						<ul>
 				<%
+					dao = new DAO();
 					ArrayList<String> achieveLec = dao.getAchieveChapters(session);
 					for(int i = 0; i<achieveLec.size(); i++) { %>
 						<li><a href="../mypage/Achieve?subject=<%=achieveLec.get(i)%>"><%=achieveLec.get(i)%></a></li>
-				<% }%>
+				<% }
+					dao.close();
+				%>
 						</ul>
 				
 				
@@ -134,25 +141,30 @@ $(document).ready(function(){
 				<li><a href="#">학습노트</a>
 					<ul>
 				<%
+				dao = new DAO();
 					ArrayList<String> studyLec = dao.getStudyChapters(session);
 					for(int i = 0; i<studyLec.size(); i++) { %>
 						<li><a href="../mypage/Note?subject=<%=studyLec.get(i)%>"><%=studyLec.get(i)%></a></li>
-				<% }%>
+				<% }
+					dao.close();
+				%>
 					</ul>
 				</li>
 				<li><a href="#" >오답노트</a>
 					<ul>
 				<%
+				dao = new DAO();
 					ArrayList<String> oxLec = dao.getOxChapter(session);
 					dao.close();
 					for(int i = 0; i<oxLec.size(); i++) { %>
 						<li><a href="../mypage/IncorrectNote?subject=<%=oxLec.get(i)%>"><%=oxLec.get(i)%></a></li>
-				<% }%>
+				<% }
+					dao.close();
+				%>
 					</ul>
 				
 				</li>
-			</c:if>
-				
+				</c:if>
 				<li><a href="../mypage/ModifyPwForm">비밀번호변경</a></li>
 				
 				<c:if test="${sessionScope.pid == 'admin'}">
@@ -185,3 +197,4 @@ $(document).ready(function(){
 
 </body>
 </html>
+
