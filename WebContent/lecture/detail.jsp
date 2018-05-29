@@ -63,11 +63,13 @@
 			</td>
 		</tr>
 		
+		<c:if test="${sessionScope.pid != null }">
 		<tr>
 			<td colspan="2" align="right">
 				<a href="Detail?pid=${sessionScope.pid }&id=${data.id }&page=${param.page }&head=${data.head}&subject=${param.subject}">학습완료 체크</a>
 			</td>
 		</tr>
+		</c:if>
 	</table>
 </div>
 <script src="/SemiQuiz/jsb/jquery-3.3.1.js"></script>
