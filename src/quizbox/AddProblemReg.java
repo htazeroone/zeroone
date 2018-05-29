@@ -50,7 +50,7 @@ public class AddProblemReg implements Action {
 		request.setAttribute("menu", "quizmenu.jsp");
 	
 		
-		new DAO().problem_insert(vo,subject);
+		dao.problem_insert(vo,subject);
 		data.setRedirect(true);
 		data.setPath("QuizMain");
 		
