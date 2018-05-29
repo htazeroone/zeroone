@@ -16,7 +16,7 @@
 </style>
 
 <link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
-
+ 
 <div id ="dd">
 <form action="DeleteLectureReg">
 <center>
