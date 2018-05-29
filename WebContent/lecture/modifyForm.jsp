@@ -3,17 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="ct" tagdir="/WEB-INF/tags" %>
 <link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
-
 <script type="text/javascript" src="../../nse_files/js/HuskyEZCreator.js" charset="utf-8">
 </script>
 
 <style>
-	#dd{
-			margin: 0 auto;
-			width: 800px;
-			height: 500px;
-		
-		}
+#dd{
+	margin: 0 auto;
+	width: 800px;
+	height: 500px;	
+}
 
 </style>
 
@@ -79,14 +77,13 @@
 	</tr>
 	
 	<tr>
-		<td colspan="2">
+		<td colspan="2" align="right">
 			<input type="submit" value="수정하기" onclick="submitContents(this)"/>
 			<a href="ModifyForm?id=${data.id }&subject=${param.subject}">초기화</a>
 			<a href="List?id=${data.id }&subject=${param.subject}">목록</a>
 			<a href="Detail?id=${data.id }&subject=${param.subject}">뒤로</a>
 		</td>
 	</tr>
-	
 </table>
 </form>
 </div>
