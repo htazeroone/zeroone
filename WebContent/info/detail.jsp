@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@taglib prefix="ct" tagdir="/WEB-INF/tags"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <link rel="stylesheet" href="/SemiQuiz/cssb/bootstrap.css">
@@ -144,7 +145,7 @@ function rehide(){
 		</tr>	
 		
 		<tr height="370px">	
-			<td colspan="12">${data.content }</td>
+			<td colspan="12"><ct:conBr>${data.content }</ct:conBr></td>
 		</tr>
 	
 		<tr>
@@ -186,7 +187,7 @@ function rehide(){
 									</td>
 									
 
-										<c:if test="${rr.pname==pname }">
+										<c:if test="${rr.pname==pname||pname=='admin'}">
 											<td bgcolor="#DAD9FF" align="right">
 												<form action="Recdelete">
 													<input type="hidden" name="id" value="${rr.id }">

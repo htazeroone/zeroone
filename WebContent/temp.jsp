@@ -40,16 +40,17 @@ margin-top: 10px;
 	height: 80%;
 	position: relative;
 	display: inline-block;
-	margin-left: 17%;
+	margin-left: 5%;
 	}
 	
 	#smain1{
-	width: 40%;
-	height: 80%;
+	width: auto;
+	height: 100%;
 	top : 0px;
 	position: absolute;
 	display: inline-block;
-
+	overflow-x :hidden;
+	overflow-y: scroll;
 	}
 
 #footer{
