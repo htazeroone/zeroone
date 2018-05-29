@@ -57,7 +57,7 @@ margin-top: 10px;
 	height: 10%;
 	position : relative;
 	margin-top : 100px;
-	margin-left: 25%;
+	margin-left: 23%;
 }
 
 </style>
@@ -113,9 +113,13 @@ margin-top: 10px;
 </c:choose>
 </div>
 
-<div id = "footer">
-	안녕하세요 저는 뿌터에여~~ 내용을 입력해주세요 뀨루뀨뀨~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+<div id = "footer" align="center">
+	<hr>
+	<h3>이론게시판 : 김경민		퀴즈 : 류승진		info : 박찬		마이페이지 : 류지아</h3>
 
 </div>
+
 </body>
 </html>
