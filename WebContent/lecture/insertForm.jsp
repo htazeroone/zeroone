@@ -10,22 +10,32 @@
 <style>
 #dd{
 	margin: 0 auto;
-	width: 800px;
-	height: 500px;
+	width: 1000px;
+	height: 400px;
 		
 }
+.title {
+	text-align:center;
+}
 
+table {
+	width:1000px;
+	height:400px;
+}
+#sel {
+	text-align: left;
+}
 </style>
 
 <div id="dd">
 <form name="nse" action="InsertReg" method="post" enctype="multipart/form-data">
 <input type="hidden" name="subject" value="${param.subject }">
 
-<table border="">
+<table border="" >
 	<tr>
-		<td>챕터</td>
+		<td class="title">챕터</td>
 		<td>
-			<select name="head">
+			<select id="sel"  name="head">
 				<c:forEach var="i" items="${chapList }" varStatus="no">
 					<c:if test="${no.count != 1 }">
 					<c:choose>
@@ -42,16 +52,16 @@
 		</td>
 	</tr>
 	<tr>
-		<td>제목</td>
+		<td class="title">제목</td>
 		<td><input type="text" name="title"></td>
 	</tr>
 	<tr>
-		<td>글쓴이</td>
+		<td class="title">글쓴이</td>
 		<td><input type="text" name="pname" value="${sessionScope.pname}"></td>
 	</tr>
 
 	<tr>
-		<td>이론설명</td>
+		<td class="title">이론설명</td>
 			<td  width="600" height="200">
 			<textarea name="content" id="ir1" class="nse_content">text editor야 되어라</textarea>
 			<script type="text/javascript">
@@ -76,8 +86,8 @@
 		</td>			
 	</tr>
 	<tr>
-		<td colspan="2">
-			<input type="submit" value="글 등록" onclick="submitContents(this)"/>
+		<td colspan="2" align="right">
+			<input type="submit" value="글 등록" onclick="submitContents(this)"/>&nbsp&nbsp&nbsp
 			<a href="List?page=${param.page }&subject=${param.subject}">뒤로</a>
 		</td>
 	</tr>
