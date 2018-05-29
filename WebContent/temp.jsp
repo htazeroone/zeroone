@@ -9,10 +9,10 @@
 <style type="text/css">
 
 html{
-width: 100%;
-height: 100%;
-/* width: 1024px;
-height: 768px; */
+ width: 100%;
+height: 100%; 
+/*  width: 1024px;
+height: 768px;  */
 }
 
 #top{
@@ -40,7 +40,7 @@ margin-top: 10px;
 	height: 80%;
 	position: relative;
 	display: inline-block;
-	margin-left: 15%;
+	margin-left: 17%;
 	}
 	
 	#smain1{
@@ -53,7 +53,7 @@ margin-top: 10px;
 	}
 
 #footer{
-	width: 100%;
+	width: 50%;
 	height: 10%;
 	position : relative;
 	margin-top : 100px;
