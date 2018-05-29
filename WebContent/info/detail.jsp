@@ -50,7 +50,7 @@ function rehide(){
 	#dd{
 		margin: 0 auto;
 		width: 800px;
-		height: 500px;
+		height: auto;
 	
 	}
 
